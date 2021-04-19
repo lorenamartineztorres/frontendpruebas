@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/loginForm.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
               body1:TextStyle(fontSize:17.0)),
         ),
         
-        home: PagePrincipal(0), // pasar ubicacion del dispositivo
+        home: LoginForm(), // pasar ubicacion del dispositivo
 
     );
   }
