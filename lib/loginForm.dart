@@ -75,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(
               height: 110,
             ),
-            Text('Nuevo User? Regístrate gratis.')
+            Text('Nuevo Usuario? Regístrate gratis.')
           ],
         ),
       ),
