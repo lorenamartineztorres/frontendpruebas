@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'principal.dart';
 
+
 class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -12,7 +13,10 @@ class _LoginFormState extends State<LoginForm> {
   // current value of the TextField.
   final email = TextEditingController();
   final password = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
+  final _emailRegExp = RegExp(
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  
   @override
   void initState() {
     super.initState();
@@ -27,12 +31,32 @@ class _LoginFormState extends State<LoginForm> {
     super.dispose();
   }
 
+  String validateEmail(String value) {
+    if (value.isEmpty) {
+     return '* Campo Requerido';
+    } else if (!_emailRegExp.hasMatch(value)) {
+        return 'Introduce un correo electrónico válido como abc@gmail.com';
+    }
+    return null;
+  }
+
+  String validatePassword(String value) {
+    if (value.isEmpty) {
+      return "* Campo Requerido";
+    } else if (value.length < 6) {
+      return "Por seguridad la contraseña debe ser superior a 6 carácteres";
+    } else
+      return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
+        child: Form(
+          key: _formKey,
+          child: Column(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 60.0, bottom: 60),
@@ -46,25 +70,29 @@ class _LoginFormState extends State<LoginForm> {
             ),
             Padding(
               padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 20),
-              child: TextField(
+              child: TextFormField(
                 controller: email,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Correo Electrónico',
-                    hintText: 'Introduce un correo válido como abc@gmail.com'),
+                    hintText: 'Introduce correo electrónico'
+                    ),
+                validator: validateEmail,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 15, bottom: 20),
               //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
+              child: TextFormField(
                 controller: password,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Contraseña',
-                    hintText: 'Introduce una contraseña segura'),
+                    hintText: 'Introduce contraseña '
+                    ),
+                validator: validatePassword,
               ),
             ),
             FlatButton(
@@ -83,11 +111,17 @@ class _LoginFormState extends State<LoginForm> {
                   color: Colors.green, borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () {
-                   Navigator.of(context).push(
-                     MaterialPageRoute<void>(
-                        builder: (context) => PagePrincipal(0),
-                      )
-                    );
+                  // Validate returns true if the form is valid, otherwise false.
+                    if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+                            Scaffold.of(_formKey.currentContext).showSnackBar(
+                                SnackBar(content: Text('Processando Datos')));
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (context) => PagePrincipal(0),
+                              )
+                           );
+                    }
                 },
                 child: Text(
                   'Iniciar Sesión',
@@ -101,6 +135,7 @@ class _LoginFormState extends State<LoginForm> {
             Text('Nuevo Usuario? Regístrate gratis.')
           ],
         ),
+      ),
       ),
     );
   }
