@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
 
+import 'principal.dart';
+
 class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
+// Create a text controller. Later, use it to retrieve the
+  // current value of the TextField.
+  final email = TextEditingController();
+  final password = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    email.dispose();
+    password.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,13 +40,14 @@ class _LoginFormState extends State<LoginForm> {
                 child: Container(
                     width: 200,
                     height: 150,
-                    child: Image.asset('assets/images/eco_logo.jpeg'),
+                    child: Image.asset('images/eco_logo.jpeg'),
                     ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 20),
               child: TextField(
+                controller: email,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Correo Electrónico',
@@ -37,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
                   left: 15.0, right: 15.0, top: 15, bottom: 20),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-
+                controller: password,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -61,10 +83,11 @@ class _LoginFormState extends State<LoginForm> {
                   color: Colors.green, borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () {
-                  while(Navigator.of(context).canPop()) {
-                        print("pop");
-                        Navigator.of(context).pop();
-                    }
+                   Navigator.of(context).push(
+                     MaterialPageRoute<void>(
+                        builder: (context) => PagePrincipal(0),
+                      )
+                    );
                 },
                 child: Text(
                   'Iniciar Sesión',

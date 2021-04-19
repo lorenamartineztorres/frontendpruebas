@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 
 class PagePrincipal extends StatefulWidget { //stateful ja que cambiara depende un parametro de entrada, la ubicación
-  int id; //deberà ser una ubicación
-  PagePrincipal(this.id);
+  int ubi; //deberà ser una ubicación
+  PagePrincipal(this.ubi);
   @override
   _PagePrincipalState createState() => _PagePrincipalState();
 }
