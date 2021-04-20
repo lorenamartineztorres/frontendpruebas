@@ -23,7 +23,9 @@ class _PagePrincipalState extends State<PagePrincipal> {
 
   final List<Widget> pantallas = [
     Home(),
-    LoginForm(),
+    Text(
+      'Index 1: Buscador',
+    ),
     Text(
       'Index 2: Añadir',
     ),
