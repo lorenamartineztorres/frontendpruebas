@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/registerForm.dart';
 
 import 'principal.dart';
 
@@ -132,7 +133,19 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(
               height: 110,
             ),
-            Text('Nuevo Usuario? Regístrate gratis.')
+            FlatButton(
+              onPressed: (){
+                 Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (context) => RegisterForm(),
+                              ),
+                 );
+              },
+              child: Text(
+                'Nuevo Usuario? Regístrate gratis.',
+                style: TextStyle(color: Colors.green, fontSize: 15),
+              ),
+            ),
           ],
         ),
       ),
