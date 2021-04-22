@@ -70,6 +70,7 @@ flutter:
     - images/mgcomentario.png
     - images/location.png
     - images/eco_logo.jpeg
+    - images/furor.png
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

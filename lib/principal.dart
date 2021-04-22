@@ -56,15 +56,15 @@ class _PagePrincipalState extends State<PagePrincipal> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Business',
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_circle),
-            label: 'School',
+            label: 'Add',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label: 'Business',
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
