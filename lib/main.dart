@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/loginForm.dart';
+import 'package:flutter_application_1/loginRegister.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +20,16 @@ class MyApp extends StatelessWidget {
         ).fontFamily,
       ),
 
-      home: LoginForm(), // pasar ubicacion del dispositivo
+      home: AnimatedSplashScreen(
+          splash: Image.asset(
+            'images/eco_logo.jpg',            
+            ),
+            nextScreen: LoginRegister() ,
+            backgroundColor: Colors.white,
+            duration: 2500,
+            splashIconSize: 300,
+            splashTransition: SplashTransition.rotationTransition,
+        ),
     );
   }
 }

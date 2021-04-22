@@ -65,7 +65,7 @@ class _LoginFormState extends State<LoginForm> {
                 child: Container(
                     width: 200,
                     height: 150,
-                    child: Image.asset('images/eco_logo.jpeg'),
+                    child: Image.asset('images/eco_logo.jpg'),
                     ),
               ),
             ),
