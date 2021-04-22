@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_application_1/addLocation.dart';
 
 class Upload extends StatefulWidget {
   //stateful ja que cambiara depende un parametro de entrada, la ubicación
@@ -64,7 +65,12 @@ class _UploadState extends State<Upload> {
                     decoration: BoxDecoration(color: Colors.lightGreen[300]),
                     //borderRadius: BorderRadius.circular(20)),
                     child: FlatButton(
-                        onPressed: () {}, //TODO AÑADIR UBICACIÓN
+                        onPressed: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (context) => AddLocation(),
+                              ));
+                        }, //TODO AÑADIR UBICACIÓN
                         child: Align(
                           alignment: Alignment.center,
                           child: Text("Añadir Ubicación",
