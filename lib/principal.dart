@@ -1,19 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/loginForm.dart';
 import 'package:flutter_application_1/Home.dart';
+import 'package:flutter_application_1/upload.dart';
 
-
-class PagePrincipal extends StatefulWidget { 
+class PagePrincipal extends StatefulWidget {
   PagePrincipal();
   @override
   _PagePrincipalState createState() => _PagePrincipalState();
 }
 
 class _PagePrincipalState extends State<PagePrincipal> {
-
   int selectedIndex = 0;
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -26,9 +23,7 @@ class _PagePrincipalState extends State<PagePrincipal> {
     Text(
       'Index 1: Buscador',
     ),
-    Text(
-      'Index 2: Añadir',
-    ),
+    Upload(),
     Text(
       'Index 3: usuario',
     ),
@@ -37,18 +32,18 @@ class _PagePrincipalState extends State<PagePrincipal> {
     ),
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(    
-          centerTitle: true,    
-          title: Text('ECOPROTECT', style: TextStyle(fontSize: 16.0,fontFamily: 'Glacial Indifference' ),),   
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'ECOPROTECT',
+          style: TextStyle(fontSize: 16.0, fontFamily: 'Glacial Indifference'),
         ),
-      
+      ),
       body: pantallas[selectedIndex],
-
-        bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -71,16 +66,13 @@ class _PagePrincipalState extends State<PagePrincipal> {
             label: 'Settings',
           ),
         ],
-            currentIndex: selectedIndex,
-            selectedItemColor: Color.fromRGBO(100, 211, 83, 1),
-            unselectedItemColor: Colors.grey,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            onTap: _onItemTapped,
+        currentIndex: selectedIndex,
+        selectedItemColor: Color.fromRGBO(100, 211, 83, 1),
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        onTap: _onItemTapped,
       ),
-        
-      );
+    );
   }
-  
-
 }
