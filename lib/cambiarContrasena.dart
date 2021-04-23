@@ -180,9 +180,7 @@ class _cambiarContrasenaState extends State<cambiarContrasena> {
                       _formKey.currentState.save();
                       Scaffold.of(_formKey.currentContext).showSnackBar(
                           SnackBar(content: Text('Processando Datos')));
-                      Navigator.of(context).push(MaterialPageRoute<void>(
-                        builder: (context) => PagePrincipal(),
-                      ));
+                      Navigator.of(context).pop(true);
                     }
                   },
                   child: Text(
@@ -194,36 +192,6 @@ class _cambiarContrasenaState extends State<cambiarContrasena> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle),
-            label: 'School',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: Color.fromRGBO(100, 211, 83, 1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: _onItemTapped,
       ),
     );
   }

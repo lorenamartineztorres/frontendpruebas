@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/loginRegister.dart';
+import 'package:flutter_application_1/principal.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 
@@ -19,17 +20,16 @@ class MyApp extends StatelessWidget {
           fontWeight: FontWeight.w700,
         ).fontFamily,
       ),
-
       home: AnimatedSplashScreen(
-          splash: Image.asset(
-            'images/eco_logo.jpg',            
-            ),
-            nextScreen: LoginRegister() ,
-            backgroundColor: Colors.white,
-            duration: 2500,
-            splashIconSize: 300,
-            splashTransition: SplashTransition.rotationTransition,
+        splash: Image.asset(
+          'images/eco_logo.jpg',
         ),
+        nextScreen: PagePrincipal(),
+        backgroundColor: Colors.white,
+        duration: 2500,
+        splashIconSize: 300,
+        splashTransition: SplashTransition.rotationTransition,
+      ),
     );
   }
 }

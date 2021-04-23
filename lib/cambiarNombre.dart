@@ -12,51 +12,6 @@ class cambiarNombre extends StatefulWidget {
 }
 
 class _cambiarNombreState extends State<cambiarNombre> {
-  int selectedIndex = 4;
-
-  void _onItemTapped(int index) {
-    /*setState(() {
-      selectedIndex = index;
-    });*/
-    switch (index) {
-      case 0:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => PagePrincipal(),
-            ))
-            .then((var value) {});
-        break;
-      case 1:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => LoginForm(),
-            ))
-            .then((var value) {});
-        break;
-      case 2:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => RegisterForm(),
-            ))
-            .then((var value) {});
-        break;
-      case 3:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => PagePrincipal(),
-            ))
-            .then((var value) {});
-        break;
-      case 4:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => ajustes(),
-            ))
-            .then((var value) {});
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,9 +77,7 @@ class _cambiarNombreState extends State<cambiarNombre> {
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute<void>(
-                      builder: (context) => ajustes(),
-                    ));
+                    Navigator.of(context).pop(true);
                   },
                   child: Text(
                     'Confirmar',
@@ -135,36 +88,6 @@ class _cambiarNombreState extends State<cambiarNombre> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle),
-            label: 'School',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: Color.fromRGBO(100, 211, 83, 1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: _onItemTapped,
       ),
     );
   }

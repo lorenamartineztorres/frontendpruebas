@@ -114,9 +114,7 @@ class _solicitarVerificadoState extends State<solicitarVerificado> {
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute<void>(
-                      builder: (context) => ajustes(),
-                    ));
+                    Navigator.of(context).pop(true);
                   },
                   child: Align(
                     alignment: Alignment.centerLeft,
@@ -131,36 +129,6 @@ class _solicitarVerificadoState extends State<solicitarVerificado> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle),
-            label: 'School',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: Color.fromRGBO(100, 211, 83, 1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: _onItemTapped,
       ),
     );
   }
