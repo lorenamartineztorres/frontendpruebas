@@ -18,49 +18,7 @@ class _cambiarContrasenaState extends State<cambiarContrasena> {
   final password2 = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  void _onItemTapped(int index) {
-    /*setState(() {
-      selectedIndex = index;
-    });*/
-    switch (index) {
-      case 0:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => PagePrincipal(),
-            ))
-            .then((var value) {});
-        break;
-      case 1:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => LoginForm(),
-            ))
-            .then((var value) {});
-        break;
-      case 2:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => RegisterForm(),
-            ))
-            .then((var value) {});
-        break;
-      case 3:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => PagePrincipal(),
-            ))
-            .then((var value) {});
-        break;
-      case 4:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => ajustes(),
-            ))
-            .then((var value) {});
-        break;
-    }
-  }
-
+  
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the

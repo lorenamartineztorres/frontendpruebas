@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/ajustes.dart';
-import 'package:flutter_application_1/loginForm.dart';
-import 'package:flutter_application_1/registerForm.dart';
-import 'package:flutter_application_1/Home.dart';
-import 'package:flutter_application_1/principal.dart';
 
 class cambiarNombre extends StatefulWidget {
   cambiarNombre();

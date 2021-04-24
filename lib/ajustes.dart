@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/cambiarContrasena.dart';
 import 'package:flutter_application_1/cambiarNombre.dart';
-import 'package:flutter_application_1/loginForm.dart';
-import 'package:flutter_application_1/registerForm.dart';
-import 'package:flutter_application_1/Home.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/solicitarVerificado.dart';
 
@@ -14,54 +11,12 @@ class ajustes extends StatefulWidget {
 }
 
 class _ajustesState extends State<ajustes> {
-  int selectedIndex = 4;
 
-  void _onItemTapped(int index) {
-    /*setState(() {
-      selectedIndex = index;
-    });*/
-    switch (index) {
-      case 0:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => PagePrincipal(),
-            ))
-            .then((var value) {});
-        break;
-      case 1:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => LoginForm(),
-            ))
-            .then((var value) {});
-        break;
-      case 2:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => RegisterForm(),
-            ))
-            .then((var value) {});
-        break;
-      case 3:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => PagePrincipal(),
-            ))
-            .then((var value) {});
-        break;
-      case 4:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => ajustes(),
-            ))
-            .then((var value) {});
-        break;
-    }
-  }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       body: SingleChildScrollView(
         child: Form(
           child: Column(
@@ -191,6 +146,7 @@ class _ajustesState extends State<ajustes> {
           ),
         ),
       ),
+      
     );
   }
 }

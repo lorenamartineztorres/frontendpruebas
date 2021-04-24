@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/loginForm.dart';
-import 'package:flutter_application_1/ajustes.dart';
-import 'package:flutter_application_1/registerForm.dart';
-import 'package:flutter_application_1/Home.dart';
-import 'package:flutter_application_1/principal.dart';
 
 class solicitarVerificado extends StatefulWidget {
   solicitarVerificado();
@@ -12,50 +7,7 @@ class solicitarVerificado extends StatefulWidget {
 }
 
 class _solicitarVerificadoState extends State<solicitarVerificado> {
-  int selectedIndex = 4;
-
-  void _onItemTapped(int index) {
-    /*setState(() {
-      selectedIndex = index;
-    });*/
-    switch (index) {
-      case 0:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => PagePrincipal(),
-            ))
-            .then((var value) {});
-        break;
-      case 1:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => LoginForm(),
-            ))
-            .then((var value) {});
-        break;
-      case 2:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => RegisterForm(),
-            ))
-            .then((var value) {});
-        break;
-      case 3:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => PagePrincipal(),
-            ))
-            .then((var value) {});
-        break;
-      case 4:
-        Navigator.of(context)
-            .push(MaterialPageRoute<void>(
-              builder: (context) => ajustes(),
-            ))
-            .then((var value) {});
-        break;
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
