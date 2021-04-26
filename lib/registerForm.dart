@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/requests.dart';
 
 import 'principal.dart';
 
@@ -101,7 +102,6 @@ class _RegisterFormState extends State<RegisterForm> {
                     labelText: 'Nombre de usuario',
                     hintText: 'Introduce id de usuario'
                     ),
-                validator: validateEmail,
               ),
             ),
             Padding(
@@ -125,7 +125,6 @@ class _RegisterFormState extends State<RegisterForm> {
                     labelText: 'País',
                     hintText: 'Introduce tu país de residencia'
                     ),
-                validator: validateEmail,
               ),
             ),
             Padding(
@@ -137,7 +136,6 @@ class _RegisterFormState extends State<RegisterForm> {
                     labelText: 'Población',
                     hintText: 'Introduce la población donde resides'
                     ),
-                validator: validateEmail,
               ),
             ),
             Padding(
@@ -199,17 +197,21 @@ class _RegisterFormState extends State<RegisterForm> {
               decoration: BoxDecoration(
                   color: Colors.green, borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
-                onPressed: () {
+                onPressed: () async {
                   // Validate returns true if the form is valid, otherwise false.
                     if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
                             Scaffold.of(_formKey.currentContext).showSnackBar(
                                 SnackBar(content: Text('Processando Datos')));
-                            Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (context) => PagePrincipal(),
-                              )
-                           );
+                            
+                            final String usernameX = username.text;
+                            final String emailX = email.text;
+                            final String passwordX = password.text;
+                            final String countryX = country.text;
+                            final String postalcodeX = postalCode.text;
+                            final String populationX = population.text;
+
+                            register(email.text, username.text, country.text, population.text, postalCode.text, password.text);
                     }
                 },
                 child: Text(

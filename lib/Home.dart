@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/requests.dart';
 
 class Home extends StatefulWidget {
   //stateful ja que cambiara depende un parametro de entrada, la ubicación
@@ -8,18 +9,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  double num_gradiente = 50; //poner el que ha introducido el usuario
+  double num_gradiente; //poner el que ha introducido el usuario
   int num_mg = 0;
   List<String> _comments;
-  /*
-  void añadirComentario(){
-    setState(() {
-       _comments.add('Vergonzoso!');
-    });
-  }*/
+  Map<String, dynamic> _publicacion;
+  Future<Map<String, dynamic>> futurePublicacion;
+
+  @override
+  void initState() {
+    super.initState();
+    getPublicaciones();
+    futurePublicacion =  getPublicaciones();
+    //num_gradiente = _publicacion['gradient'][0];
+  }
 
   @override
   Widget build(BuildContext context) {
+    future: 
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(
@@ -28,7 +34,7 @@ class _HomeState extends State<Home> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(children: <Widget>[
-              Text("PedroPiqueras",
+              Text("${_publicacion['userName']}",
                   style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
             ])),
         // ubicación
