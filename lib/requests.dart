@@ -4,7 +4,7 @@ import 'package:flutter_application_1/PublicacionModel.dart';
 import 'dart:convert';
 final http.Client client = http.Client();
 
-const String baseUrl = "http://158.109.74.52:55002/api";
+const String baseUrl = "http://158.109.74.52:55003/api";
 
 Future<Map<String, dynamic>> getPublicaciones() async { //FUNCIONA, falta tratar los datos que recibimos
   String uri = "$baseUrl/publications";
@@ -139,12 +139,12 @@ Future<void> add(String name, int fatherId, String type) async {
   }
 }
 
-Future<void> createPublication(ubication, imagePath, description, gradient) async { //FUNCIONA CORRECTAMENTE
+Future<void> createPublication(ubication, imageFile, description, gradient) async { //FUNCIONA CORRECTAMENTE
   final String uri = "$baseUrl/publications";
 
   Map data = {
   'ubication': ubication,
-  'imagePath': imagePath,
+  'imageFile': imageFile,
   'description': description,
   'gradient': gradient,
   };
@@ -153,7 +153,8 @@ Future<void> createPublication(ubication, imagePath, description, gradient) asyn
 
   http.Response response = await http.post(
     uri,
-    headers: {"Content-Type": "globals.token"},
+    headers: {"Content-Type": "multipart/form-data",
+    "session": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"},
     body: body,
   );
 

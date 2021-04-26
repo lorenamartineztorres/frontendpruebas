@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'package:image_picker/image_picker.dart';
@@ -162,10 +164,11 @@ class _UploadState extends State<Upload> {
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
                   onPressed: () {
-                      createPublication(globals.ubication, imageFile, description.text, num_gradiente);
+                  
+                        createPublication(globals.ubication, imageFile, description.text, num_gradiente);
                   },
                   child: Text(
-                    'Publicar',
+                    "Subir Imagen",
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                 ),
@@ -225,7 +228,7 @@ class _UploadState extends State<Upload> {
   void _openGallery(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     this.setState(() {
-      imageFile = picture;
+      imageFile = File(picture.path);
     });
     Navigator.of(context).pop();
   }
@@ -233,7 +236,7 @@ class _UploadState extends State<Upload> {
   void _openCamera(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.camera);
     this.setState(() {
-      imageFile = picture;
+      imageFile = File(picture.path);
     });
     Navigator.of(context).pop();
   }
