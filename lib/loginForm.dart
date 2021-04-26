@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/prueba.dart';
 import 'package:flutter_application_1/registerForm.dart';
+import 'package:flutter_application_1/requests.dart';
+import 'globals.dart' as globals;
 
 import 'principal.dart';
 
@@ -12,6 +15,8 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
 // Create a text controller. Later, use it to retrieve the
   // current value of the TextField.
+  // 
+  //Future<String> token; // token del usuario al iniciar sesion
   final email = TextEditingController();
   final password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -117,11 +122,17 @@ class _LoginFormState extends State<LoginForm> {
                             _formKey.currentState.save();
                             Scaffold.of(_formKey.currentContext).showSnackBar(
                                 SnackBar(content: Text('Processando Datos')));
+
+
+                            globals.token = login(email.text, password.text);
+
                             Navigator.of(context).push(
                               MaterialPageRoute<void>(
-                                builder: (context) => PagePrincipal(),
-                              )
-                           );
+                                builder: (context) => Prueba(),
+                              ),
+                 );
+
+          
                     }
                 },
                 child: Text(
@@ -146,6 +157,7 @@ class _LoginFormState extends State<LoginForm> {
                 style: TextStyle(color: Colors.green, fontSize: 15),
               ),
             ),
+            
           ],
         ),
       ),

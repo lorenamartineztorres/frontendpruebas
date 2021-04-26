@@ -204,14 +204,14 @@ class _RegisterFormState extends State<RegisterForm> {
                             Scaffold.of(_formKey.currentContext).showSnackBar(
                                 SnackBar(content: Text('Processando Datos')));
                             
-                            final String usernameX = username.text;
-                            final String emailX = email.text;
-                            final String passwordX = password.text;
-                            final String countryX = country.text;
-                            final String postalcodeX = postalCode.text;
-                            final String populationX = population.text;
 
                             register(email.text, username.text, country.text, population.text, postalCode.text, password.text);
+
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (context) => PagePrincipal(),
+                              ),
+                 );
                     }
                 },
                 child: Text(

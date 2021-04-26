@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/requests.dart';
 
+
 class Home extends StatefulWidget {
   //stateful ja que cambiara depende un parametro de entrada, la ubicación
   Home();
@@ -15,12 +16,23 @@ class _HomeState extends State<Home> {
   Map<String, dynamic> _publicacion;
   Future<Map<String, dynamic>> futurePublicacion;
 
+  
+
   @override
   void initState() {
     super.initState();
     getPublicaciones();
     futurePublicacion =  getPublicaciones();
+    publication();
     //num_gradiente = _publicacion['gradient'][0];
+  }
+
+  void publication() async {
+
+    _publicacion = await getPublicaciones();
+    await Future.delayed(Duration(seconds: 100));
+    
+    //Text("${_publicacion['userName']}");
   }
 
   @override
@@ -49,11 +61,11 @@ class _HomeState extends State<Home> {
               SizedBox(
                 width: 5.0,
               ),
-              Text("Barcelona",
+              Text("${_publicacion['ubication']}",
                   style: TextStyle(color: Colors.black.withOpacity(0.5))),
             ])),
         // imagen
-        Image.network(
+        Image.network(//"${_publicacion['imagePath']}"),
             'https://imagenes.20minutos.es/files/image_656_370/uploads/imagenes/2020/07/13/basura-alrededor-de-los-contenedores-de-la-playa-en-cadiz.jpeg'),
         // Gradiente
         Padding(
@@ -62,9 +74,9 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  new Expanded(
-                    child: gradiente(),
-                  ),
+                  //new Expanded(
+                    //child: gradiente(),
+                  //),
                   Image.asset(
                     'images/furor.png',
                     width: 30.0,
@@ -81,7 +93,7 @@ class _HomeState extends State<Home> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(children: <Widget>[
-              Text("Playa de Cádiz sucia",
+              Text("${_publicacion['description']}",
                   style: TextStyle(
                       color: Color.fromRGBO(71, 82, 94,
                           0.58))), //cambiar por descripción del usuario
@@ -104,10 +116,12 @@ class _HomeState extends State<Home> {
                           style: TextStyle(
                               color: Color.fromRGBO(71, 82, 94,
                                   0.58))), //cambiar por nombre del usuario
-                      Text("Vergonzoso!",
+                      
+                        Text("${_publicacion['comments']}",
                           style: TextStyle(
                               color: Color.fromRGBO(71, 82, 94,
                                   0.58))), //cambiar por comentario del usuario
+                      
                     ],
                   ),
                   Row(

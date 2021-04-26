@@ -55,6 +55,38 @@ Future<void> register(String mail, String userName,String country,String city,St
   }
 }
 
+
+Future<String>  login(String mail, String password) async { 
+  final String uri = "$baseUrl/login";
+
+  Map data = {
+  'mail': mail,
+  'password': password
+  };
+
+  String body = json.encode(data);
+
+  http.Response response = await http.post(
+    uri,
+    headers: {"Content-Type": "application/json"},
+    body: body,
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+
+    final jsonData = jsonDecode(response.body);
+    String token = jsonData['token'];
+    print(token);
+
+    return token;
+
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to get children');
+  }
+}
+
 Future<void> register2(String mail, String userName,String country,String city,String postalCode,String password) async {
   String uri = "$baseUrl/register";
 
