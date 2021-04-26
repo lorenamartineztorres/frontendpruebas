@@ -3,7 +3,7 @@ import 'package:flutter_application_1/prueba.dart';
 import 'package:flutter_application_1/registerForm.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'globals.dart' as globals;
-
+import 'principal.dart';
 import 'principal.dart';
 
 
@@ -53,6 +53,17 @@ class _LoginFormState extends State<LoginForm> {
       return "Por seguridad la contraseña debe ser superior a 6 carácteres";
     } else
       return null;
+  }
+
+
+  void getlogin() async{
+
+     final String aux= await login(email.text, password.text);
+      setState(() {
+             globals.token = aux;
+      });
+    
+
   }
 
   @override
@@ -117,18 +128,18 @@ class _LoginFormState extends State<LoginForm> {
                   color: Colors.green, borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () {
-                  // Validate returns true if the form is valid, otherwise false.
-                    if (_formKey.currentState.validate()) {
+                  // Validate returns true if the form is valid, otherwise false. 
+                    if (_formKey.currentState.validate()){
                             _formKey.currentState.save();
                             Scaffold.of(_formKey.currentContext).showSnackBar(
                                 SnackBar(content: Text('Processando Datos')));
 
-
-                            globals.token = login(email.text, password.text);
+                                getlogin();
+                            
 
                             Navigator.of(context).push(
                               MaterialPageRoute<void>(
-                                builder: (context) => Prueba(),
+                                builder: (context) => PagePrincipal(),
                               ),
                  );
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Home.dart';
 import 'package:flutter_application_1/loginForm.dart';
+import 'package:flutter_application_1/loginRegister.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/registerForm.dart';
 import 'package:flutter_application_1/prueba.dart';
@@ -8,14 +9,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'globals.dart' as globals;
 
-
-
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,7 +28,7 @@ class MyApp extends StatelessWidget {
         splash: Image.asset(
           'images/eco_logo.jpg',
         ),
-        nextScreen: PagePrincipal(),
+        nextScreen: LoginRegister(),
         backgroundColor: Colors.white,
         duration: 2500,
         splashIconSize: 300,

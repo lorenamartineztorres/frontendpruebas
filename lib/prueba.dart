@@ -27,12 +27,12 @@ class _PruebaState extends State<Prueba> {
       ),
       body: Column(
         children: <Widget>[
-          if (globals.token != null) Text("${globals.token}"),
+          
           Text("hola"),
 
           _publicacion == null ? Container() :
             Text("The publicacion ${_publicacion['ubication']} , ${_publicacion['imagePath']} is created successfully at time ${_publicacion['userName']}"),
-          
+            Text("TOKEN: ${globals.token}"),
 
 
         ],
@@ -42,7 +42,7 @@ class _PruebaState extends State<Prueba> {
 
 
           final Map<String, dynamic> resultado = await getPublicaciones();
-
+          
           
 
           setState(() {
