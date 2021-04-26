@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'globals.dart' as globals;
 
 class AddLocation extends StatelessWidget {
   String location = "Madrid";
@@ -23,7 +24,7 @@ class AddLocation extends StatelessWidget {
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
               onChanged: (text) {
-                this.location = text;
+                globals.ubication = text;
               },
               decoration: InputDecoration(
                 hintText: 'Ubicación',

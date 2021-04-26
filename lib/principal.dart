@@ -3,7 +3,7 @@ import 'package:flutter_application_1/ajustes.dart';
 import 'package:flutter_application_1/cambiarNombre.dart';
 import 'package:flutter_application_1/loginForm.dart';
 import 'package:flutter_application_1/Home.dart';
-import 'package:flutter_application_1/upload.dart';
+import 'package:flutter_application_1/uploadPublication.dart';
 
 class PagePrincipal extends StatefulWidget {
   PagePrincipal();

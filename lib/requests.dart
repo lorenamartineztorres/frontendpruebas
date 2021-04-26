@@ -2,7 +2,6 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/PublicacionModel.dart';
 import 'dart:convert';
-
 final http.Client client = http.Client();
 
 const String baseUrl = "http://158.109.74.52:55002/api";
@@ -11,6 +10,7 @@ Future<Map<String, dynamic>> getPublicaciones() async { //FUNCIONA, falta tratar
   String uri = "$baseUrl/publications";
   final response = await client.get(uri);
     
+
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
 
@@ -136,5 +136,33 @@ Future<void> add(String name, int fatherId, String type) async {
   } else {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to create activity');
+  }
+}
+
+Future<void> createPublication(ubication, imagePath, description, gradient) async { //FUNCIONA CORRECTAMENTE
+  final String uri = "$baseUrl/publications";
+
+  Map data = {
+  'ubication': ubication,
+  'imagePath': imagePath,
+  'description': description,
+  'gradient': gradient,
+  };
+
+  String body = json.encode(data);
+
+  http.Response response = await http.post(
+    uri,
+    headers: {"Content-Type": "globals.token"},
+    body: body,
+  );
+
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print(response.body);
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to create publication');
   }
 }

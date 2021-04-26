@@ -63,7 +63,6 @@ class _LoginFormState extends State<LoginForm> {
              globals.token = aux;
       });
     
-
   }
 
   @override

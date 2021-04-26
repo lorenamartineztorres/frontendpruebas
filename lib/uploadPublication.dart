@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/requests.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_application_1/addLocation.dart';
+import 'globals.dart' as globals;
 
 class Upload extends StatefulWidget {
   //stateful ja que cambiara depende un parametro de entrada, la ubicación
@@ -12,10 +14,19 @@ class _UploadState extends State<Upload> {
   double num_gradiente = 50; //poner el que ha introducido el usuario
   int num_mg = 0;
   var imageFile;
+  var description = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+  }
+
+   @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    description.dispose();
+    super.dispose();
   }
 
   @override
@@ -134,9 +145,7 @@ class _UploadState extends State<Upload> {
               //DESCRIPCIÓN
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 00.0),
               child: TextFormField(
-                onChanged: (text) {
-                  //this.newcomment = text;
-                },
+                controller: description,
                 decoration: InputDecoration(
                   hintText: 'Añade una descripción',
                 ),
@@ -152,7 +161,9 @@ class _UploadState extends State<Upload> {
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                      createPublication(globals.ubication, imageFile, description.text, num_gradiente);
+                  },
                   child: Text(
                     'Publicar',
                     style: TextStyle(color: Colors.white, fontSize: 22),
