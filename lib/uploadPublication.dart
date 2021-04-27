@@ -17,13 +17,14 @@ class _UploadState extends State<Upload> {
   int num_mg = 0;
   var imageFile;
   var description = TextEditingController();
+  var pathimagen;
 
   @override
   void initState() {
     super.initState();
   }
 
-   @override
+  @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
@@ -79,10 +80,9 @@ class _UploadState extends State<Upload> {
                     //borderRadius: BorderRadius.circular(20)),
                     child: FlatButton(
                         onPressed: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (context) => AddLocation(),
-                              ));
+                          Navigator.of(context).push(MaterialPageRoute<void>(
+                            builder: (context) => AddLocation(),
+                          ));
                         }, //TODO AÑADIR UBICACIÓN
                         child: Align(
                           alignment: Alignment.center,
@@ -164,8 +164,9 @@ class _UploadState extends State<Upload> {
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
                   onPressed: () {
-                  
-                        //createPublication(globals.ubication, imageFile, description.text, num_gradiente);
+                    createPublication(globals.ubication, pathimagen,
+                        description.text, num_gradiente);
+                    print("hola");
                   },
                   child: Text(
                     "Publicar",
@@ -185,7 +186,7 @@ class _UploadState extends State<Upload> {
       value: num_gradiente,
       min: 0,
       max: 100,
-      divisions: 10,
+      divisions: 100,
       label: num_gradiente.round().toString(),
       activeColor: Color.fromRGBO(71, 82, 94, 1),
       inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),
@@ -230,6 +231,7 @@ class _UploadState extends State<Upload> {
     this.setState(() {
       imageFile = File(picture.path);
     });
+    pathimagen = picture.path;
     Navigator.of(context).pop();
   }
 
@@ -238,6 +240,7 @@ class _UploadState extends State<Upload> {
     this.setState(() {
       imageFile = File(picture.path);
     });
+    pathimagen = picture.path;
     Navigator.of(context).pop();
   }
 

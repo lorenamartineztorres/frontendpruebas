@@ -2,44 +2,46 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/PublicacionModel.dart';
 import 'dart:convert';
+
 final http.Client client = http.Client();
 
 const String baseUrl = "http://158.109.74.52:55002/api";
 
-Future<Map<String, dynamic>> getPublicaciones() async { //FUNCIONA, falta tratar los datos que recibimos
+Future<Map<String, dynamic>> getPublicaciones() async {
+  //FUNCIONA, falta tratar los datos que recibimos
   String uri = "$baseUrl/publications";
-    
-  http.Response response = await http.get(
-    uri,
-    headers: {"session": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"}
-  );
 
+  http.Response response = await http.get(uri, headers: {
+    "session":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"
+  });
 
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
     print("Success");
 
     final jsonData = jsonDecode(response.body);
-    Map<String, dynamic> mapPublications = jsonData[4];
+    Map<String, dynamic> mapPublications = jsonData[8];
     print(mapPublications);
     return mapPublications;
-
   } else {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to get publications');
   }
 }
 
-Future<void> register(String mail, String userName,String country,String city,String postalCode,String password) async { //FUNCIONA CORRECTAMENTE
+Future<void> register(String mail, String userName, String country, String city,
+    String postalCode, String password) async {
+  //FUNCIONA CORRECTAMENTE
   final String uri = "$baseUrl/register";
 
   Map data = {
-  'mail': mail,
-  'userName': userName,
-  'country': country,
-  'city': city,
-  'postalCode': postalCode,
-  'password': password
+    'mail': mail,
+    'userName': userName,
+    'country': country,
+    'city': city,
+    'postalCode': postalCode,
+    'password': password
   };
 
   String body = json.encode(data);
@@ -50,7 +52,6 @@ Future<void> register(String mail, String userName,String country,String city,St
     body: body,
   );
 
-
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
     print(response.body);
@@ -60,14 +61,10 @@ Future<void> register(String mail, String userName,String country,String city,St
   }
 }
 
-
-Future<String>  login(String mail, String password) async { 
+Future<String> login(String mail, String password) async {
   final String uri = "$baseUrl/login";
 
-  Map data = {
-  'mail': mail,
-  'password': password
-  };
+  Map data = {'mail': mail, 'password': password};
 
   String body = json.encode(data);
 
@@ -85,25 +82,25 @@ Future<String>  login(String mail, String password) async {
     print(token);
 
     return token;
-
   } else {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to get children');
   }
 }
 
-Future<void> register2(String mail, String userName,String country,String city,String postalCode,String password) async {
+Future<void> register2(String mail, String userName, String country,
+    String city, String postalCode, String password) async {
   String uri = "$baseUrl/register";
 
   final response = await http.post(uri, body: {
-        "mail": mail,
-        "userName": userName,
-        "country": country,
-        "city": city,
-        "postalCode": postalCode,
-        "password": password, 
-    });
-  
+    "mail": mail,
+    "userName": userName,
+    "country": country,
+    "city": city,
+    "postalCode": postalCode,
+    "password": password,
+  });
+
   // response is NOT a Future because of await but since getTree() is async,
   // execution continues (leaves this function) until response is available,
   // and then we come back here
@@ -118,8 +115,6 @@ Future<void> register2(String mail, String userName,String country,String city,S
     throw Exception('Failed to get children');
   }
 }
-
-
 
 Future<void> stop(int id) async {
   String uri = "$baseUrl/stop?$id";
@@ -144,31 +139,28 @@ Future<void> add(String name, int fatherId, String type) async {
   }
 }
 
-Future<void> createPublication(ubication, imageFile, description, gradient) async { //FUNCIONA CORRECTAMENTE
-  final String uri = "$baseUrl/publications";
+Future<void> createPublication(
+    ubication, filename, description, gradient) async {
+  //FUNCIONA CORRECTAMENTE
+  var uri = Uri.parse("$baseUrl/publications");
+  String gradString = gradient.toString();
 
-  Map data = {
-  'ubication': ubication,
-  'imageFile': imageFile,
-  'description': description,
-  'gradient': gradient,
-  };
-
-  String body = json.encode(data);
-
-  http.Response response = await http.post(
-    uri,
-    headers: {"Content-Type": "multipart/form-data",
-    "session": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"},
-    body: body,
-  );
-
-
-  if (response.statusCode == 200) {
-    print("statusCode=$response.statusCode");
-    print(response.body);
-  } else {
-    print("statusCode=$response.statusCode");
-    throw Exception('Failed to create publication');
-  }
+  //String body = json.encode(data);
+  var request = new http.MultipartRequest("POST", uri);
+  request.fields['ubication'] = ubication;
+  request.fields['description'] = description;
+  request.fields['gradient'] = gradString;
+  request.headers['session'] =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo";
+  request.headers['Content-Type'] = 'multipart/form-data';
+  request.files.add(await http.MultipartFile.fromPath('image', filename));
+  request.send().then((response) {
+    if (response.statusCode == 200) {
+      print("statusCode=$response.statusCode");
+      print(response);
+    } else {
+      print("statusCode=$response.statusCode");
+      throw Exception('Failed to create publication');
+    }
+  });
 }
