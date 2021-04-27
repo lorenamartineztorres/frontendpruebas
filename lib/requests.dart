@@ -4,20 +4,25 @@ import 'package:flutter_application_1/PublicacionModel.dart';
 import 'dart:convert';
 final http.Client client = http.Client();
 
-const String baseUrl = "http://158.109.74.52:55003/api";
+const String baseUrl = "http://158.109.74.52:55002/api";
 
 Future<Map<String, dynamic>> getPublicaciones() async { //FUNCIONA, falta tratar los datos que recibimos
   String uri = "$baseUrl/publications";
-  final response = await client.get(uri);
     
+  http.Response response = await http.get(
+    uri,
+    headers: {"session": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"}
+  );
+
 
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
+    print("Success");
 
     final jsonData = jsonDecode(response.body);
-    Map<String, dynamic> mapDatos = jsonData[0];
+    Map<String, dynamic> mapPublications = jsonData[0];
 
-    return mapDatos;
+    return mapPublications;
 
   } else {
     print("statusCode=$response.statusCode");

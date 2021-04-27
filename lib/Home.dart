@@ -13,25 +13,22 @@ class _HomeState extends State<Home> {
   double num_gradiente; //poner el que ha introducido el usuario
   int num_mg = 0;
   List<String> _comments;
-  Map<String, dynamic> _publicacion;
+  Map<String, dynamic> _publication;
   Future<Map<String, dynamic>> futurePublicacion;
 
   
 
   @override
   void initState() {
-    super.initState();
-    getPublicaciones();
-    futurePublicacion =  getPublicaciones();
     publication();
+    super.initState();
     //num_gradiente = _publicacion['gradient'][0];
   }
 
   void publication() async {
 
-    _publicacion = await getPublicaciones();
-    await Future.delayed(Duration(seconds: 100));
-    
+    _publication = await getPublicaciones();
+    //await Future.delayed(Duration(seconds: 100));
     //Text("${_publicacion['userName']}");
   }
 
@@ -46,7 +43,7 @@ class _HomeState extends State<Home> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(children: <Widget>[
-              Text("${_publicacion['userName']}",
+              Text("${_publication}",
                   style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
             ])),
         // ubicación
@@ -61,7 +58,7 @@ class _HomeState extends State<Home> {
               SizedBox(
                 width: 5.0,
               ),
-              Text("${_publicacion['ubication']}",
+              Text("Barcelona",
                   style: TextStyle(color: Colors.black.withOpacity(0.5))),
             ])),
         // imagen
@@ -93,7 +90,7 @@ class _HomeState extends State<Home> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(children: <Widget>[
-              Text("${_publicacion['description']}",
+              Text("maaaal",
                   style: TextStyle(
                       color: Color.fromRGBO(71, 82, 94,
                           0.58))), //cambiar por descripción del usuario
@@ -117,7 +114,7 @@ class _HomeState extends State<Home> {
                               color: Color.fromRGBO(71, 82, 94,
                                   0.58))), //cambiar por nombre del usuario
                       
-                        Text("${_publicacion['comments']}",
+                        Text("mu mal",
                           style: TextStyle(
                               color: Color.fromRGBO(71, 82, 94,
                                   0.58))), //cambiar por comentario del usuario

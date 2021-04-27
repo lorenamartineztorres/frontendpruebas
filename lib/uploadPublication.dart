@@ -168,7 +168,7 @@ class _UploadState extends State<Upload> {
                         createPublication(globals.ubication, imageFile, description.text, num_gradiente);
                   },
                   child: Text(
-                    "Subir Imagen",
+                    "Publicar",
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                 ),
