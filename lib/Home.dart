@@ -12,29 +12,28 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  double num_gradiente = 90; //poner el que ha introducido el usuario
+  double num_gradiente; //poner el que ha introducido el usuario
   int num_mg = 0;
   List<String> _comments;
   Map<String, dynamic> _publication;
- 
+  Map<String, dynamic> list_comments;
+  
 
   
 
   @override
   void initState() {
     publication();
-    
     //num_gradiente = _publicacion['gradient'][0];
   }
 
   void publication() async {
 
     getPublicaciones().then((result) {
-      setState(() => 
-      _publication = result
-      );
-      avgGradient (_publication['gradient']);
+      setState(() => _publication = result);
     });
+
+    
     
   }
 
@@ -46,12 +45,13 @@ class _HomeState extends State<Home> {
     }
     avg = sum/gradients.length;
 
-    setState(() {
-          num_gradiente = avg;
-        });
-
     return avg;
   }
+
+
+ 
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +91,9 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  new Expanded(
-                    child: gradiente(),
-                  ),
+                  //new Expanded(
+                    //child: gradiente(),
+                  //),
                   Image.asset(
                     'images/furor.png',
                     width: 30.0,
@@ -116,42 +116,54 @@ class _HomeState extends State<Home> {
                           0.58))), //cambiar por descripción del usuario
             ])),
         // Comentarios
+        
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(children: <Widget>[
               Text("Comentarios",
                   style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
             ])),
+        for (int i = 0; i<_publication['comments'].length; i++)  
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-            child: Row(
+            child: Row(             
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                          Text("${_publication['comments']}",
+                children: <Widget>[                  
+                    Row(
+                      children: <Widget>[      
+                          
+                                //Text("${_publication['comments'][2]}"),
+                            
+                          
+                          //list_comments = _publication['comments'],
+                          Text("${_publication['comments'][i]}",
                         
+                            style: TextStyle(
+                                color: Color.fromRGBO(71, 82, 94,
+                                    0.58))),
+                         //cambiar por comentario del usuario
                         
-                          style: TextStyle(
-                              color: Color.fromRGBO(71, 82, 94,
-                                  0.58))), //cambiar por comentario del usuario
-                      
-                    ],
-                  ),
+                      ],
+                    ),
+                  
+                  
                   Row(
                     children: <Widget>[
                       IconButton(
                         icon: Icon(Icons.favorite_border),
                         onPressed: () {
                           setState(() {
-                            num_mg++;
+                           num_mg = _publication['mgCount'][i];
+                           num_mg++;
+                           _publication['mgCount'][i] = num_mg;                                      
+                           
                           });
                         },
                       ),
                       SizedBox(
                         width: 5.0,
                       ),
-                      Text(num_mg.toString(),
+                      Text("${_publication['mgCount'][i]}",
                           style: TextStyle(
                               color: Color.fromRGBO(71, 82, 94,
                                   0.58))), //cambiar numeros de mg reales del comentario
@@ -178,7 +190,7 @@ class _HomeState extends State<Home> {
       value: num_gradiente,
       min: 0,
       max: 100,
-      divisions: 20,
+      divisions: 10,
       label: num_gradiente.round().toString(),
       activeColor: Color.fromRGBO(71, 82, 94, 1),
       inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),
