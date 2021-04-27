@@ -165,7 +165,7 @@ class _UploadState extends State<Upload> {
                 child: FlatButton(
                   onPressed: () {
                   
-                        createPublication(globals.ubication, imageFile, description.text, num_gradiente);
+                        //createPublication(globals.ubication, imageFile, description.text, num_gradiente);
                   },
                   child: Text(
                     "Publicar",

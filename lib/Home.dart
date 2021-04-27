@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  double num_gradiente; //poner el que ha introducido el usuario
+  double num_gradiente = 90; //poner el que ha introducido el usuario
   int num_mg = 0;
   List<String> _comments;
   Map<String, dynamic> _publication;
@@ -23,13 +23,17 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     publication();
+    
     //num_gradiente = _publicacion['gradient'][0];
   }
 
   void publication() async {
 
     getPublicaciones().then((result) {
-      setState(() => _publication = result);
+      setState(() => 
+      _publication = result
+      );
+      avgGradient (_publication['gradient']);
     });
     
   }
@@ -41,6 +45,10 @@ class _HomeState extends State<Home> {
       sum += gradients[i];
     }
     avg = sum/gradients.length;
+
+    setState(() {
+          num_gradiente = avg;
+        });
 
     return avg;
   }
@@ -121,7 +129,9 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                        Text("${_publication['comments']}",
+                          Text("${_publication['comments']}",
+                        
+                        
                           style: TextStyle(
                               color: Color.fromRGBO(71, 82, 94,
                                   0.58))), //cambiar por comentario del usuario
@@ -168,7 +178,7 @@ class _HomeState extends State<Home> {
       value: num_gradiente,
       min: 0,
       max: 100,
-      divisions: 10,
+      divisions: 20,
       label: num_gradiente.round().toString(),
       activeColor: Color.fromRGBO(71, 82, 94, 1),
       inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),

@@ -20,7 +20,7 @@ Future<Map<String, dynamic>> getPublicaciones() async { //FUNCIONA, falta tratar
     print("Success");
 
     final jsonData = jsonDecode(response.body);
-    Map<String, dynamic> mapPublications = jsonData[1];
+    Map<String, dynamic> mapPublications = jsonData[4];
     print(mapPublications);
     return mapPublications;
 
