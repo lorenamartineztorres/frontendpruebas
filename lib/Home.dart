@@ -118,6 +118,7 @@ class _HomeState extends State<Home> {
               Text("Comentarios",
                   style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
             ])),
+        for (int i = 0; i<_publication['comments'].length; i++)
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(
@@ -125,7 +126,7 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text("${_publication['comments']}",
+                      Text("${_publication['comments'][i]}",
                           style: TextStyle(
                               color: Color.fromRGBO(71, 82, 94,
                                   0.58))), //cambiar por comentario del usuario
@@ -137,14 +138,16 @@ class _HomeState extends State<Home> {
                         icon: Icon(Icons.favorite_border),
                         onPressed: () {
                           setState(() {
+                            num_mg = _publication['mgCount'][i];
                             num_mg++;
+                           _publication['mgCount'][i] = num_mg;
                           });
                         },
                       ),
                       SizedBox(
                         width: 5.0,
                       ),
-                      Text(num_mg.toString(),
+                      Text("${_publication['mgCount'][i]}",
                           style: TextStyle(
                               color: Color.fromRGBO(71, 82, 94,
                                   0.58))), //cambiar numeros de mg reales del comentario
