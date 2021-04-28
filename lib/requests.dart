@@ -7,7 +7,7 @@ final http.Client client = http.Client();
 
 const String baseUrl = "http://158.109.74.52:55002/api";
 
-Future<Map<String, dynamic>> getPublicaciones() async {
+Future<List<dynamic>> getPublicaciones() async {
   //FUNCIONA, falta tratar los datos que recibimos
   String uri = "$baseUrl/publications";
 
@@ -21,7 +21,7 @@ Future<Map<String, dynamic>> getPublicaciones() async {
     print("Success");
 
     final jsonData = jsonDecode(response.body);
-    Map<String, dynamic> mapPublications = jsonData[8];
+    List<dynamic> mapPublications = jsonData;
     print(mapPublications);
     return mapPublications;
   } else {

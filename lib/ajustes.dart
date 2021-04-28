@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/cambiarContrasena.dart';
 import 'package:flutter_application_1/cambiarNombre.dart';
+import 'package:flutter_application_1/loginRegister.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/solicitarVerificado.dart';
 
@@ -129,7 +130,7 @@ class _ajustesState extends State<ajustes> {
                 child: FlatButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute<void>(
-                      builder: (context) => PagePrincipal(),
+                      builder: (context) => LoginRegister(),
                     ));
                   },
                   child: Align(

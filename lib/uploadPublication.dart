@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_application_1/addLocation.dart';
@@ -166,7 +167,13 @@ class _UploadState extends State<Upload> {
                   onPressed: () {
                     createPublication(globals.ubication, pathimagen,
                         description.text, num_gradiente);
-                    print("hola");
+
+                     Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (context) => PagePrincipal(),
+                              ),
+                 );
+                    
                   },
                   child: Text(
                     "Publicar",

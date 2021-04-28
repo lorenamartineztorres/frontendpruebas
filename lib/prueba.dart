@@ -4,7 +4,7 @@ import 'package:flutter_application_1/PublicacionModel.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'dart:convert';
 import 'globals.dart' as globals;
-
+/*
 class Prueba extends StatefulWidget {
   Prueba();
   @override
@@ -57,3 +57,4 @@ class _PruebaState extends State<Prueba> {
     );
   }
 }
+*/
