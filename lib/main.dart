@@ -26,13 +26,11 @@ class MyApp extends StatelessWidget {
       ),
       home: AnimatedSplashScreen(
         splash: Image.asset(
-          'images/eco_logo.jpg',
+          'images/circulo.gif',
         ),
         nextScreen: LoginRegister(),
-        backgroundColor: Colors.white,
-        duration: 2500,
-        splashIconSize: 300,
-        splashTransition: SplashTransition.rotationTransition,
+        backgroundColor: Colors.white,        
+        splashIconSize: 300,        
       ),
     );
   }

@@ -78,6 +78,7 @@ flutter:
     - images/furor.png
     - images/hoja.png
     - images/eco_logo.jpg
+    - images/circulo.gif
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

@@ -22,7 +22,7 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailRegExp = RegExp(
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-  
+  bool _isObscure = true;
   @override
   void initState() {
     super.initState();
@@ -67,6 +67,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -101,15 +102,24 @@ class _LoginFormState extends State<LoginForm> {
                   left: 15.0, right: 15.0, top: 15, bottom: 20),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextFormField(
-                controller: password,
-                obscureText: true,
+                obscureText: _isObscure,
+                controller: password,               
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Contraseña',
-                    hintText: 'Introduce contraseña '
-                    ),
-                validator: validatePassword,
-              ),
+                    hintText: 'Introduce contraseña ',
+                    
+                    suffixIcon: IconButton(
+                    icon: Icon(
+                        _isObscure ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        _isObscure = !_isObscure;
+                      });
+                    }),
+                  ),
+                  validator: validatePassword,
+              )
             ),
             FlatButton(
               onPressed: (){
