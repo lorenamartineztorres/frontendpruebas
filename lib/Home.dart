@@ -18,6 +18,8 @@ class _HomeState extends State<Home> {
   List<String> _comments;
   List<dynamic> _publications;
   var _rPublications;
+  final newcomment = TextEditingController();
+  final _likedComments = Set<String>(); 
 
   @override
   void initState() {
@@ -34,7 +36,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  double avgGradient(List<dynamic> gradients) {
+  double avgGradient(List<dynamic> gradients, double gradienteIndividual) {
     double avg = 0.0;
     if (gradients.isNotEmpty) {
       double sum = 0.0;
@@ -42,19 +44,26 @@ class _HomeState extends State<Home> {
       for (int i = 0; i < gradients.length; i++) {
         sum += gradients[i];
       }
-      avg = sum / gradients.length;
+      gradienteIndividual = sum / gradients.length;
 
-      setState(() {
+      /*setState(() {
         num_gradiente = avg;
-      });
+      });*/
     }
-    return avg;
+    return gradienteIndividual;
   }
 
+  bool likedComment(String comment) {
+    bool liked = false;
+    if (_likedComments.contains(comment)){
+      liked = true;
+    }
+    return liked;
+  }
 
   Widget _buildRow(Map<String, dynamic> publication, int index) {
     return SingleChildScrollView(
-            child: Column(
+        child: Column(
       children: <Widget>[
         // nombre de usuario
         Padding(
@@ -79,8 +88,8 @@ class _HomeState extends State<Home> {
                   style: TextStyle(color: Colors.black.withOpacity(0.5))),
             ])),
         // imagen
-        Image.network(
-            "http://158.109.74.52:55002/" + publication['imagePath']),
+        Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
+            width: 500),
         // Gradiente
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -89,7 +98,7 @@ class _HomeState extends State<Home> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   new Expanded(
-                    child: gradiente(),
+                    child: gradiente(publication['gradientAverage']),
                   ),
                   Image.asset(
                     'images/furor.png',
@@ -119,53 +128,132 @@ class _HomeState extends State<Home> {
               Text("Comentarios",
                   style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
             ])),
-        for (int i = 0; i<publication['comments'].length; i++)
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text(publication['comments'][i],
-                          style: TextStyle(
-                              color: Color.fromRGBO(71, 82, 94,
-                                  0.58))), //cambiar por comentario del usuario
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.favorite_border),
-                        onPressed: () {
-                          setState(() {
-                            num_mg = publication['mgCount'][i];
-                            num_mg++;
-                           publication['mgCount'][i] = num_mg;
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      Text(publication['mgCount'][i],
-                          style: TextStyle(
-                              color: Color.fromRGBO(71, 82, 94,
-                                  0.58))), //cambiar numeros de mg reales del comentario
-                    ],
-                  ),
-                ])),
+        if (publication['comments'].length > 0)
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(publication['comments'][0],
+                            style: TextStyle(
+                                color: Color.fromRGBO(71, 82, 94,
+                                    0.58))), //cambiar por comentario del usuario
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.favorite,
+                          color:  publication['mgCount'][0] > 0 ? Colors.red
+                        : Colors.grey,),
+                          onPressed: () {
+                            setState(() {
+                              String comment1 = publication['comments'][0];
+                              if(likedComment(comment1)) {
+                                num_mg = publication['mgCount'][0];
+                                num_mg--;
+                                publication['mgCount'][0] = num_mg;
+                                _likedComments.remove(comment1);
+                              }
+                              else {
+                                num_mg = publication['mgCount'][0];
+                                num_mg++;
+                                publication['mgCount'][0] = num_mg;
+                                _likedComments.add(comment1);
+                              }
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        Text(publication['mgCount'][0].toString(),
+                            style: TextStyle(
+                                color: Color.fromRGBO(71, 82, 94,
+                                    0.58))), //cambiar numeros de mg reales del comentario
+                      ],
+                    ),
+                  ])),
+        if (publication['comments'].length > 1)
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(publication['comments'][1],
+                            style: TextStyle(
+                                color: Color.fromRGBO(71, 82, 94,
+                                    0.58))), //cambiar por comentario del usuario
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.favorite,
+                           color:  publication['mgCount'][1] > 0 ? Colors.red
+                        : Colors.grey,),
+                          onPressed: () {
+                            setState(() {
+                              String comment2 = publication['comments'][1];
+                              if(likedComment(comment2)) {
+                                num_mg = publication['mgCount'][1];
+                                num_mg--;
+                                publication['mgCount'][1] = num_mg;
+                                 _likedComments.remove(comment2);
+                              }
+                              else {
+                                num_mg = publication['mgCount'][1];
+                                num_mg++;
+                                publication['mgCount'][1] = num_mg;
+                                 _likedComments.add(comment2);
+                              }
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        Text(publication['mgCount'][1].toString(),
+                            style: TextStyle(
+                                color: Color.fromRGBO(71, 82, 94,
+                                    0.58))), //cambiar numeros de mg reales del comentario
+                      ],
+                    ),
+                  ])),
+        if (publication['comments'].length >= 2)
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (context) => Home(),
+                ),
+              );
+            },
+            child: Text(
+              'Ver más',
+              style: TextStyle(color: Colors.green, fontSize: 15),
+            ),
+          ),
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: TextFormField(
-            onChanged: (text) {
-              // this.newcomment = text;
-            },
+            controller: newcomment,
             decoration: InputDecoration(
               hintText: 'Añade un nuevo comentario',
+              suffixIcon: IconButton(
+                onPressed: () => {
+                  addComment(newcomment.text, publication['_id']),
+                  print(newcomment.text)
+                },
+                icon: Icon(Icons.check_outlined),
+              ),
             ),
           ),
-        ),
+        )
       ],
     ));
   }
@@ -173,25 +261,25 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.separated(
-              // it's like ListView.builder() but better because it includes a separator between items
-              padding: const EdgeInsets.all(16.0),
-              itemCount: _rPublications.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  _buildRow(_rPublications[index], index),
-              separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
-            ),
+      body: ListView.separated(
+        // it's like ListView.builder() but better because it includes a separator between items
+        padding: const EdgeInsets.all(16.0),
+        itemCount: _rPublications.length,
+        itemBuilder: (BuildContext context, int index) =>
+            _buildRow(_rPublications[index], index),
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
+      ),
     );
   }
 
-  Widget gradiente() {
+  Widget gradiente(int gradientAverage) {
+    double gradienteIndividual = gradientAverage.toDouble();
     return Slider(
-      value: num_gradiente,
+      value: gradienteIndividual,
       min: 0,
       max: 100,
       divisions: 100,
-      label: num_gradiente.round().toString(),
+      label: gradienteIndividual.round().toString(),
       activeColor: Color.fromRGBO(71, 82, 94, 1),
       inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),
       onChanged: (double value) {

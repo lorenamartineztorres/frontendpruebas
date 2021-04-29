@@ -69,6 +69,13 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
    
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'ECOPROTECT',
+          style: TextStyle(fontSize: 16.0, fontFamily: 'Glacial Indifference'),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Form(
