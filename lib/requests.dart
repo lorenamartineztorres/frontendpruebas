@@ -8,7 +8,6 @@ final http.Client client = http.Client();
 const String baseUrl = "http://158.109.74.52:55002/api";
 
 Future<List<dynamic>> getPublicaciones() async {
-  //FUNCIONA, falta tratar los datos que recibimos
   String uri = "$baseUrl/publications";
 
   http.Response response = await http.get(uri, headers: {
@@ -32,7 +31,6 @@ Future<List<dynamic>> getPublicaciones() async {
 
 Future<void> register(String mail, String userName, String country, String city,
     String postalCode, String password) async {
-  //FUNCIONA CORRECTAMENTE
   final String uri = "$baseUrl/register";
 
   Map data = {
@@ -88,56 +86,6 @@ Future<String> login(String mail, String password) async {
   }
 }
 
-Future<void> register2(String mail, String userName, String country,
-    String city, String postalCode, String password) async {
-  String uri = "$baseUrl/register";
-
-  final response = await http.post(uri, body: {
-    "mail": mail,
-    "userName": userName,
-    "country": country,
-    "city": city,
-    "postalCode": postalCode,
-    "password": password,
-  });
-
-  // response is NOT a Future because of await but since getTree() is async,
-  // execution continues (leaves this function) until response is available,
-  // and then we come back here
-  if (response.statusCode == 200) {
-    print("statusCode=$response.statusCode");
-    print(response.body);
-    // If the server did return a 200 OK response, then parse the JSON.
-    Map<String, dynamic> decoded = convert.jsonDecode(response.body);
-  } else {
-    // If the server did not return a 200 OK response, then throw an exception.
-    print("statusCode=$response.statusCode");
-    throw Exception('Failed to get children');
-  }
-}
-
-Future<void> stop(int id) async {
-  String uri = "$baseUrl/stop?$id";
-  final response = await client.get(uri);
-  if (response.statusCode == 200) {
-    print("statusCode=$response.statusCode");
-  } else {
-    print("statusCode=$response.statusCode");
-    throw Exception('Failed to get children');
-  }
-}
-
-Future<void> add(String name, int fatherId, String type) async {
-  String uri = "$baseUrl/add?$name?$fatherId?$type";
-  final response = await client.get(uri);
-  if (response.statusCode == 200) {
-    print("Creat correctament");
-    print("statusCode=$response.statusCode");
-  } else {
-    print("statusCode=$response.statusCode");
-    throw Exception('Failed to create activity');
-  }
-}
 
 Future<void> createPublication(
     ubication, filename, description, gradient) async {
@@ -188,5 +136,26 @@ Future<void> addComment(String comment, String id) async {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to get children');
   }
+}
+
+
+Future<void> LogOut() async { // poner token en la declaracion
+  var uri = Uri.parse("$baseUrl/logout");
+
+  var request = new http.MultipartRequest("POST", uri);
+  request.headers['session'] =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo";
+  request.headers['Content-Type'] = 'multipart/form-data';
+
+  request.send().then((response) {
+    if (response.statusCode == 200) {
+      print("statusCode=$response.statusCode");
+      print(response);
+      print("correctamente cerrar sessión");
+    } else {
+      print("statusCode=$response.statusCode");
+      throw Exception('Failed to LogOut');
+    }
+  });
 }
 

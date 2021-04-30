@@ -5,6 +5,8 @@ import 'package:flutter_application_1/loginRegister.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/solicitarVerificado.dart';
 
+import 'package:flutter_application_1/requests.dart';
+
 class ajustes extends StatefulWidget {
   ajustes();
   @override
@@ -129,6 +131,7 @@ class _ajustesState extends State<ajustes> {
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
                   onPressed: () {
+                    LogOut();
                     Navigator.of(context).push(MaterialPageRoute<void>(
                       builder: (context) => LoginRegister(),
                     ));
