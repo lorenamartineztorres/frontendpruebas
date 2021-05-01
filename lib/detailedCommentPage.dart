@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/requests.dart';
 
 class CommentsPage extends StatefulWidget {
-  List<dynamic> _publications;
-  CommentsPage(this._publications);
+  var _publication;
+  CommentsPage(this._publication);
   @override
   _CommentsPageState createState() => _CommentsPageState();
 }
@@ -31,7 +31,6 @@ class _CommentsPageState extends State<CommentsPage> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    if(publication['comments'][index] != null) 
                     Row(
                       children: <Widget>[
                         Text(publication['comments'][index],
@@ -110,9 +109,9 @@ class _CommentsPageState extends State<CommentsPage> {
       body: ListView.separated(
         // it's like ListView.builder() but better because it includes a separator between items
         padding: const EdgeInsets.all(16.0),
-        itemCount: widget._publications.length,
+        itemCount: widget._publication["comments"].length,
         itemBuilder: (BuildContext context, int index) =>
-            _buildRow(widget._publications[index], index),
+            _buildRow(widget._publication, index),
         separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
     );
