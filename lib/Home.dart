@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/PublicacionModel.dart';
 import 'package:flutter_application_1/detailedCommentPage.dart';
@@ -22,7 +21,9 @@ class _HomeState extends State<Home> {
   List<dynamic> _publications;
   var _rPublications;
   final newcomment = TextEditingController();
-  final _likedComments = Set<String>(); 
+  final _likedComments = Set<String>();
+  var grads = []; //lista parche de gradientes
+  List<int> gradList; //lista buena de gradientes, que se modifican bien
 
   @override
   void initState() {
@@ -35,30 +36,13 @@ class _HomeState extends State<Home> {
     getPublicaciones().then((result) {
       setState(() => _publications = result);
       _rPublications = new List.from(_publications.reversed);
-      //avgGradient(_publications['gradient']);
+      constGrads(_rPublications); //CREAR UNA LIST<INT> CON LOS GRADIENTAVERAGES
     });
-  }
-
-  double avgGradient(List<dynamic> gradients, double gradienteIndividual) {
-    double avg = 0.0;
-    if (gradients.isNotEmpty) {
-      double sum = 0.0;
-
-      for (int i = 0; i < gradients.length; i++) {
-        sum += gradients[i];
-      }
-      gradienteIndividual = sum / gradients.length;
-
-      /*setState(() {
-        num_gradiente = avg;
-      });*/
-    }
-    return gradienteIndividual;
   }
 
   bool likedComment(String comment) {
     bool liked = false;
-    if (_likedComments.contains(comment)){
+    if (_likedComments.contains(comment)) {
       liked = true;
     }
     return liked;
@@ -92,7 +76,7 @@ class _HomeState extends State<Home> {
             ])),
         // imagen
         Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
-            width: 500),
+            width: 500, scale: 0.8, fit: BoxFit.fitWidth),
         // Gradiente
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -101,7 +85,7 @@ class _HomeState extends State<Home> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   new Expanded(
-                    child: gradiente(publication['gradientAverage']),
+                    child: gradiente(publication['gradientAverage'], index),
                   ),
                   Image.asset(
                     'images/furor.png',
@@ -109,6 +93,7 @@ class _HomeState extends State<Home> {
                     height: 30.0,
                   ),
                 ])),
+
         // Descripción
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -148,19 +133,21 @@ class _HomeState extends State<Home> {
                     Row(
                       children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.favorite,
-                          color:  publication['mgCount'][0] > 0 ? Colors.red
-                        : Colors.grey,),
+                          icon: Icon(
+                            Icons.favorite,
+                            color: publication['mgCount'][0] > 0
+                                ? Colors.red
+                                : Colors.grey,
+                          ),
                           onPressed: () {
                             setState(() {
                               String comment1 = publication['comments'][0];
-                              if(likedComment(comment1)) {
+                              if (likedComment(comment1)) {
                                 num_mg = publication['mgCount'][0];
                                 num_mg--;
                                 publication['mgCount'][0] = num_mg;
                                 _likedComments.remove(comment1);
-                              }
-                              else {
+                              } else {
                                 num_mg = publication['mgCount'][0];
                                 num_mg++;
                                 publication['mgCount'][0] = num_mg;
@@ -196,23 +183,25 @@ class _HomeState extends State<Home> {
                     Row(
                       children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.favorite,
-                           color:  publication['mgCount'][1] > 0 ? Colors.red
-                        : Colors.grey,),
+                          icon: Icon(
+                            Icons.favorite,
+                            color: publication['mgCount'][1] > 0
+                                ? Colors.red
+                                : Colors.grey,
+                          ),
                           onPressed: () {
                             setState(() {
                               String comment2 = publication['comments'][1];
-                              if(likedComment(comment2)) {
+                              if (likedComment(comment2)) {
                                 num_mg = publication['mgCount'][1];
                                 num_mg--;
                                 publication['mgCount'][1] = num_mg;
-                                 _likedComments.remove(comment2);
-                              }
-                              else {
+                                _likedComments.remove(comment2);
+                              } else {
                                 num_mg = publication['mgCount'][1];
                                 num_mg++;
                                 publication['mgCount'][1] = num_mg;
-                                 _likedComments.add(comment2);
+                                _likedComments.add(comment2);
                               }
                             });
                           },
@@ -275,21 +264,27 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget gradiente(int gradientAverage) {
-    double gradienteIndividual = gradientAverage.toDouble();
+  Widget gradiente(int gradientAverage, int index) {
     return Slider(
-      value: gradienteIndividual,
+      value: gradList[index].toDouble(),
       min: 0,
       max: 100,
       divisions: 100,
-      label: gradienteIndividual.round().toString(),
+      label: gradList[index].round().toString(),
       activeColor: Color.fromRGBO(71, 82, 94, 1),
       inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),
       onChanged: (double value) {
         setState(() {
-          num_gradiente = value;
+          gradList[index] = value.toInt();
         });
       },
     );
+  }
+
+  void constGrads(List<dynamic> _rPublications) {
+    for (int i = 0; i < _rPublications.length; i++) {
+      grads.add(_rPublications[i]['gradientAverage']);
+    }
+    gradList = new List.from(grads);
   }
 }
