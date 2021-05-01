@@ -7,7 +7,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_application_1/addLocation.dart';
 import 'globals.dart' as globals;
 
+
 class Upload extends StatefulWidget {
+
   //stateful ja que cambiara depende un parametro de entrada, la ubicación
   @override
   _UploadState createState() => _UploadState();
@@ -20,6 +22,7 @@ class _UploadState extends State<Upload> {
   var description = TextEditingController();
   var pathimagen;
 
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +34,10 @@ class _UploadState extends State<Upload> {
     // widget tree.
     description.dispose();
     super.dispose();
+  }
+
+  bool cantPublicate() {
+    return (imageFile == null);
   }
 
   @override
@@ -163,8 +170,10 @@ class _UploadState extends State<Upload> {
                 decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(20)),
-                child: FlatButton(
-                  onPressed: () {
+                child: RaisedButton(
+                  disabledColor: Colors.grey,
+                  color: Colors.green,
+                  onPressed: cantPublicate() ? null : () async{
                     createPublication(globals.ubication, pathimagen,
                         description.text, num_gradiente);
 
@@ -172,7 +181,7 @@ class _UploadState extends State<Upload> {
                               MaterialPageRoute<void>(
                                 builder: (context) => PagePrincipal(),
                               ),
-                 );
+                 ); 
                     
                   },
                   child: Text(

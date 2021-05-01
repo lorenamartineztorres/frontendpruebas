@@ -4,6 +4,15 @@ import 'globals.dart' as globals;
 class AddLocation extends StatelessWidget {
   String location = "Madrid";
   // This widget is the root of your application.
+  
+  var ubication = TextEditingController();
+ @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    ubication.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +32,7 @@ class AddLocation extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
-              onChanged: (text) {
-                globals.ubication = text;
-              },
+              controller: ubication,
               decoration: InputDecoration(
                 hintText: 'Ubicación',
               ),
@@ -37,8 +44,10 @@ class AddLocation extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: FloatingActionButton(
             onPressed: () {
+              globals.ubication = ubication.text;
               Navigator.of(context).pop(true);
             },
+
             child: Icon(Icons.check_outlined),
             backgroundColor: Color.fromRGBO(100, 211, 83, 1),
           ),

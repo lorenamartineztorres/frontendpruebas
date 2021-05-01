@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/PublicacionModel.dart';
+import 'package:flutter_application_1/detailedCommentPage.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'dart:io';
 
@@ -13,6 +15,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Key key;
   double num_gradiente = 0; //poner el que ha introducido el usuario
   int num_mg = 0;
   List<String> _comments;
@@ -228,13 +231,13 @@ class _HomeState extends State<Home> {
           FlatButton(
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (context) => Home(),
+                MaterialPageRoute(
+                  builder: (context) => CommentsPage(_publications),
                 ),
               );
             },
             child: Text(
-              'Ver más',
+              'Ver todos los comentarios',
               style: TextStyle(color: Colors.green, fontSize: 15),
             ),
           ),
