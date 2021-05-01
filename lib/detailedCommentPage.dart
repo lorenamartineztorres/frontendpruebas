@@ -23,17 +23,7 @@ class _CommentsPageState extends State<CommentsPage> {
   }
 
   Widget _buildRow(Map<String, dynamic> publication, int index) {
-    print(publication);
-     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Comentarios',
-          style: TextStyle(fontSize: 16.0, fontFamily: 'Glacial Indifference'),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+     return SingleChildScrollView(
       child: Column(
       children: <Widget>[
          Padding(
@@ -41,6 +31,7 @@ class _CommentsPageState extends State<CommentsPage> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+                    if(publication['comments'][index] != null) 
                     Row(
                       children: <Widget>[
                         Text(publication['comments'][index],
@@ -82,6 +73,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                     0.58))), //cambiar numeros de mg reales del comentario
                       ],
                     ),
+                    
                   ],
                   ),
                   ),
@@ -102,12 +94,19 @@ class _CommentsPageState extends State<CommentsPage> {
             ),
           ),
         )*/
-      ])),
+      ]),
       );
   }
 @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Comentarios',
+          style: TextStyle(fontSize: 16.0, fontFamily: 'Glacial Indifference'),
+        ),
+      ),
       body: ListView.separated(
         // it's like ListView.builder() but better because it includes a separator between items
         padding: const EdgeInsets.all(16.0),
