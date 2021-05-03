@@ -25,6 +25,7 @@ class _UploadState extends State<Upload> {
 
   @override
   void initState() {
+    globals.ubication = '';
     super.initState();
   }
 
@@ -37,7 +38,7 @@ class _UploadState extends State<Upload> {
   }
 
   bool cantPublicate() {
-    return (imageFile == null);
+    return (imageFile == null) || (globals.ubication.isEmpty);
   }
 
   @override

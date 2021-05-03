@@ -44,9 +44,9 @@ class _HomeState extends State<Home> {
     });
   }
 
-  bool likedComment(String comment) {
+  bool likedComment(String comment, int pos) {
     bool liked = false;
-    if (globals.likedComments.contains(comment)) {
+    if (globals.likedComments[pos] == comment) {
       liked = true;
     }
     return liked;
@@ -157,24 +157,24 @@ class _HomeState extends State<Home> {
                       IconButton(
                         icon: Icon(
                           Icons.favorite,
-                          color: publication['mgCount'][0] > 0
+                          color: likedComment(publication['comments'][0], 0)
                               ? Colors.red
                               : Colors.grey,
                         ),
                         onPressed: () {
                           setState(() {
                             String comment1 = publication['comments'][0];
-                            if (likedComment(comment1)) {
+                            if (likedComment(comment1, 0)) {
                               num_mg = publication['mgCount'][0];
                               num_mg--;
                               publication['mgCount'][0] = num_mg;
-                              globals.likedComments.remove(comment1);
+                              globals.likedComments.remove(0);
                               removeLike(publication['_id'], 0);
                             } else {
                               num_mg = publication['mgCount'][0];
                               num_mg++;
                               publication['mgCount'][0] = num_mg;
-                              globals.likedComments.add(comment1);
+                              globals.likedComments[0] = comment1;
                               doLike(publication['_id'], 0);
                             }
                           });
@@ -209,24 +209,24 @@ class _HomeState extends State<Home> {
                       IconButton(
                         icon: Icon(
                           Icons.favorite,
-                          color: publication['mgCount'][1] > 0
+                          color: likedComment(publication['comments'][1], 1)
                               ? Colors.red
                               : Colors.grey,
                         ),
                         onPressed: () {
                           setState(() {
                             String comment2 = publication['comments'][1];
-                            if (likedComment(comment2)) {
+                            if (likedComment(comment2, 1)) {
                               num_mg = publication['mgCount'][1];
                               num_mg--;
                               publication['mgCount'][1] = num_mg;
-                              globals.likedComments.remove(comment2);
+                              globals.likedComments.remove(1);
                               removeLike(publication['_id'], 1);
                             } else {
                               num_mg = publication['mgCount'][1];
                               num_mg++;
                               publication['mgCount'][1] = num_mg;
-                              globals.likedComments.add(comment2);
+                              globals.likedComments[1] = comment2;
                               doLike(publication['_id'], 1);
                             }
                           });

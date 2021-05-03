@@ -15,9 +15,9 @@ class _CommentsPageState extends State<CommentsPage> {
  
   
   
-  bool likedComment(String comment) {
+  bool likedComment(String comment, int pos) {
     bool liked = false;
-    if (globals.likedComments.contains(comment)){
+    if (globals.likedComments[pos] == comment){
       liked = true;
     }
     return liked;
@@ -44,23 +44,23 @@ class _CommentsPageState extends State<CommentsPage> {
                       children: <Widget>[
                         IconButton(
                           icon: Icon(Icons.favorite,
-                          color:  publication['mgCount'][index] > 0 ? Colors.red
-                        : Colors.grey,),
+                          color: likedComment(publication['comments'][index], index)
+                          ? Colors.red : Colors.grey,),
                           onPressed: () {
                             setState(() {
-                              String comment1 = publication['comments'][index];
-                              if(likedComment(comment1)) {
+                              String comment = publication['comments'][index];
+                              if(likedComment(comment, index)) {
                                 num_mg = publication['mgCount'][index];
                                 num_mg--;
                                 publication['mgCount'][index] = num_mg;
-                                globals.likedComments.remove(comment1);
-                                doLike(publication['_id'], index);
+                                globals.likedComments.remove(index);
+                                removeLike(publication['_id'], index);
                               }
                               else {
                                 num_mg = publication['mgCount'][index];
                                 num_mg++;
                                 publication['mgCount'][index] = num_mg;
-                                globals.likedComments.add(comment1);
+                                globals.likedComments[index] = comment;
                                 doLike(publication['_id'], index);
                               }
                             });
