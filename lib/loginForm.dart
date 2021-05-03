@@ -23,6 +23,8 @@ class _LoginFormState extends State<LoginForm> {
   final _emailRegExp = RegExp(
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   bool _isObscure = true;
+  Future<String> token;
+  
   @override
   void initState() {
     super.initState();
@@ -56,13 +58,13 @@ class _LoginFormState extends State<LoginForm> {
   }
 
 
-  void getlogin() async{
+  Future<String> getlogin() async{
 
-     final String aux= await login(email.text, password.text);
-      setState(() {
-             globals.token = aux;
-      });
-    
+        login(email.text, password.text).then((result) {
+        setState(() => globals.token = result); 
+        });
+
+      return globals.token;
   }
 
   @override
@@ -150,11 +152,11 @@ class _LoginFormState extends State<LoginForm> {
                             Scaffold.of(_formKey.currentContext).showSnackBar(
                                 SnackBar(content: Text('Processando Datos')));
 
-                                getlogin();
+                                token = getlogin();
                             
 
                             Navigator.of(context).push(
-                              MaterialPageRoute<void>(
+                              MaterialPageRoute(
                                 builder: (context) => PagePrincipal(),
                               ),
                  );

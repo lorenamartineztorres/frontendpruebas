@@ -4,9 +4,12 @@ import 'package:flutter_application_1/cambiarNombre.dart';
 import 'package:flutter_application_1/loginForm.dart';
 import 'package:flutter_application_1/Home.dart';
 import 'package:flutter_application_1/uploadPublication.dart';
+import 'globals.dart' as globals;
 
 class PagePrincipal extends StatefulWidget {
-  PagePrincipal();
+  /*var token;
+  PagePrincipal(@required this.token);*/
+  
   @override
   _PagePrincipalState createState() => _PagePrincipalState();
 }

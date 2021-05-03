@@ -7,15 +7,16 @@ import 'package:flutter_application_1/requests.dart';
 import 'dart:io';
 import 'globals.dart' as globals;
 
+
 class Home extends StatefulWidget {
   //stateful ja que cambiara depende un parametro de entrada, la ubicación
-  Home();
+ /* var token;
+  Home(@required this.token);*/
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  Key key;
   double num_gradiente = 0; //poner el que ha introducido el usuario
   int num_mg = 0;
   List<String> _comments;
@@ -27,6 +28,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    //globals.token = widget.token;
     publication();
 
     //num_gradiente = _publicacion['gradient'][0];
@@ -147,11 +149,13 @@ class _HomeState extends State<Home> {
                                 num_mg--;
                                 publication['mgCount'][0] = num_mg;
                                 globals.likedComments.remove(comment1);
+                                removeLike(publication['_id'], 0);
                               } else {
                                 num_mg = publication['mgCount'][0];
                                 num_mg++;
                                 publication['mgCount'][0] = num_mg;
                                 globals.likedComments.add(comment1);
+                                doLike(publication['_id'], 0);
                               }
                             });
                           },
@@ -197,11 +201,13 @@ class _HomeState extends State<Home> {
                                 num_mg--;
                                 publication['mgCount'][1] = num_mg;
                                 globals.likedComments.remove(comment2);
+                                removeLike(publication['_id'], 1);
                               } else {
                                 num_mg = publication['mgCount'][1];
                                 num_mg++;
                                 publication['mgCount'][1] = num_mg;
                                 globals.likedComments.add(comment2);
+                                doLike(publication['_id'], 1);
                               }
                             });
                           },

@@ -54,12 +54,14 @@ class _CommentsPageState extends State<CommentsPage> {
                                 num_mg--;
                                 publication['mgCount'][index] = num_mg;
                                 globals.likedComments.remove(comment1);
+                                doLike(publication['_id'], index);
                               }
                               else {
                                 num_mg = publication['mgCount'][index];
                                 num_mg++;
                                 publication['mgCount'][index] = num_mg;
                                 globals.likedComments.add(comment1);
+                                doLike(publication['_id'], index);
                               }
                             });
                           },

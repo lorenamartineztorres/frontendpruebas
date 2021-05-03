@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/PublicacionModel.dart';
 import 'dart:convert';
+import 'globals.dart' as globals;
 
 final http.Client client = http.Client();
 
@@ -11,8 +12,7 @@ Future<List<dynamic>> getPublicaciones() async {
   String uri = "$baseUrl/publications";
 
   http.Response response = await http.get(uri, headers: {
-    "session":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"
+    "session": globals.token,
   });
 
   if (response.statusCode == 200) {
@@ -25,6 +25,7 @@ Future<List<dynamic>> getPublicaciones() async {
     return mapPublications;
   } else {
     print("statusCode=$response.statusCode");
+    print(globals.token);
     throw Exception('Failed to get publications');
   }
 }
@@ -77,7 +78,7 @@ Future<String> login(String mail, String password) async {
 
     final jsonData = jsonDecode(response.body);
     String token = jsonData['token'];
-    print(token);
+    
 
     return token;
   } else {
@@ -98,8 +99,7 @@ Future<void> createPublication(
   request.fields['ubication'] = ubication;
   request.fields['description'] = description;
   request.fields['gradient'] = gradString;
-  request.headers['session'] =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo";
+  request.headers['session'] = globals.token;
   request.headers['Content-Type'] = 'multipart/form-data';
   request.files.add(await http.MultipartFile.fromPath('image', filename));
   request.send().then((response) {
@@ -124,8 +124,7 @@ Future<void> addComment(String comment, String id) async {
     uri,
     headers: {
       "Content-Type": "application/json",
-      "session":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"
+      "session": globals.token,
     },
     body: body,
   );
@@ -143,8 +142,7 @@ Future<void> LogOut() async { // poner token en la declaracion
   var uri = Uri.parse("$baseUrl/logout");
 
   var request = new http.MultipartRequest("POST", uri);
-  request.headers['session'] =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo";
+  request.headers['session'] = globals.token;
   request.headers['Content-Type'] = 'multipart/form-data';
 
   request.send().then((response) {
@@ -159,3 +157,45 @@ Future<void> LogOut() async { // poner token en la declaracion
   });
 }
 
+Future<void> doLike(String id, int pos) async {
+  final String uri = "$baseUrl/publications/like/$id/$pos";
+
+  http.Response response = await http.put(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+          //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"
+    },
+    
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("likeeeeee");
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to do like');
+  }
+}
+
+Future<void> removeLike(String id, int pos) async {
+  final String uri = "$baseUrl/publications/like/$id/$pos";
+
+  http.Response response = await http.delete(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+    
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("likeeeeee");
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to do like');
+  }
+}

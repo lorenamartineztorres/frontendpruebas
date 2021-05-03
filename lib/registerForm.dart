@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/requests.dart';
-
+import 'globals.dart' as globals;
 import 'principal.dart';
 
 
