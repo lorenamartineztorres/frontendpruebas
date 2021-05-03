@@ -5,6 +5,7 @@ import 'package:flutter_application_1/PublicacionModel.dart';
 import 'package:flutter_application_1/detailedCommentPage.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'dart:io';
+import 'globals.dart' as globals;
 
 class Home extends StatefulWidget {
   //stateful ja que cambiara depende un parametro de entrada, la ubicación
@@ -21,7 +22,6 @@ class _HomeState extends State<Home> {
   List<dynamic> _publications;
   var _rPublications;
   final newcomment = TextEditingController();
-  final _likedComments = Set<String>();
   var grads = []; //lista parche de gradientes
   List<int> gradList; //lista buena de gradientes, que se modifican bien
 
@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
 
   bool likedComment(String comment) {
     bool liked = false;
-    if (_likedComments.contains(comment)) {
+    if (globals.likedComments.contains(comment)) {
       liked = true;
     }
     return liked;
@@ -146,12 +146,12 @@ class _HomeState extends State<Home> {
                                 num_mg = publication['mgCount'][0];
                                 num_mg--;
                                 publication['mgCount'][0] = num_mg;
-                                _likedComments.remove(comment1);
+                                globals.likedComments.remove(comment1);
                               } else {
                                 num_mg = publication['mgCount'][0];
                                 num_mg++;
                                 publication['mgCount'][0] = num_mg;
-                                _likedComments.add(comment1);
+                                globals.likedComments.add(comment1);
                               }
                             });
                           },
@@ -196,12 +196,12 @@ class _HomeState extends State<Home> {
                                 num_mg = publication['mgCount'][1];
                                 num_mg--;
                                 publication['mgCount'][1] = num_mg;
-                                _likedComments.remove(comment2);
+                                globals.likedComments.remove(comment2);
                               } else {
                                 num_mg = publication['mgCount'][1];
                                 num_mg++;
                                 publication['mgCount'][1] = num_mg;
-                                _likedComments.add(comment2);
+                                globals.likedComments.add(comment2);
                               }
                             });
                           },

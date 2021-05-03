@@ -55,6 +55,15 @@ class _RegisterFormState extends State<RegisterForm> {
     return null;
   }
 
+
+  String validate(String value) {
+      if (value.isEmpty) {
+      return '* Campo Requerido';
+      } else {
+      return null;
+      }
+    }
+
   String validatePassword(String value) {
     if (value.isEmpty) {
       return "* Campo Requerido";
@@ -65,7 +74,9 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   String validatePassword2(String value) {
-    if (value != password.text) {
+    if (value.isEmpty) {
+      return "* Campo Requerido";
+    } else if (value != password.text) {
       return "Las contraseñas deben coincidir";
     } else
       return null;
@@ -102,6 +113,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     labelText: 'Nombre de usuario',
                     hintText: 'Introduce id de usuario'
                     ),
+                    validator: validate,
               ),
             ),
             Padding(
@@ -125,6 +137,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     labelText: 'País',
                     hintText: 'Introduce tu país de residencia'
                     ),
+                    validator: validate,
               ),
             ),
             Padding(
@@ -136,6 +149,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     labelText: 'Población',
                     hintText: 'Introduce la población donde resides'
                     ),
+                    validator: validate,
               ),
             ),
             Padding(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/requests.dart';
+import 'globals.dart' as globals;
 
 class CommentsPage extends StatefulWidget {
   var _publication;
@@ -11,12 +12,12 @@ class CommentsPage extends StatefulWidget {
 class _CommentsPageState extends State<CommentsPage> {
   int num_mg = 0;
   final newcomment = TextEditingController();
-  final _likedComments = Set<String>(); 
+ 
   
   
   bool likedComment(String comment) {
     bool liked = false;
-    if (_likedComments.contains(comment)){
+    if (globals.likedComments.contains(comment)){
       liked = true;
     }
     return liked;
@@ -52,13 +53,13 @@ class _CommentsPageState extends State<CommentsPage> {
                                 num_mg = publication['mgCount'][index];
                                 num_mg--;
                                 publication['mgCount'][index] = num_mg;
-                                _likedComments.remove(comment1);
+                                globals.likedComments.remove(comment1);
                               }
                               else {
                                 num_mg = publication['mgCount'][index];
                                 num_mg++;
                                 publication['mgCount'][index] = num_mg;
-                                _likedComments.add(comment1);
+                                globals.likedComments.add(comment1);
                               }
                             });
                           },
