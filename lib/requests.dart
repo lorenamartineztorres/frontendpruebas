@@ -75,18 +75,17 @@ Future<String> login(String mail, String password) async {
 
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
-
     final jsonData = jsonDecode(response.body);
     String token = jsonData['token'];
-    
 
+    print(token);
     return token;
   } else {
     print("statusCode=$response.statusCode");
+    print(globals.token);
     throw Exception('Failed to get children');
   }
 }
-
 
 Future<void> createPublication(
     ubication, filename, description, gradient) async {
@@ -137,8 +136,8 @@ Future<void> addComment(String comment, String id) async {
   }
 }
 
-
-Future<void> LogOut() async { // poner token en la declaracion
+Future<void> LogOut() async {
+  // poner token en la declaracion
   var uri = Uri.parse("$baseUrl/logout");
 
   var request = new http.MultipartRequest("POST", uri);
@@ -149,7 +148,7 @@ Future<void> LogOut() async { // poner token en la declaracion
     if (response.statusCode == 200) {
       print("statusCode=$response.statusCode");
       print(response);
-      print("correctamente cerrar sessión");
+      print("correctamente cerrar sessiÃ³n");
     } else {
       print("statusCode=$response.statusCode");
       throw Exception('Failed to LogOut');
@@ -165,9 +164,8 @@ Future<void> doLike(String id, int pos) async {
     headers: {
       "Content-Type": "application/json",
       "session": globals.token,
-          //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"
+      //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODZmZGEzMzdlZWQ0ZGZhMTFkMDg1MCIsImlhdCI6MTYxOTQ1OTQ5OH0.mkTf47YaqGwtYmHd5f68b0-eY3rKk6SI7QYhPR2SoXo"
     },
-    
   );
 
   if (response.statusCode == 200) {
@@ -188,7 +186,6 @@ Future<void> removeLike(String id, int pos) async {
       "Content-Type": "application/json",
       "session": globals.token,
     },
-    
   );
 
   if (response.statusCode == 200) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/loginForm.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'globals.dart' as globals;
 import 'principal.dart';
-
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -22,11 +22,10 @@ class _RegisterFormState extends State<RegisterForm> {
 
   final _formKey = GlobalKey<FormState>();
   final _emailRegExp = RegExp(
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
-  final _zipcodeRegExp = RegExp(
-    r"^[0-9]{5}(?:-[0-9]{4})?$");
-  
+  final _zipcodeRegExp = RegExp(r"^[0-9]{5}(?:-[0-9]{4})?$");
+
   @override
   void initState() {
     super.initState();
@@ -48,21 +47,20 @@ class _RegisterFormState extends State<RegisterForm> {
 
   String validateEmail(String value) {
     if (value.isEmpty) {
-     return '* Campo Requerido';
+      return '* Campo Requerido';
     } else if (!_emailRegExp.hasMatch(value)) {
-        return 'Introduce un correo electrónico válido como abc@gmail.com';
+      return 'Introduce un correo electrónico válido como abc@gmail.com';
     }
     return null;
   }
 
-
   String validate(String value) {
-      if (value.isEmpty) {
+    if (value.isEmpty) {
       return '* Campo Requerido';
-      } else {
+    } else {
       return null;
-      }
     }
+  }
 
   String validatePassword(String value) {
     if (value.isEmpty) {
@@ -86,7 +84,7 @@ class _RegisterFormState extends State<RegisterForm> {
     if (value.isEmpty) {
       return "* Campo Requerido";
     } else if (!_zipcodeRegExp.hasMatch(value)) {
-        return 'Introduce un código postal válido';
+      return 'Introduce un código postal válido';
     }
     return null;
   }
@@ -94,152 +92,152 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(    
-          centerTitle: true,    
-          title: Text('ECOPROTECT', style: TextStyle(fontSize: 16.0,fontFamily: 'Glacial Indifference' ),),   
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'ECOPROTECT',
+          style: TextStyle(fontSize: 16.0, fontFamily: 'Glacial Indifference'),
         ),
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left:15.0,right: 15.0,top:20,bottom: 13),
-              child: TextFormField(
-                controller: username,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Nombre de usuario',
-                    hintText: 'Introduce id de usuario'
-                    ),
-                    validator: validate,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 13),
-              child: TextFormField(
-                controller: email,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Correo Electrónico',
-                    hintText: 'Introduce correo electrónico'
-                    ),
-                validator: validateEmail,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 13),
-              child: TextFormField(
-                controller: country,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'País',
-                    hintText: 'Introduce tu país de residencia'
-                    ),
-                    validator: validate,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 13),
-              child: TextFormField(
-                controller: population,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Población',
-                    hintText: 'Introduce la población donde resides'
-                    ),
-                    validator: validate,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top:0, bottom: 13),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextFormField(
-                controller: postalCode,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Código Postal',
-                    hintText: 'Introduce código postal. Este és un número de 5 dígitos'
-                    ),
-                validator: validateZipCode,
-              ),
-            ),
-             Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top:0, bottom: 13),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextFormField(
-                controller: password,
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Contraseña',
-                    hintText: 'Introduce contraseña - 6 caracteres mínimo'
-                    ),
-                validator: validatePassword,
-              ),
-            ),
-             Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 0, bottom: 13),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextFormField(
-                controller: password2,
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Repita Contraseña',
-                    hintText: 'Introduce de nuevo la contraseña'
-                    ),
-                validator: validatePassword2,
-              ),
-            ),
-             FlatButton(
-              onPressed: (){
-                 
-              },
-              child: Text(
-                'Pulsando Registrarse, aceptas nuestra Política de Privacidad.',
-                style: TextStyle(color: Colors.green, fontSize: 15),
-              ),
-            ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
-                onPressed: () async {
-                  // Validate returns true if the form is valid, otherwise false.
-                    if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            Scaffold.of(_formKey.currentContext).showSnackBar(
-                                SnackBar(content: Text('Processando Datos')));
-                            
-
-                            register(email.text, username.text, country.text, population.text, postalCode.text, password.text);
-
-                            Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (context) => PagePrincipal(),
-                              ),
-                 );
-                    }
-                },
-                child: Text(
-                  'Registrarse',
-                  style: TextStyle(color: Colors.white, fontSize: 22),
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 20, bottom: 13),
+                child: TextFormField(
+                  controller: username,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Nombre de usuario',
+                      hintText: 'Introduce id de usuario'),
+                  validator: validate,
                 ),
               ),
-            ),
-            SizedBox(
-              height: 110,
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 0, bottom: 13),
+                child: TextFormField(
+                  controller: email,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Correo Electrónico',
+                      hintText: 'Introduce correo electrónico'),
+                  validator: validateEmail,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 0, bottom: 13),
+                child: TextFormField(
+                  controller: country,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'País',
+                      hintText: 'Introduce tu país de residencia'),
+                  validator: validate,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 0, bottom: 13),
+                child: TextFormField(
+                  controller: population,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Población',
+                      hintText: 'Introduce la población donde resides'),
+                  validator: validate,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 0, bottom: 13),
+                //padding: EdgeInsets.symmetric(horizontal: 15),
+                child: TextFormField(
+                  controller: postalCode,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Código Postal',
+                      hintText:
+                          'Introduce código postal. Este és un número de 5 dígitos'),
+                  validator: validateZipCode,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 0, bottom: 13),
+                //padding: EdgeInsets.symmetric(horizontal: 15),
+                child: TextFormField(
+                  controller: password,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Contraseña',
+                      hintText: 'Introduce contraseña - 6 caracteres mínimo'),
+                  validator: validatePassword,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 0, bottom: 13),
+                //padding: EdgeInsets.symmetric(horizontal: 15),
+                child: TextFormField(
+                  controller: password2,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Repita Contraseña',
+                      hintText: 'Introduce de nuevo la contraseña'),
+                  validator: validatePassword2,
+                ),
+              ),
+              FlatButton(
+                onPressed: () {},
+                child: Text(
+                  'Pulsando Registrarse, aceptas nuestra Política de Privacidad.',
+                  style: TextStyle(color: Colors.green, fontSize: 15),
+                ),
+              ),
+              Container(
+                height: 50,
+                width: 250,
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(20)),
+                child: FlatButton(
+                  onPressed: () async {
+                    // Validate returns true if the form is valid, otherwise false.
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      Scaffold.of(_formKey.currentContext).showSnackBar(
+                          SnackBar(content: Text('Processando Datos')));
+
+                      register(email.text, username.text, country.text,
+                          population.text, postalCode.text, password.text);
+
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) => LoginForm(),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(
+                    'Registrarse',
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 110,
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
