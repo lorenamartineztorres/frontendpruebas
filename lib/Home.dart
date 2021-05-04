@@ -23,9 +23,10 @@ class _HomeState extends State<Home> {
   var _rPublications;
   final newcomment = TextEditingController();
   var grads = []; //lista parche de gradientes
-  List<int> gradList; //lista buena de gradientes, que se modifican bien
+  List<dynamic> gradList; //lista buena de gradientes, que se modifican bien
   String commentText;
   final _commentKey = GlobalKey<FormState>();
+  Future<double> newaverage;
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _HomeState extends State<Home> {
 
   void publication() async {
     //await Future.delayed(Duration(seconds: 1));
+    Text("Welcome");
     getPublicaciones().then((result) {
       setState(() => _publications = result);
       _rPublications = new List.from(_publications.reversed);
@@ -44,7 +46,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void reload() async {
+   void reload() async {
     //await Future.delayed(Duration(seconds: 1));
     getPublicaciones().then((result) {
       setState(() => _publications = result);
@@ -116,8 +118,18 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                new Expanded(
-                  child: gradiente(publication['gradientAverage'], index),
+                gradiente(index),
+                IconButton(
+                  onPressed: () => {
+                    setState(() {
+                      newaverage = putGradient(gradList[index].toInt(), publication['_id']);
+                      gradList[index] = newaverage;
+                    }),
+                    gradList.clear(),
+                    reload(),
+
+                  },
+                  icon: Icon(Icons.check_outlined),
                 ),
                 Image.asset(
                   'images/furor.png',
@@ -282,11 +294,12 @@ class _HomeState extends State<Home> {
                 if (validateComment(newcomment.text) == "true")
                   {
                     addComment(newcomment.text, publication['_id']),
-                    newcomment.text = "",
+                    newcomment.clear(),
                     reload(),
                   }
                 else
-                  {print("NO")}
+                  {print("NO")},
+                reload(),
               },
               icon: Icon(Icons.check_outlined),
             ),
@@ -310,8 +323,10 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget gradiente(int gradientAverage, int index) {
-    return Slider(
+  Widget gradiente(int index) {
+    if(gradList[index].runtimeType == int)
+      return new Expanded(
+        child: Slider(
       value: gradList[index].toDouble(),
       min: 0,
       max: 100,
@@ -323,14 +338,41 @@ class _HomeState extends State<Home> {
         setState(() {
           gradList[index] = value.toInt();
         });
+             },
+          ),
+        );
+    if(gradList[index].runtimeType == double)
+      return new Expanded(
+      child: Slider(
+      value: gradList[index],
+      min: 0,
+      max: 100,
+      divisions: 100,
+      label: gradList[index].round().toString(),
+      activeColor: Color.fromRGBO(71, 82, 94, 1),
+      inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),
+      onChanged: (double value) {
+        setState(() {
+          gradList[index] = value;
+        });
+        
       },
-    );
+    ),);
   }
 
+  
+
   void constGrads(List<dynamic> _rPublications) {
+    if(grads != null && gradList != null){
+      grads.clear();
+      gradList.clear();
+    }
+    
+
     for (int i = 0; i < _rPublications.length; i++) {
       grads.add(_rPublications[i]['gradientAverage']);
     }
     gradList = new List.from(grads);
+    print(gradList);
   }
 }

@@ -215,3 +215,34 @@ Future<void> getUser(String id) async {
     throw Exception('Failed to get user');
   }
 }
+
+Future<double> putGradient(int gradient, String id) async {
+  final String uri = "$baseUrl/publications/gradient/$id";
+ 
+  Map data = {'gradient': gradient};
+
+  String body = json.encode(data);
+
+  http.Response response = await http.put(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+    body: body,
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("Success gradient");
+
+    final jsonData = jsonDecode(response.body);
+    double gradAverage = jsonData['average'];
+    print(gradAverage);
+    return gradAverage;
+
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to get new gradient average');
+  }
+}
