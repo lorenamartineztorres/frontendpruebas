@@ -44,6 +44,15 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void reload() async {
+    //await Future.delayed(Duration(seconds: 1));
+    getPublicaciones().then((result) {
+      setState(() => _publications = result);
+      _rPublications = new List.from(_publications.reversed);
+      constGrads(_rPublications); 
+    });
+  }
+
   bool likedComment(String comment, int pos) {
     bool liked = false;
     if (globals.likedComments[pos] == comment) {
@@ -273,7 +282,8 @@ class _HomeState extends State<Home> {
                 if (validateComment(newcomment.text) == "true")
                   {
                     addComment(newcomment.text, publication['_id']),
-                    newcomment.text = ""
+                    newcomment.text = "",
+                    reload(),
                   }
                 else
                   {print("NO")}
