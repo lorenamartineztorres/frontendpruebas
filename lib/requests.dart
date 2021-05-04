@@ -190,9 +190,28 @@ Future<void> removeLike(String id, int pos) async {
 
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
-    print("likeeeeee");
   } else {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to do like');
+  }
+}
+
+Future<void> getUser(String id) async {
+  final String uri = "$baseUrl/user/$id";
+
+  http.Response response = await http.get(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("Success to get user");
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to get user');
   }
 }

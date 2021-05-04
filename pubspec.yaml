@@ -79,6 +79,13 @@ flutter:
     - images/hoja.png
     - images/eco_logo.jpg
     - images/circulo.gif
+    - images/logro1.png
+    - images/logro2.png
+    - images/logro3.png
+    - images/basura_playa.jpg
+    - images/vp_basura.jpeg
+    
+    
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

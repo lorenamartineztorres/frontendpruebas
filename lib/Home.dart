@@ -73,7 +73,8 @@ class _HomeState extends State<Home> {
 
   Widget _buildRow(Map<String, dynamic> publication, int index) {
     return SingleChildScrollView(
-        child: Column(children: <Widget>[
+        child: Column(
+          children: <Widget>[
       // nombre de usuario
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
