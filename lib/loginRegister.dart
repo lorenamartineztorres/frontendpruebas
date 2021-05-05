@@ -1,9 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/loginForm.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Home.dart';
 import 'loginForm.dart';
 import 'registerForm.dart';
 
+String finalemail;
 
 class LoginRegister extends StatefulWidget {
   @override
@@ -11,6 +17,39 @@ class LoginRegister extends StatefulWidget {
 }
 
 class _LoginRegisterState extends State<LoginRegister> {
+
+  /*void initState(){
+      
+      getValidationData().whenComplete(() async{
+        if (finalemail == null){
+         
+         MaterialApp(home: finalemail == null ? LoginForm() : RegisterForm());
+        }else{
+         runApp(MaterialApp(home: finalemail == null ? LoginForm() : RegisterForm()));
+        }
+        //Timer(Duration (seconds:2), () => Get.to(finalemail == null ? RegisterForm(): RegisterForm()));
+        /*if (finalemail==null){
+          RegisterForm();
+        }else{
+          Home();
+        }*/
+       print(finalemail);
+    });
+    super.initState();
+
+}
+  Future getValidationData() async{
+  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var obtainedEmail = sharedPreferences.getString('email');
+    setState(() {
+       finalemail = obtainedEmail;    
+      });
+
+   //finalemail = sharedPreferences.get('tok');
+    print("Final email");
+    print(finalemail);
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

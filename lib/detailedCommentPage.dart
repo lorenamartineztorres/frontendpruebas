@@ -12,73 +12,69 @@ class CommentsPage extends StatefulWidget {
 class _CommentsPageState extends State<CommentsPage> {
   int num_mg = 0;
   final newcomment = TextEditingController();
- 
-  
-  
+
   bool likedComment(String comment, int pos) {
     bool liked = false;
-    if (globals.likedComments[pos] == comment){
+    if (globals.likedComments[pos] == comment) {
       liked = true;
     }
     return liked;
   }
 
   Widget _buildRow(Map<String, dynamic> publication, int index) {
-     return SingleChildScrollView(
-      child: Column(
-      children: <Widget>[
-         Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Text(publication['comments'][index],
-                            style: TextStyle(
-                                color: Color.fromRGBO(71, 82, 94,
-                                    0.58))), //cambiar por comentario del usuario
-                      ],
+    return SingleChildScrollView(
+      child: Column(children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                child: Text(publication['comments'][index],
+                    style: TextStyle(
+                        color: Color.fromRGBO(71, 82, 94,
+                            0.58))), //cambiar por comentario del usuario
+              ),
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      color: likedComment(publication['comments'][index], index)
+                          ? Colors.red
+                          : Colors.grey,
                     ),
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.favorite,
-                          color: likedComment(publication['comments'][index], index)
-                          ? Colors.red : Colors.grey,),
-                          onPressed: () {
-                            setState(() {
-                              String comment = publication['comments'][index];
-                              if(likedComment(comment, index)) {
-                                num_mg = publication['mgCount'][index];
-                                num_mg--;
-                                publication['mgCount'][index] = num_mg;
-                                globals.likedComments.remove(index);
-                                removeLike(publication['_id'], index);
-                              }
-                              else {
-                                num_mg = publication['mgCount'][index];
-                                num_mg++;
-                                publication['mgCount'][index] = num_mg;
-                                globals.likedComments[index] = comment;
-                                doLike(publication['_id'], index);
-                              }
-                            });
-                          },
-                        ),
-                        SizedBox(
-                          width: 5.0,
-                        ),
-                        Text(publication['mgCount'][index].toString(),
-                            style: TextStyle(
-                                color: Color.fromRGBO(71, 82, 94,
-                                    0.58))), //cambiar numeros de mg reales del comentario
-                      ],
-                    ),
-                    
-                  ],
+                    onPressed: () {
+                      setState(() {
+                        String comment = publication['comments'][index];
+                        if (likedComment(comment, index)) {
+                          num_mg = publication['mgCount'][index];
+                          num_mg--;
+                          publication['mgCount'][index] = num_mg;
+                          globals.likedComments.remove(index);
+                          removeLike(publication['_id'], index);
+                        } else {
+                          num_mg = publication['mgCount'][index];
+                          num_mg++;
+                          publication['mgCount'][index] = num_mg;
+                          globals.likedComments[index] = comment;
+                          doLike(publication['_id'], index);
+                        }
+                      });
+                    },
                   ),
+                  SizedBox(
+                    width: 5.0,
                   ),
+                  Text(publication['mgCount'][index].toString(),
+                      style: TextStyle(
+                          color: Color.fromRGBO(71, 82, 94,
+                              0.58))), //cambiar numeros de mg reales del comentario
+                ],
+              ),
+            ],
+          ),
+        ),
         /*           
         Padding(
           padding: const EdgeInsets.all(15.0),
@@ -97,12 +93,13 @@ class _CommentsPageState extends State<CommentsPage> {
           ),
         )*/
       ]),
-      );
+    );
   }
-@override
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         centerTitle: true,
         title: Text(
           'Comentarios',
@@ -120,5 +117,3 @@ class _CommentsPageState extends State<CommentsPage> {
     );
   }
 }
-
- 

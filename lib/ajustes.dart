@@ -6,6 +6,7 @@ import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/solicitarVerificado.dart';
 import 'globals.dart' as globals;
 import 'package:flutter_application_1/requests.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ajustes extends StatefulWidget {
   ajustes();
@@ -130,7 +131,9 @@ class _ajustesState extends State<ajustes> {
                     color: Colors.white70,
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
-                  onPressed: () {
+                  onPressed:() async {
+                    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();                    
+                    sharedPreferences.remove('tok');
                     LogOut();
                     globals.logOut = true;
                     Navigator.of(context).push(MaterialPageRoute<void>(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ajustes.dart';
 import 'package:flutter_application_1/cambiarNombre.dart';
@@ -21,6 +23,7 @@ class _PagePrincipalState extends State<PagePrincipal> {
   void _onItemTapped(int index) {
     setState(() {
       selectedIndex = index;
+     
     });
   }
 

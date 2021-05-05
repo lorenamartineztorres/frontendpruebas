@@ -31,6 +31,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     //globals.token = widget.token;
+
     publication();
 
     //num_gradiente = _publicacion['gradient'][0];
@@ -46,12 +47,12 @@ class _HomeState extends State<Home> {
     });
   }
 
-   void reload() async {
-    //await Future.delayed(Duration(seconds: 1));
+  void reload() async {
+    await Future.delayed(Duration(seconds: 1));
     getPublicaciones().then((result) {
       setState(() => _publications = result);
       _rPublications = new List.from(_publications.reversed);
-      constGrads(_rPublications); 
+      constGrads(_rPublications);
     });
   }
 
@@ -67,7 +68,7 @@ class _HomeState extends State<Home> {
     if (value.isEmpty) {
       return "Escribe algo";
     } else if (value.length > 300) {
-      return "Max 10 caracteres";
+      return "Max 300 caracteres";
     } else if (value == " ") {
       return null;
     } else
@@ -84,30 +85,40 @@ class _HomeState extends State<Home> {
 
   Widget _buildRow(Map<String, dynamic> publication, int index) {
     return SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
+        child: Column(children: <Widget>[
       // nombre de usuario
-      Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-          child: Row(children: <Widget>[
-            Text(publication['userName'],
-                style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
-          ])),
+      Row(children: [
+        Flexible(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+            child: Text(publication['userName'],
+                style: TextStyle(
+                    color: Color.fromRGBO(71, 82, 94,
+                        0.58))), //cambiar por descripción del usuario
+          ),
+        )
+      ]),
       // ubicación
-      Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-          child: Row(children: <Widget>[
-            Image.asset(
-              'images/location.png',
-              width: 15.0,
-              height: 15.0,
-            ),
-            SizedBox(
-              width: 5.0,
-            ),
-            Text(publication['ubication'],
-                style: TextStyle(color: Colors.black.withOpacity(0.5))),
-          ])),
+      Row(children: [
+        Flexible(
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+              child: Row(children: <Widget>[
+                Image.asset(
+                  'images/location.png',
+                  width: 15.0,
+                  height: 15.0,
+                ),
+                SizedBox(
+                  width: 5.0,
+                ),
+                Flexible(
+                  child: Text(publication['ubication'],
+                      style: TextStyle(color: Colors.black.withOpacity(0.5))),
+                ),
+              ])),
+        )
+      ]),
       // imagen
       Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
           width: 500, scale: 0.8, fit: BoxFit.fitWidth),
@@ -122,17 +133,18 @@ class _HomeState extends State<Home> {
                 IconButton(
                   onPressed: () => {
                     setState(() {
-                      newaverage = putGradient(gradList[index].toInt(), publication['_id']);
+                      newaverage = putGradient(
+                          gradList[index].toInt(), publication['_id']);
                       gradList[index] = newaverage;
                     }),
                     gradList.clear(),
                     reload(),
-
                   },
                   icon: Icon(Icons.check_outlined),
                 ),
                 Image.asset(
-                  'images/furor.png',
+                  //'images/furor.png',
+                  emojiGradiente(gradList[index].toInt()),
                   width: 30.0,
                   height: 30.0,
                 ),
@@ -145,14 +157,19 @@ class _HomeState extends State<Home> {
             Text("Descripción",
                 style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
           ])),
-      Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-          child: Row(children: <Widget>[
-            Text(publication['description'],
+      Row(children: [
+        Flexible(
+          child: Container(
+            //DESCRIPCIÓN
+            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+            child: Text(publication['description'],
                 style: TextStyle(
                     color: Color.fromRGBO(71, 82, 94,
                         0.58))), //cambiar por descripción del usuario
-          ])),
+          ),
+        )
+      ]),
+
       // Comentarios
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -166,13 +183,11 @@ class _HomeState extends State<Home> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text(publication['comments'][0],
-                          style: TextStyle(
-                              color: Color.fromRGBO(71, 82, 94,
-                                  0.58))), //cambiar por comentario del usuario
-                    ],
+                  Flexible(
+                    child: Text(publication['comments'][0],
+                        style: TextStyle(
+                            color: Color.fromRGBO(71, 82, 94,
+                                0.58))), //cambiar por comentario del usuario
                   ),
                   Row(
                     children: <Widget>[
@@ -218,13 +233,11 @@ class _HomeState extends State<Home> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text(publication['comments'][1],
-                          style: TextStyle(
-                              color: Color.fromRGBO(71, 82, 94,
-                                  0.58))), //cambiar por comentario del usuario
-                    ],
+                  Flexible(
+                    child: Text(publication['comments'][1],
+                        style: TextStyle(
+                            color: Color.fromRGBO(71, 82, 94,
+                                0.58))), //cambiar por comentario del usuario
                   ),
                   Row(
                     children: <Widget>[
@@ -324,55 +337,70 @@ class _HomeState extends State<Home> {
   }
 
   Widget gradiente(int index) {
-    if(gradList[index].runtimeType == int)
+    if (gradList[index].runtimeType == int)
       return new Expanded(
         child: Slider(
-      value: gradList[index].toDouble(),
-      min: 0,
-      max: 100,
-      divisions: 100,
-      label: gradList[index].round().toString(),
-      activeColor: Color.fromRGBO(71, 82, 94, 1),
-      inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),
-      onChanged: (double value) {
-        setState(() {
-          gradList[index] = value.toInt();
-        });
-             },
-          ),
-        );
-    if(gradList[index].runtimeType == double)
+          value: gradList[index].toDouble(),
+          min: 0,
+          max: 100,
+          divisions: 100,
+          label: gradList[index].round().toString(),
+          activeColor: Color.fromRGBO(71, 82, 94, 1),
+          inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),
+          onChanged: (double value) {
+            setState(() {
+              gradList[index] = value.toInt();
+            });
+          },
+        ),
+      );
+    if (gradList[index].runtimeType == double)
       return new Expanded(
-      child: Slider(
-      value: gradList[index],
-      min: 0,
-      max: 100,
-      divisions: 100,
-      label: gradList[index].round().toString(),
-      activeColor: Color.fromRGBO(71, 82, 94, 1),
-      inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),
-      onChanged: (double value) {
-        setState(() {
-          gradList[index] = value;
-        });
-        
-      },
-    ),);
+        child: Slider(
+          value: gradList[index],
+          min: 0,
+          max: 100,
+          divisions: 100,
+          label: gradList[index].round().toString(),
+          activeColor: Color.fromRGBO(71, 82, 94, 1),
+          inactiveColor: Color.fromRGBO(71, 82, 94, 0.58),
+          onChanged: (double value) {
+            setState(() {
+              gradList[index] = value;
+            });
+          },
+        ),
+      );
   }
 
-  
-
   void constGrads(List<dynamic> _rPublications) {
-    if(grads != null && gradList != null){
+    if (grads != null && gradList != null) {
       grads.clear();
       gradList.clear();
     }
-    
 
     for (int i = 0; i < _rPublications.length; i++) {
       grads.add(_rPublications[i]['gradientAverage']);
     }
     gradList = new List.from(grads);
     print(gradList);
+  }
+
+  String emojiGradiente(int gradientAverage) {
+    String emoji = 'images/cara1.png';
+    if (gradientAverage < 25) {
+      emoji = 'images/cara1.png';
+    }
+    if ((gradientAverage >= 25) && (gradientAverage < 50)) {
+      emoji = 'images/cara2.png';
+    }
+    if ((gradientAverage >= 50) && (gradientAverage < 75)) {
+      emoji = 'images/cara3.png';
+    }
+    if (gradientAverage >= 75) {
+      emoji = 'images/cara4.png';
+    }
+    print(emoji);
+    return emoji;
   }
 }
