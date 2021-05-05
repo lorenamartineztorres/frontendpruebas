@@ -35,6 +35,8 @@ dependencies:
   path_provider:
   path:
   image_picker:
+  shared_preferences:
+  get: ^3.24.0
   
 dev_dependencies:
   flutter_test:

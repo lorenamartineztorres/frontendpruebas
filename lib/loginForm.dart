@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/prueba.dart';
 import 'package:flutter_application_1/registerForm.dart';
 import 'package:flutter_application_1/requests.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'globals.dart' as globals;
 import 'principal.dart';
 import 'principal.dart';
@@ -16,6 +17,7 @@ class _LoginFormState extends State<LoginForm> {
   // current value of the TextField.
   //
   //Future<String> token; // token del usuario al iniciar sesion
+  
   final email = TextEditingController();
   final password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -67,8 +69,11 @@ class _LoginFormState extends State<LoginForm> {
 
   Future<String> getLogin() async {
     final String aux = await login(email.text, password.text);
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      globals.token = aux;
+      globals.token = aux;     
+      sharedPreferences.setString('tok', globals.token);
+
     });
     return aux;
   }
@@ -156,15 +161,14 @@ class _LoginFormState extends State<LoginForm> {
                       _formKey.currentState.save();
                       Scaffold.of(_formKey.currentContext).showSnackBar(
                           SnackBar(content: Text('Processando Datos')));
-
-                      getLogin().then((result) {
+                          getLogin().then((result) {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => PagePrincipal(),
                           ),
                         );
                       });
-                      print(globals.token);
+                     
                     }
                   },
                   child: Text(
@@ -177,7 +181,8 @@ class _LoginFormState extends State<LoginForm> {
                 height: 110,
               ),
               FlatButton(
-                onPressed: () {
+                onPressed: () async {
+                  getLogin();                  
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (context) => RegisterForm(),

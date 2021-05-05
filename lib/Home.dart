@@ -31,26 +31,27 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     //globals.token = widget.token;
+    
     publication();
-
+    
     //num_gradiente = _publicacion['gradient'][0];
   }
 
   void publication() async {
     //await Future.delayed(Duration(seconds: 1));
     Text("Welcome");
-    getPublicaciones().then((result) {
-      setState(() => _publications = result);
-      _rPublications = new List.from(_publications.reversed);
+    getPublicaciones().then((result)  {
+      setState(() => _publications = result);     
+      _rPublications = new List.from(_publications.reversed);      
       constGrads(_rPublications); //CREAR UNA LIST<INT> CON LOS GRADIENTAVERAGES
     });
   }
 
    void reload() async {
-    //await Future.delayed(Duration(seconds: 1));
-    getPublicaciones().then((result) {
+    await Future.delayed(Duration(seconds: 1));
+    getPublicaciones().then((result)  {
       setState(() => _publications = result);
-      _rPublications = new List.from(_publications.reversed);
+      _rPublications = new List.from(_publications.reversed);     
       constGrads(_rPublications); 
     });
   }
@@ -310,11 +311,11 @@ class _HomeState extends State<Home> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){     
     return Scaffold(
       body: ListView.separated(
         // it's like ListView.builder() but better because it includes a separator between items
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),       
         itemCount: _rPublications.length,
         itemBuilder: (BuildContext context, int index) =>
             _buildRow(_rPublications[index], index),
@@ -368,7 +369,6 @@ class _HomeState extends State<Home> {
       gradList.clear();
     }
     
-
     for (int i = 0; i < _rPublications.length; i++) {
       grads.add(_rPublications[i]['gradientAverage']);
     }
