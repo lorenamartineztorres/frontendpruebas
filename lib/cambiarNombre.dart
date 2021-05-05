@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/requests.dart';
 
 class cambiarNombre extends StatefulWidget {
   cambiarNombre();
@@ -7,6 +8,42 @@ class cambiarNombre extends StatefulWidget {
 }
 
 class _cambiarNombreState extends State<cambiarNombre> {
+  String username;
+  final newUsername = TextEditingController();
+  final _formKeyUsername = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    //globals.token = widget.token;
+    getInfo();
+    //num_gradiente = _publicacion['gradient'][0];
+  }
+
+  void getInfo() async {
+    //await Future.delayed(Duration(seconds: 1));
+    Text("Welcome");
+    getUsername().then((result) {
+      setState(() => username = result);
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    newUsername.dispose();
+    super.dispose();
+  }
+
+  String validateUsername(String value) {
+    if (value.isEmpty) {
+      return "* Campo Requerido";
+    } else if ((value.length <= 2) || (value.length > 18)) {
+      return "El nombre ha de tener entre 3 y 17 caracteres";
+    } else
+      return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +56,7 @@ class _cambiarNombreState extends State<cambiarNombre> {
       ),
       body: SingleChildScrollView(
         child: Form(
+          key: _formKeyUsername,
           child: Column(
             children: <Widget>[
               Padding(
@@ -43,7 +81,7 @@ class _cambiarNombreState extends State<cambiarNombre> {
               ),
               Container(
                 padding: const EdgeInsets.all(10),
-                child: Text('Nombre de usuario actual: Tu nombre'),
+                child: Text('Nombre de usuario actual: ' + username),
               ),
               new Padding(padding: EdgeInsets.only(top: 10.0)),
               TextFormField(
@@ -55,10 +93,8 @@ class _cambiarNombreState extends State<cambiarNombre> {
                     borderSide: new BorderSide(),
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: Text('Nombre aceptado'),
+                controller: newUsername,
+                validator: validateUsername,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -71,14 +107,26 @@ class _cambiarNombreState extends State<cambiarNombre> {
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
+                  onPressed: () async {
+                    // Validate returns true if the form is valid, otherwise false.
+                    if (_formKeyUsername.currentState.validate()) {
+                      _formKeyUsername.currentState.save();
+                      Scaffold.of(_formKeyUsername.currentContext).showSnackBar(
+                          SnackBar(content: Text('Procesando cambios')));
+                      print(newUsername.text);
+                      editUsername(newUsername.text);
+
+                      Navigator.of(context).pop(true);
+                    }
                   },
                   child: Text(
                     'Confirmar',
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 110,
               ),
             ],
           ),
