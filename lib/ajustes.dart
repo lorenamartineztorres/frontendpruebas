@@ -4,7 +4,7 @@ import 'package:flutter_application_1/cambiarNombre.dart';
 import 'package:flutter_application_1/loginRegister.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/solicitarVerificado.dart';
-
+import 'globals.dart' as globals;
 import 'package:flutter_application_1/requests.dart';
 
 class ajustes extends StatefulWidget {
@@ -132,6 +132,7 @@ class _ajustesState extends State<ajustes> {
                 child: FlatButton(
                   onPressed: () {
                     LogOut();
+                    globals.logOut = true;
                     Navigator.of(context).push(MaterialPageRoute<void>(
                       builder: (context) => LoginRegister(),
                     ));

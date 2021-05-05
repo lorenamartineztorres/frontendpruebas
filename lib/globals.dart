@@ -6,3 +6,4 @@ import 'package:flutter/material.dart';
 String token;
 var ubication = '';
 final likedComments = Map<int, String>();
+bool logOut = true;

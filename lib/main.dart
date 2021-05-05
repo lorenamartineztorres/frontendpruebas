@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         splash: Image.asset(
           'images/circulo.gif',
         ),
-        nextScreen: LoginRegister(),
+        nextScreen: globals.logOut == false? Home() : LoginRegister() ,
         backgroundColor: Colors.white,        
         splashIconSize: 300,        
       ),

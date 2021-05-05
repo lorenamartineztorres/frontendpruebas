@@ -73,18 +73,17 @@ Future<String> login(String mail, String password) async {
     body: body,
   );
 
+  final jsonData = jsonDecode(response.body);
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
-    final jsonData = jsonDecode(response.body);
     String token = jsonData['token'];
-
-    print(token);
     return token;
-  } else {
+  } else if (response.statusCode == 401){
     print("statusCode=$response.statusCode");
-    print(globals.token);
-    throw Exception('Failed to get children');
+    return jsonData['message'];
   }
+  else
+    throw Exception("Invalid Password");
 }
 
 Future<void> createPublication(
@@ -196,8 +195,8 @@ Future<void> removeLike(String id, int pos) async {
   }
 }
 
-Future<void> getUser(String id) async {
-  final String uri = "$baseUrl/user/$id";
+Future<Map<String, dynamic>> getProfile() async {
+  final String uri = "$baseUrl/profile";
 
   http.Response response = await http.get(
     uri,
@@ -210,9 +209,11 @@ Future<void> getUser(String id) async {
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
     print("Success to get user");
+    final jsonProfile = jsonDecode(response.body);
+    return jsonProfile;
   } else {
     print("statusCode=$response.statusCode");
-    throw Exception('Failed to get user');
+    throw Exception('Failed to get profile');
   }
 }
 
