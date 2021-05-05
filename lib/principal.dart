@@ -6,6 +6,7 @@ import 'package:flutter_application_1/cambiarNombre.dart';
 import 'package:flutter_application_1/loginForm.dart';
 import 'package:flutter_application_1/Home.dart';
 import 'package:flutter_application_1/profilePage.dart';
+import 'package:flutter_application_1/searchPublication.dart';
 import 'package:flutter_application_1/uploadPublication.dart';
 import 'globals.dart' as globals;
 
@@ -29,9 +30,7 @@ class _PagePrincipalState extends State<PagePrincipal> {
 
   final List<Widget> pantallas = [
     Home(),
-    Text(
-      'Index 1: Buscador',
-    ),
+    Search(),
     Upload(),
     Profile(),
     ajustes()

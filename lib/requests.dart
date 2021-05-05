@@ -247,3 +247,25 @@ Future<double> putGradient(int gradient, String id) async {
     throw Exception('Failed to get new gradient average');
   }
 }
+
+Future<List<dynamic>> search(String ubi) async {
+  String uri = "$baseUrl/search/$ubi";
+
+  http.Response response = await http.get(uri, headers: {
+    "session": globals.token,
+  });
+
+  final jsonData = jsonDecode(response.body);
+  
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("Success");
+    
+    List<dynamic> publications = jsonData;
+    print(publications);
+    return publications;
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to get publications');
+  }
+}
