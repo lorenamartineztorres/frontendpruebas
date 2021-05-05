@@ -78,11 +78,10 @@ Future<String> login(String mail, String password) async {
     print("statusCode=$response.statusCode");
     String token = jsonData['token'];
     return token;
-  } else if (response.statusCode == 401){
+  } else if (response.statusCode == 401) {
     print("statusCode=$response.statusCode");
     return jsonData['message'];
-  }
-  else
+  } else
     throw Exception("Invalid Password");
 }
 
@@ -217,9 +216,80 @@ Future<Map<String, dynamic>> getProfile() async {
   }
 }
 
+Future<void> getUser(String id) async {
+  final String uri = "$baseUrl/user/$id";
+
+  http.Response response = await http.get(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("Success to get user");
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to get user');
+  }
+}
+
+Future<String> getUsername() async {
+  final String uri = "$baseUrl/profile/";
+
+  http.Response response = await http.get(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("Success to get user");
+    final jsonData = jsonDecode(response.body);
+    String username = jsonData['username'];
+    print(username);
+    return username;
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to get user');
+  }
+}
+
+Future<void> editUsername(String username) async {
+  print("HOLA");
+  print(username);
+  final String uri = "$baseUrl/user";
+
+  Map data = {'userName': username};
+
+  String body = json.encode(data);
+
+  http.Response response = await http.put(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+    body: body,
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print(response.body);
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to get children');
+  }
+}
+
 Future<double> putGradient(int gradient, String id) async {
   final String uri = "$baseUrl/publications/gradient/$id";
- 
+
   Map data = {'gradient': gradient};
 
   String body = json.encode(data);
@@ -241,7 +311,6 @@ Future<double> putGradient(int gradient, String id) async {
     double gradAverage = jsonData['average'];
     print(gradAverage);
     return gradAverage;
-
   } else {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to get new gradient average');
@@ -256,11 +325,11 @@ Future<List<dynamic>> search(String ubi) async {
   });
 
   final jsonData = jsonDecode(response.body);
-  
+
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
     print("Success");
-    
+
     List<dynamic> publications = jsonData;
     print(publications);
     return publications;
