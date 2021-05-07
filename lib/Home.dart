@@ -21,7 +21,8 @@ class _HomeState extends State<Home> {
   List<String> _comments;
   List<dynamic> _publications;
   var _rPublications;
-  final newcomment = TextEditingController();
+  //final newcomment = TextEditingController();
+  List<TextEditingController> newcomment;
   var grads = []; //lista parche de gradientes
   List<dynamic> gradList; //lista buena de gradientes, que se modifican bien
   String commentText;
@@ -31,7 +32,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     //globals.token = widget.token;
-
     publication();
 
     //num_gradiente = _publicacion['gradient'][0];
@@ -43,8 +43,16 @@ class _HomeState extends State<Home> {
     getPublicaciones().then((result) {
       setState(() => _publications = result);
       _rPublications = new List.from(_publications.reversed);
+      newcomment = List.generate(
+          _publications.length.toInt(), (index) => TextEditingController());
       constGrads(_rPublications); //CREAR UNA LIST<INT> CON LOS GRADIENTAVERAGES
     });
+  }
+
+  @override
+  void dispose() {
+    newcomment.forEach((element) => element.dispose());
+    super.dispose();
   }
 
   void reload() async {
@@ -291,34 +299,7 @@ class _HomeState extends State<Home> {
             style: TextStyle(color: Colors.green, fontSize: 15),
           ),
         ),
-      Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: TextFormField(
-          controller: newcomment,
-          /*onChanged: (text) {
-            this.commentText = text;
-            text=null;
-            print(commentText);
-          },*/
-          decoration: InputDecoration(
-            hintText: 'Añade un nuevo comentario',
-            suffixIcon: IconButton(
-              onPressed: () => {
-                if (validateComment(newcomment.text) == "true")
-                  {
-                    addComment(newcomment.text, publication['_id']),
-                    newcomment.clear(),
-                    reload(),
-                  }
-                else
-                  {print("NO")},
-                reload(),
-              },
-              icon: Icon(Icons.check_outlined),
-            ),
-          ),
-        ),
-      )
+      comentarios(index, publication),
     ]));
   }
 
@@ -402,5 +383,37 @@ class _HomeState extends State<Home> {
     }
     print(emoji);
     return emoji;
+  }
+
+  Widget comentarios(int index, dynamic publication) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: TextFormField(
+        controller: newcomment[index],
+        onChanged: (text) {
+          final controller = newcomment[index];
+          //this.commentText = text;
+          //text = null;
+          // print(commentText);
+        },
+        decoration: InputDecoration(
+          hintText: 'Añade un nuevo comentario',
+          suffixIcon: IconButton(
+            onPressed: () => {
+              if (validateComment(newcomment[index].text) == "true")
+                {
+                  addComment(newcomment[index].text, publication['_id']),
+                  newcomment[index].clear(),
+                  reload(),
+                }
+              else
+                {print("NO")},
+              reload(),
+            },
+            icon: Icon(Icons.check_outlined),
+          ),
+        ),
+      ),
+    );
   }
 }
