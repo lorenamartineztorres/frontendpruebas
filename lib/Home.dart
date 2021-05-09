@@ -381,7 +381,6 @@ class _HomeState extends State<Home> {
     if (gradientAverage >= 75) {
       emoji = 'images/cara4.png';
     }
-    print(emoji);
     return emoji;
   }
 
