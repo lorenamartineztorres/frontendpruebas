@@ -392,3 +392,23 @@ Future<int> editPassword(String passwordActual, String passwordNueva) async {
     throw Exception('Failed to get children');
   }
 }
+
+Future<void> deletePublication(String id) async {
+  final String uri = "$baseUrl/publications/$id";
+
+  http.Response response = await http.delete(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("delete publication ok");
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to delete publication');
+  }
+}
