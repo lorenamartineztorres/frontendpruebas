@@ -4,6 +4,7 @@ import 'package:flutter_application_1/ajustes.dart';
 import 'package:flutter_application_1/registerForm.dart';
 import 'package:flutter_application_1/Home.dart';
 import 'package:flutter_application_1/principal.dart';
+import 'package:flutter_application_1/requests.dart';
 
 class cambiarContrasena extends StatefulWidget {
   cambiarContrasena();
@@ -13,18 +14,19 @@ class cambiarContrasena extends StatefulWidget {
 
 class _cambiarContrasenaState extends State<cambiarContrasena> {
   int selectedIndex = 4;
-  final password = TextEditingController();
+  int respuesta;
+  final passwordNueva = TextEditingController();
   final passwordActual = TextEditingController();
-  final password2 = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final passwordNueva2 = TextEditingController();
+  final _formKeyPwd = GlobalKey<FormState>();
 
-  
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
-    password.dispose();
-    password2.dispose();
+    passwordNueva.dispose();
+    passwordNueva2.dispose();
+    passwordActual.dispose();
     super.dispose();
   }
 
@@ -38,7 +40,7 @@ class _cambiarContrasenaState extends State<cambiarContrasena> {
   }
 
   String validatePassword2(String value) {
-    if (value != password.text) {
+    if (value != passwordNueva.text) {
       return "Las contraseñas deben coincidir";
     } else
       return null;
@@ -56,7 +58,7 @@ class _cambiarContrasenaState extends State<cambiarContrasena> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: _formKeyPwd,
           child: Column(
             children: <Widget>[
               Padding(
@@ -87,8 +89,22 @@ class _cambiarContrasenaState extends State<cambiarContrasena> {
                   controller: passwordActual,
                   obscureText: true,
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Contraseña Actual',
+                  ),
+                  validator: validatePassword,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 0, bottom: 13),
+                //padding: EdgeInsets.symmetric(horizontal: 15),
+                child: TextFormField(
+                  controller: passwordNueva,
+                  obscureText: true,
+                  decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Contraseña Actual',
+                      labelText: 'Contraseña nueva',
                       hintText: 'Introduce contraseña - 6 caracteres mínimo'),
                   validator: validatePassword,
                 ),
@@ -98,26 +114,12 @@ class _cambiarContrasenaState extends State<cambiarContrasena> {
                     left: 15.0, right: 15.0, top: 0, bottom: 13),
                 //padding: EdgeInsets.symmetric(horizontal: 15),
                 child: TextFormField(
-                  controller: password,
+                  controller: passwordNueva2,
                   obscureText: true,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Contraseña',
-                      hintText: 'Introduce contraseña - 6 caracteres mínimo'),
-                  validator: validatePassword,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 0, bottom: 13),
-                //padding: EdgeInsets.symmetric(horizontal: 15),
-                child: TextFormField(
-                  controller: password2,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Repita Contraseña',
-                      hintText: 'Introduce de nuevo la contraseña'),
+                      labelText: 'Repita contraseña nueva',
+                      hintText: 'Introduce de nuevo la nueva contraseña'),
                   validator: validatePassword2,
                 ),
               ),
@@ -132,13 +134,24 @@ class _cambiarContrasenaState extends State<cambiarContrasena> {
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Validate returns true if the form is valid, otherwise false.
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-                      Scaffold.of(_formKey.currentContext).showSnackBar(
-                          SnackBar(content: Text('Processando Datos')));
-                      Navigator.of(context).pop(true);
+                    if (_formKeyPwd.currentState.validate()) {
+                      _formKeyPwd.currentState.save();
+
+                      respuesta = await editPassword(
+                          passwordActual.text, passwordNueva.text);
+
+                      if (respuesta == 1) {
+                        //Cambio correcto
+                        Scaffold.of(_formKeyPwd.currentContext).showSnackBar(
+                            SnackBar(content: Text('Processando Datos')));
+                        Navigator.of(context).pop(true);
+                      } else {
+                        Scaffold.of(_formKeyPwd.currentContext).showSnackBar(
+                            SnackBar(
+                                content: Text('Contraseña actual incorrecta')));
+                      }
                     }
                   },
                   child: Text(
