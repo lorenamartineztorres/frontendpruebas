@@ -339,6 +339,32 @@ Future<List<dynamic>> search(String ubi) async {
   }
 }
 
+Future<dynamic> getOnePublication(String id) async {
+  final String uri = "$baseUrl/publications/$id";
+
+  http.Response response = await http.get(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("Success to get publication");
+
+    final jsonData = jsonDecode(response.body);
+    print(jsonData);
+    dynamic publication = jsonData;
+    return publication;
+  } else {
+    print("statusCode=$response.statusCode");
+    print(globals.token);
+    throw Exception('Failed to get publications');
+  }
+}
+
 Future<int> editPassword(String passwordActual, String passwordNueva) async {
   final String uri = "$baseUrl/user";
 

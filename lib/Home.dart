@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/PublicacionModel.dart';
 import 'package:flutter_application_1/detailedCommentPage.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'dart:io';
 import 'globals.dart' as globals;
+import 'dart:async';
 
 class Home extends StatefulWidget {
   //stateful ja que cambiara depende un parametro de entrada, la ubicación
@@ -28,12 +28,14 @@ class _HomeState extends State<Home> {
   String commentText;
   final _commentKey = GlobalKey<FormState>();
   Future<double> newaverage;
+  StreamController _postsController;
 
   @override
   void initState() {
     //globals.token = widget.token;
+    _postsController = new StreamController();
     publication();
-
+    super.initState();
     //num_gradiente = _publicacion['gradient'][0];
   }
 
@@ -46,6 +48,7 @@ class _HomeState extends State<Home> {
       newcomment = List.generate(
           _publications.length.toInt(), (index) => TextEditingController());
       constGrads(_rPublications); //CREAR UNA LIST<INT> CON LOS GRADIENTAVERAGES
+      _postsController.add(result);
     });
   }
 
@@ -140,13 +143,16 @@ class _HomeState extends State<Home> {
                 gradiente(index),
                 IconButton(
                   onPressed: () => {
-                    setState(() {
-                      newaverage = putGradient(
-                          gradList[index].toInt(), publication['_id']);
-                      gradList[index] = newaverage;
-                    }),
+                    //setState(() {
+                    newaverage = putGradient(
+                        gradList[index].toInt(), publication['_id']),
+                    gradList[index] = newaverage,
+                    //}
+
+                    //Future.delayed(const Duration(seconds: 1)),
                     gradList.clear(),
                     reload(),
+                    //Future.delayed(const Duration(seconds: 1)),
                   },
                   icon: Icon(Icons.check_outlined),
                 ),
@@ -305,14 +311,40 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.separated(
-        // it's like ListView.builder() but better because it includes a separator between items
-        padding: const EdgeInsets.all(16.0),
-        itemCount: _rPublications.length,
-        itemBuilder: (BuildContext context, int index) =>
-            _buildRow(_rPublications[index], index),
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
+    return new Scaffold(
+      body: StreamBuilder(
+        stream: _postsController.stream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print('Has error: ${snapshot.hasError}');
+          print('Has data: ${snapshot.hasData}');
+          print('Snapshot Data ${snapshot.data}');
+
+          if (snapshot.hasError) {
+            return Text(snapshot.error);
+          }
+
+          if (snapshot.hasData) {
+            return ListView.separated(
+              // it's like ListView.builder() but better because it includes a separator between items
+              padding: const EdgeInsets.all(16.0),
+              itemCount: _rPublications.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  _buildRow(_rPublications[index], index),
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+            );
+          }
+          if (!snapshot.hasData) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            );
+          }
+        },
       ),
     );
   }
@@ -381,6 +413,7 @@ class _HomeState extends State<Home> {
     if (gradientAverage >= 75) {
       emoji = 'images/cara4.png';
     }
+    //print(emoji);
     return emoji;
   }
 
@@ -391,9 +424,6 @@ class _HomeState extends State<Home> {
         controller: newcomment[index],
         onChanged: (text) {
           final controller = newcomment[index];
-          //this.commentText = text;
-          //text = null;
-          // print(commentText);
         },
         decoration: InputDecoration(
           hintText: 'Añade un nuevo comentario',
