@@ -49,7 +49,7 @@ class _RegisterFormState extends State<RegisterForm> {
     if (value.isEmpty) {
       return '* Campo Requerido';
     }else if (value.length > 30){
-      return 'El campo no puede exceder de los 30 carácteres';
+      return 'El campo no puede exceder los 30 carácteres';
     } else if (!_emailRegExp.hasMatch(value)) {
       return 'Introduce un correo electrónico válido como abc@gmail.com';
     }else
@@ -60,7 +60,7 @@ class _RegisterFormState extends State<RegisterForm> {
     if (value.isEmpty) {
       return '* Campo Requerido';
     } else if (value.length > 30){
-      return 'El campo no puede exceder de los 30 carácteres';
+      return 'El campo no puede exceder los 30 carácteres';
     }
     else
       return null;
@@ -72,7 +72,7 @@ class _RegisterFormState extends State<RegisterForm> {
     } else if (value.length < 6) {
       return "Por seguridad la contraseña debe ser superior a 6 carácteres";
     } else if (value.length > 30){
-      return 'El campo no puede exceder de los 30 carácteres';
+      return 'El campo no puede exceder los 30 carácteres';
     }else
       return null;
   }
@@ -83,7 +83,7 @@ class _RegisterFormState extends State<RegisterForm> {
     } else if (value != password.text) {
       return "Las contraseñas deben coincidir";
     } else if (value.length > 30){
-      return 'El campo no puede exceder de los 30 carácteres';
+      return 'El campo no puede exceder los 30 carácteres';
     }else
       return null;
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'package:flutter_application_1/detailedCommentPage.dart';
+import 'package:flutter_application_1/profilePage.dart';
 import 'dart:async';
 import 'globals.dart' as globals;
 
@@ -80,7 +81,7 @@ class _ProfileState extends State<OnePublication> {
                                             deletePublication(_publicationid);
                                             Navigator.of(context).push(
                                               MaterialPageRoute(
-                                                builder: (context) => PagePrincipal(),
+                                                builder: (context) => Profile(),
                                               ),
                                             );
                                           });
