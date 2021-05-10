@@ -29,8 +29,8 @@ Future<List<dynamic>> getPublicaciones() async {
   }
 }
 
-Future<void> register(String mail, String userName, String country, String city,
-    String postalCode, String password) async {
+Future<String> register(String mail, String userName, String country,
+    String city, String postalCode, String password) async {
   final String uri = "$baseUrl/register";
 
   Map data = {
@@ -43,23 +43,25 @@ Future<void> register(String mail, String userName, String country, String city,
   };
 
   String body = json.encode(data);
-
   http.Response response = await http.post(
     uri,
     headers: {"Content-Type": "application/json"},
     body: body,
   );
 
+  final jsonData = jsonDecode(response.body);
+
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
-    print(response.body);
+    print(jsonData['message']);
+    return (jsonData['message']);
   } else {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to get children');
   }
 }
 
-Future<String> login(String mail, String password) async {
+Future<List> login(String mail, String password) async {
   final String uri = "$baseUrl/login";
 
   Map data = {'mail': mail, 'password': password};
@@ -73,13 +75,14 @@ Future<String> login(String mail, String password) async {
   );
 
   final jsonData = jsonDecode(response.body);
+  List resposta;
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
     String token = jsonData['token'];
-    return token;
+    return [jsonData['token'], 1];
   } else if (response.statusCode == 401) {
     print("statusCode=$response.statusCode");
-    return jsonData['message'];
+    return [jsonData['message'], 0];
   } else
     throw Exception("Invalid Password");
 }

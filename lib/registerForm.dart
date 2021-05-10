@@ -25,6 +25,7 @@ class _RegisterFormState extends State<RegisterForm> {
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
   final _zipcodeRegExp = RegExp(r"^[0-9]{5}(?:-[0-9]{4})?$");
+  String respuesta;
 
   @override
   void initState() {
@@ -49,7 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
     if (value.isEmpty) {
       return '* Campo Requerido';
     }else if (value.length > 30){
-      return 'El campo no puede exceder de los 30 carácteres';
+      return 'El campo no puede exceder los 30 carácteres';
     } else if (!_emailRegExp.hasMatch(value)) {
       return 'Introduce un correo electrónico válido como abc@gmail.com';
     }else
@@ -60,7 +61,7 @@ class _RegisterFormState extends State<RegisterForm> {
     if (value.isEmpty) {
       return '* Campo Requerido';
     } else if (value.length > 30){
-      return 'El campo no puede exceder de los 30 carácteres';
+      return 'El campo no puede exceder los 30 carácteres';
     }
     else
       return null;
@@ -72,7 +73,7 @@ class _RegisterFormState extends State<RegisterForm> {
     } else if (value.length < 6) {
       return "Por seguridad la contraseña debe ser superior a 6 carácteres";
     } else if (value.length > 30){
-      return 'El campo no puede exceder de los 30 carácteres';
+      return 'El campo no puede exceder los 30 carácteres';
     }else
       return null;
   }
@@ -83,7 +84,7 @@ class _RegisterFormState extends State<RegisterForm> {
     } else if (value != password.text) {
       return "Las contraseñas deben coincidir";
     } else if (value.length > 30){
-      return 'El campo no puede exceder de los 30 carácteres';
+      return 'El campo no puede exceder los 30 carácteres';
     }else
       return null;
   }
@@ -221,17 +222,26 @@ class _RegisterFormState extends State<RegisterForm> {
                     // Validate returns true if the form is valid, otherwise false.
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-                      Scaffold.of(_formKey.currentContext).showSnackBar(
-                          SnackBar(content: Text('Processando Datos')));
 
-                      register(email.text, username.text, country.text,
-                          population.text, postalCode.text, password.text);
+                      respuesta = await register(
+                          email.text,
+                          username.text,
+                          country.text,
+                          population.text,
+                          postalCode.text,
+                          password.text);
 
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (context) => LoginForm(),
-                        ),
-                      );
+                      if (respuesta == "mail is already registered") {
+                        Scaffold.of(_formKey.currentContext).showSnackBar(SnackBar(
+                            content: Text(
+                                'Este correo electrónico ya está registrado.')));
+                      } else {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (context) => LoginForm(),
+                          ),
+                        );
+                      }
                     }
                   },
                   child: Text(

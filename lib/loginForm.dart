@@ -17,7 +17,7 @@ class _LoginFormState extends State<LoginForm> {
   // current value of the TextField.
   //
   //Future<String> token; // token del usuario al iniciar sesion
-  
+
   final email = TextEditingController();
   final password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -25,6 +25,9 @@ class _LoginFormState extends State<LoginForm> {
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   bool _isObscure = true;
   Future<String> token;
+  String respuesta;
+  int caso;
+  List mapa;
 
   @override
   void initState() {
@@ -67,13 +70,13 @@ class _LoginFormState extends State<LoginForm> {
       return globals.token;
   }*/
 
-  Future<String> getLogin() async {
-    final String aux = await login(email.text, password.text);
-    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  Future<String> getLogin(String respuesta) async {
+    final String aux = respuesta;
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
     setState(() {
-      globals.token = aux;     
+      globals.token = aux;
       sharedPreferences.setString('tok', globals.token);
-
     });
     return aux;
   }
@@ -155,20 +158,35 @@ class _LoginFormState extends State<LoginForm> {
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Validate returns true if the form is valid, otherwise false.
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-                      Scaffold.of(_formKey.currentContext).showSnackBar(
-                          SnackBar(content: Text('Processando Datos')));
-                          getLogin().then((result) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => PagePrincipal(),
-                          ),
-                        );
-                      });
-                     
+                      mapa = await login(email.text, password.text);
+                      respuesta = mapa[0] as String;
+                      caso = mapa[1];
+                      print(respuesta);
+                      print(caso);
+                      if (respuesta == null) caso = 0;
+                      if (caso == 0) {
+                        if (respuesta == 'Invalid Password') {
+                          Scaffold.of(_formKey.currentContext).showSnackBar(
+                              SnackBar(content: Text('Contraseña incorrecta')));
+                        } else {
+                          Scaffold.of(_formKey.currentContext).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                      'Correo electrónico no registrado')));
+                        }
+                      } else {
+                        getLogin(respuesta).then((result) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => PagePrincipal(),
+                            ),
+                          );
+                        });
+                      }
                     }
                   },
                   child: Text(
@@ -182,7 +200,6 @@ class _LoginFormState extends State<LoginForm> {
               ),
               FlatButton(
                 onPressed: () async {
-                  getLogin();                  
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (context) => RegisterForm(),
