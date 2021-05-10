@@ -98,6 +98,7 @@ class _ProfileState extends State<Profile> {
                               style: TextStyle(
                                   color: Color.fromRGBO(71, 82, 94, 1))),
                         ])),
+                        
                     Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10.0),
