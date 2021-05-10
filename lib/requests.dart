@@ -21,11 +21,10 @@ Future<List<dynamic>> getPublicaciones() async {
 
     final jsonData = jsonDecode(response.body);
     List<dynamic> mapPublications = jsonData;
-    print(mapPublications);
+    //print(mapPublications);
     return mapPublications;
   } else {
     print("statusCode=$response.statusCode");
-    print(globals.token);
     throw Exception('Failed to get publications');
   }
 }
@@ -318,7 +317,7 @@ Future<double> putGradient(int gradient, String id) async {
 }
 
 Future<List<dynamic>> search(String ubi) async {
-  String uri = "$baseUrl/search/$ubi";
+  String uri = "$baseUrl/publications/search/$ubi";
 
   http.Response response = await http.get(uri, headers: {
     "session": globals.token,
