@@ -280,7 +280,7 @@ class _SearchState extends State<Search> {
             Text("Comentarios",
                 style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
           ])),
-      if (publication['comments'].length > 0)
+      if(publication['comments'].length > 0)
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(
@@ -301,7 +301,7 @@ class _SearchState extends State<Search> {
                               ? Colors.red
                               : Colors.grey,
                         ),
-                        /*onPressed: () {
+                        onPressed: () {
                           setState(() {
                             String comment1 = publication['comments'][0];
                             if (likedComment(comment1, 0)) {
@@ -318,19 +318,19 @@ class _SearchState extends State<Search> {
                               doLike(publication['_id'], 0);
                             }
                           });
-                        },*/
+                        },
                       ),
                       SizedBox(
                         width: 5.0,
                       ),
-                      /*Text(publication['mgCount'][0].toString(),
+                      Text(publication['mgCount'][0].toString(),
                           style: TextStyle(
                               color: Color.fromRGBO(71, 82, 94,
-                                  0.58))),*/ //cambiar numeros de mg reales del comentario
+                                  0.58))), //cambiar numeros de mg reales del comentario
                     ],
                   ),
                 ])),
-      if (publication['comments'].length > 1)
+      if(publication['comments'].length > 1)
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(
@@ -351,7 +351,7 @@ class _SearchState extends State<Search> {
                               ? Colors.red
                               : Colors.grey,
                         ),
-                        /*onPressed: () {
+                        onPressed: () {
                           setState(() {
                             String comment2 = publication['comments'][1];
                             if (likedComment(comment2, 1)) {
@@ -368,20 +368,20 @@ class _SearchState extends State<Search> {
                               doLike(publication['_id'], 1);
                             }
                           });
-                        },*/
+                        },
                       ),
                       SizedBox(
                         width: 5.0,
                       ),
-                      /*Text(publication['mgCount'][1].toString(),
+                      Text(publication['mgCount'][1].toString(),
                           style: TextStyle(
                               color: Color.fromRGBO(71, 82, 94,
-                                  0.58))),*/ //cambiar numeros de mg reales del comentario
+                                  0.58))), //cambiar numeros de mg reales del comentario
                     ],
                   ),
                 ])),
-      if (publication['comments'].length > 2)
-        FlatButton(
+      if(publication['comments'].length > 2)
+      FlatButton(
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -394,7 +394,8 @@ class _SearchState extends State<Search> {
             style: TextStyle(color: Colors.green, fontSize: 15),
           ),
         ),
-      comentarios(index, publication),
+      //comentarios(index, publication),
+      
     ]));
   }
 
@@ -443,7 +444,6 @@ class _SearchState extends State<Search> {
                       hintText: 'Introduce una ubicación'),
                   onFieldSubmitted: (value) {
                       searchUbication(value);
-                      reload(value);
                   }
 
                 ),

@@ -156,6 +156,7 @@ class _UploadState extends State<Upload> {
               //DESCRIPCIÓN
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 00.0),
               child: TextFormField(
+                maxLength: 200,
                 controller: description,
                 decoration: InputDecoration(
                   hintText: 'Añade una descripción',

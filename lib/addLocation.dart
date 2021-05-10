@@ -32,6 +32,7 @@ class AddLocation extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
+              maxLength: 30,
               controller: ubication,
               decoration: InputDecoration(
                 hintText: 'Ubicación',

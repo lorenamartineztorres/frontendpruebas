@@ -421,6 +421,7 @@ class _HomeState extends State<Home> {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: TextFormField(
+        maxLength: 200,
         controller: newcomment[index],
         onChanged: (text) {
           final controller = newcomment[index];
