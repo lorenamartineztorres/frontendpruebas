@@ -21,10 +21,10 @@ class _ProfileState extends State<OnePublication> {
 
   @override
   void initState() {
-    super.initState();
     _postsController = new StreamController();
     _publicationid = widget._publicationid;
     getUser();
+    super.initState();
   }
 
   void getUser() async {
@@ -49,136 +49,172 @@ class _ProfileState extends State<OnePublication> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            'ECOPROTECT',
-            style:
-                TextStyle(fontSize: 16.0, fontFamily: 'Glacial Indifference'),
-          ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'ECOPROTECT',
+          style: TextStyle(fontSize: 16.0, fontFamily: 'Glacial Indifference'),
         ),
-        body: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      ),
+      body: StreamBuilder(
+          stream: _postsController.stream,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            print('Has error: ${snapshot.hasError}');
+            print('Has data: ${snapshot.hasData}');
+            print('Snapshot Data ${snapshot.data}');
+
+            if (snapshot.hasError) {
+              return Text(snapshot.error);
+            }
+            if (!snapshot.hasData) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ],
+              );
+            }
+
+            if (snapshot.hasData) {
+              return SingleChildScrollView(
+                child: Column(children: <Widget>[
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.0, vertical: 10.0),
+                              child: Text(_publication['userName'],
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(71, 82, 94,
+                                          0.58))), //cambiar por descripción del usuario
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                deletePublication(_publicationid);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => Profile(),
+                                  ),
+                                );
+                              });
+                            },
+                          ),
+                        ]),
+                  ),
+                  // ubicación
+                  Row(children: [
+                    Flexible(
+                      child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 10.0),
+                          child: Row(children: <Widget>[
+                            Image.asset(
+                              'images/location.png',
+                              width: 15.0,
+                              height: 15.0,
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Flexible(
+                              child: Text(_publication['ubication'],
+                                  style: TextStyle(
+                                      color: Colors.black.withOpacity(0.5))),
+                            ),
+                          ])),
+                    )
+                  ]),
+                  // imagen
+                  Image.network(
+                      "http://158.109.74.52:55002/" + _publication['imagePath'],
+                      width: 500,
+                      scale: 0.8,
+                      fit: BoxFit.fitWidth),
+                  // Gradiente
+                  Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 10.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            gradiente(),
+                            Image.asset(
+                              //'images/furor.png',
+                              emojiGradiente(gradient.toInt()),
+                              width: 30.0,
+                              height: 30.0,
+                            ),
+                          ])),
+
+                  // Descripción
+                  Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 10.0),
+                      child: Row(children: <Widget>[
+                        Text("Descripción",
+                            style: TextStyle(
+                                color: Color.fromRGBO(71, 82, 94, 1))),
+                      ])),
+                  Row(children: [
+                    Flexible(
+                      child: Container(
+                        //DESCRIPCIÓN
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 10.0),
+                        child: Text(_publication['description'],
+                            style: TextStyle(
+                                color: Color.fromRGBO(71, 82, 94,
+                                    0.58))), //cambiar por descripción del usuario
+                      ),
+                    )
+                  ]),
+
+                  // Comentarios
+                  Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 10.0),
+                      child: Row(children: <Widget>[
+                        Text("Comentarios",
+                            style: TextStyle(
+                                color: Color.fromRGBO(71, 82, 94, 1))),
+                      ])),
+                  if (_publication['comments'].length > 0)
+                    Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 10.0),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                        Flexible(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                            child: Text(_publication['userName'],
-                                style: TextStyle(
-                                    color: Color.fromRGBO(71, 82, 94,
-                                        0.58))), //cambiar por descripción del usuario
-                          ),
-                        ),
-                        IconButton(
-                                        icon: Icon(Icons.delete, color: Colors.red),
-                                        onPressed: () {
-                                          setState(() {
-                                            deletePublication(_publicationid);
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) => Profile(),
-                                              ),
-                                            );
-                                          });
-                                        },
-                                      ),
-                      ]),),
-                      // ubicación
-                      Row(children: [
-                        Flexible(
-                          child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                              child: Row(children: <Widget>[
-                                Image.asset(
-                                  'images/location.png',
-                                  width: 15.0,
-                                  height: 15.0,
-                                ),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                Flexible(
-                                  child: Text(_publication['ubication'],
-                                      style: TextStyle(color: Colors.black.withOpacity(0.5))),
-                                ),
-                              ])),
-                        )
-                      ]),
-                      // imagen
-                      Image.network("http://158.109.74.52:55002/" + _publication['imagePath'],
-                          width: 500, scale: 0.8, fit: BoxFit.fitWidth),
-                      // Gradiente
-                      Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                gradiente(),
-                                Image.asset(
-                                  //'images/furor.png',
-                                  emojiGradiente(gradient.toInt()),
-                                  width: 30.0,
-                                  height: 30.0,
-                                ),
-                              ])),
-
-                      // Descripción
-                      Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                          child: Row(children: <Widget>[
-                            Text("Descripción",
-                                style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
-                          ])),
-                      Row(children: [
-                        Flexible(
-                          child: Container(
-                            //DESCRIPCIÓN
-                            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                            child: Text(_publication['description'],
-                                style: TextStyle(
-                                    color: Color.fromRGBO(71, 82, 94,
-                                        0.58))), //cambiar por descripción del usuario
-                          ),
-                        )
-                      ]),
-
-                      // Comentarios
-                      Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                          child: Row(children: <Widget>[
-                            Text("Comentarios",
-                                style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
-                          ])),
-                      if (_publication['comments'].length > 0)
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Flexible(
+                                child: Text(_publication['comments'][0],
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(71, 82, 94,
+                                            0.58))), //cambiar por comentario del usuario
+                              ),
+                              Row(
                                 children: <Widget>[
-                                  Flexible(
-                                    child: Text(_publication['comments'][0],
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(71, 82, 94,
-                                                0.58))), //cambiar por comentario del usuario
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.favorite,
-                                          color: likedComment(_publication['comments'][0], 0)
-                                              ? Colors.red
-                                              : Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            /*
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.favorite,
+                                      color: likedComment(
+                                              _publication['comments'][0], 0)
+                                          ? Colors.red
+                                          : Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        /*
                                             String comment1 = _publication['comments'][0];
                                             if (likedComment(comment1, 0)) {
                                               num_mg = _publication['mgCount'][0];
@@ -194,43 +230,45 @@ class _ProfileState extends State<OnePublication> {
                                               doLike(_publication['_id'], 0);
                                             }
                                             */
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Text(_publication['mgCount'][0].toString(),
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(71, 82, 94,
-                                                  0.58))), //cambiar numeros de mg reales del comentario
-                                    ],
+                                      });
+                                    },
                                   ),
-                                ])),
-                      if (_publication['comments'].length > 1)
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(_publication['mgCount'][0].toString(),
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(71, 82, 94,
+                                              0.58))), //cambiar numeros de mg reales del comentario
+                                ],
+                              ),
+                            ])),
+                  if (_publication['comments'].length > 1)
+                    Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 10.0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Flexible(
+                                child: Text(_publication['comments'][1],
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(71, 82, 94,
+                                            0.58))), //cambiar por comentario del usuario
+                              ),
+                              Row(
                                 children: <Widget>[
-                                  Flexible(
-                                    child: Text(_publication['comments'][1],
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(71, 82, 94,
-                                                0.58))), //cambiar por comentario del usuario
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.favorite,
-                                          color: likedComment(_publication['comments'][1], 1)
-                                              ? Colors.red
-                                              : Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            /*
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.favorite,
+                                      color: likedComment(
+                                              _publication['comments'][1], 1)
+                                          ? Colors.red
+                                          : Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        /*
                                             String comment2 = _publication['comments'][1];
                                             if (likedComment(comment2, 1)) {
                                               num_mg = _publication['mgCount'][1];
@@ -246,44 +284,39 @@ class _ProfileState extends State<OnePublication> {
                                               doLike(_publication['_id'], 1);
                                             }
                                             */
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Text(_publication['mgCount'][1].toString(),
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(71, 82, 94,
-                                                  0.58))), //cambiar numeros de mg reales del comentario
-                                    ],
+                                      });
+                                    },
                                   ),
-                                ])),
-                      if (_publication['comments'].length > 2)
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => CommentsPage(_publication),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(_publication['mgCount'][1].toString(),
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(71, 82, 94,
+                                              0.58))), //cambiar numeros de mg reales del comentario
+                                ],
                               ),
-                            );
-                          },
-                          child: Text(
-                            'Ver todos los comentarios',
-                            style: TextStyle(color: Colors.green, fontSize: 15),
+                            ])),
+                  if (_publication['comments'].length > 2)
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => CommentsPage(_publication),
                           ),
-                        ),
-
-                  ]
-                ),
-              ),
-            
-          );
-          
-          
+                        );
+                      },
+                      child: Text(
+                        'Ver todos los comentarios',
+                        style: TextStyle(color: Colors.green, fontSize: 15),
+                      ),
+                    ),
+                ]),
+              );
+            }
+          }),
+    );
   }
-          
-    
 
   Widget gradiente() {
     if (gradient.runtimeType == int)
@@ -339,5 +372,4 @@ class _ProfileState extends State<OnePublication> {
     //print(emoji);
     return emoji;
   }
-
 }
