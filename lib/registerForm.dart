@@ -48,18 +48,22 @@ class _RegisterFormState extends State<RegisterForm> {
   String validateEmail(String value) {
     if (value.isEmpty) {
       return '* Campo Requerido';
+    }else if (value.length > 30){
+      return 'El campo no puede exceder de los 30 carácteres';
     } else if (!_emailRegExp.hasMatch(value)) {
       return 'Introduce un correo electrónico válido como abc@gmail.com';
-    }
-    return null;
+    }else
+      return null;
   }
 
   String validate(String value) {
     if (value.isEmpty) {
       return '* Campo Requerido';
-    } else {
-      return null;
+    } else if (value.length > 30){
+      return 'El campo no puede exceder de los 30 carácteres';
     }
+    else
+      return null;
   }
 
   String validatePassword(String value) {
@@ -67,7 +71,9 @@ class _RegisterFormState extends State<RegisterForm> {
       return "* Campo Requerido";
     } else if (value.length < 6) {
       return "Por seguridad la contraseña debe ser superior a 6 carácteres";
-    } else
+    } else if (value.length > 30){
+      return 'El campo no puede exceder de los 30 carácteres';
+    }else
       return null;
   }
 
@@ -76,7 +82,9 @@ class _RegisterFormState extends State<RegisterForm> {
       return "* Campo Requerido";
     } else if (value != password.text) {
       return "Las contraseñas deben coincidir";
-    } else
+    } else if (value.length > 30){
+      return 'El campo no puede exceder de los 30 carácteres';
+    }else
       return null;
   }
 
