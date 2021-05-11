@@ -13,7 +13,7 @@ class _ProfileState extends State<Profile> {
   List<dynamic> awards;
   List<dynamic> publicationsIds;
   List<dynamic> images;
-  StreamController _postsController;
+    StreamController _postsController;
 
   @override
   void initState() {
@@ -29,6 +29,8 @@ class _ProfileState extends State<Profile> {
         awards = result["awards"];
         publicationsIds = result["publications"];
         images = result["images"];
+        
+
         _postsController.add(result);
       });
     });
@@ -79,8 +81,14 @@ class _ProfileState extends State<Profile> {
                               style: TextStyle(
                                   color: Color.fromRGBO(71, 82, 94, 1))),
                         ])),
-
-
+                    Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 10.0),
+                        child: Row(children: <Widget>[
+                          for(int i=0; i<awards.length; i++)
+                            getAwards(i),
+                        ])),
+                  
                     Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10.0),
@@ -143,4 +151,23 @@ class _ProfileState extends State<Profile> {
           }),
     );
   }
+
+
+  Widget getAwards(int i) {
+        if(awards[i] == 'bronzePublication')
+          return Image.asset( 'images/bronzePublication.png', width: 45, height: 45.0,);
+        if(awards[i] == 'silverPublication')
+          return Image.asset( 'images/silverPublication.png', width: 45.0, height: 45.0,);
+        if(awards[i] == 'goldPublication')
+          return Image.asset( 'images/goldPublication.png', width: 45.0, height: 45.0,);
+        if(awards[i] == 'bronzeComment')
+          return Image.asset( 'images/bronzeComment.png', width: 45.0, height: 45.0,);
+        if(awards[i] == 'silverComment')
+          return Image.asset( 'images/silverComment.png', width: 45.0, height: 45.0,);
+        if(awards[i] == 'goldComment')
+          return Image.asset( 'images/goldComment.png', width: 45.0, height: 45.0,);
+      
+  }
 }
+
+

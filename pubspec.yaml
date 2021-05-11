@@ -90,6 +90,12 @@ flutter:
     - images/cara2.png
     - images/cara3.png
     - images/cara4.png
+    - images/bronzePublication.png
+    - images/silverPublication.png
+    - images/goldPublication.png
+    - images/bronzeComment.png
+    - images/silverComment.png
+    - images/goldComment.png
     
     
   #   - family: Schyler

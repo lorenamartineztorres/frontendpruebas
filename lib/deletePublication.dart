@@ -103,7 +103,7 @@ class _ProfileState extends State<OnePublication> {
                                 deletePublication(_publicationid);
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => Profile(),
+                                    builder: (context) => PagePrincipal(),
                                   ),
                                 );
                               });
