@@ -33,7 +33,7 @@ class _SearchState extends State<Search> {
     // Clean up the controller when the widget is removed from the
     // widget tree.
     ubication.dispose();
-    
+    newcomment.forEach((element) => element.dispose());
     super.dispose();
   } 
 
@@ -41,21 +41,14 @@ class _SearchState extends State<Search> {
       await search(ubi).then((result) {
       setState(() => _searchedPublications = result);
       _publications = new List.from(_searchedPublications.reversed);
+      newcomment = List.generate(
+          _publications.length.toInt(), (index) => TextEditingController());
       constGrads(_publications);
       _postsController.add(result);
 
       });
   }
   
-  showAlertDialog(BuildContext context) {  
-  // Create button  
-  Widget okButton = FlatButton(  
-    child: Text(_searchedPublications[0]['userName']),  
-    onPressed: () {  
-      Navigator.of(context).pop();  
-    },  
-  ); 
-  }
 
    void constGrads(List<dynamic> _rPublications) {
     if (grads != null && gradList != null) {
@@ -394,7 +387,7 @@ class _SearchState extends State<Search> {
             style: TextStyle(color: Colors.green, fontSize: 15),
           ),
         ),
-      //comentarios(index, publication),
+      comentarios(index, publication),
       
     ]));
   }
@@ -414,6 +407,7 @@ class _SearchState extends State<Search> {
           }
 
           if (snapshot.hasData) {
+            if(_publications.length > 0)
               return ListView.separated(
         // it's like ListView.builder() but better because it includes a separator between items
                   padding: const EdgeInsets.all(16.0),
@@ -423,13 +417,15 @@ class _SearchState extends State<Search> {
                   separatorBuilder: (BuildContext context, int index) => const Divider(),
                
               );
+            else
+              return Center(
+                child: Text("No se encontraron publicaciones con esa ubicación",
+                style: TextStyle(color: Colors.green, fontSize: 15))
+              );
+          
           }
           if (!snapshot.hasData) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Center(
-                  child:  SingleChildScrollView(
+            return SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Padding(
@@ -447,32 +443,11 @@ class _SearchState extends State<Search> {
                   }
 
                 ),
-              ),
-               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 30.0),
-                child: Container(
-                height: 50,
-                width: 150,
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(20)),
-                child: FlatButton(
-                  onPressed: () {
-                    searchUbication(ubication.text);
-                    reload(ubication.text);
-                  },
-                  child: Text(
-                    'Buscar',
-                    style: TextStyle(color: Colors.white, fontSize: 22),
-                  ),
-                ),
-                ),
-                ),
+              )
                 ],
               ),
-                  ),
-              
-            )]);
+                  );
+            
           }
           }
         ),
