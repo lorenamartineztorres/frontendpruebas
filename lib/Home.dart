@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/PublicacionModel.dart';
 import 'package:flutter_application_1/detailedCommentPage.dart';
 import 'package:flutter_application_1/requests.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:io';
 import 'globals.dart' as globals;
 import 'dart:async';
@@ -98,15 +99,27 @@ class _HomeState extends State<Home> {
     return SingleChildScrollView(
         child: Column(children: <Widget>[
       // nombre de usuario
-      Row(children: [
+       Row(children: [
         Flexible(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-            child: Text(publication['userName'],
-                style: TextStyle(
-                    color: Color.fromRGBO(71, 82, 94,
-                        0.58))), //cambiar por descripción del usuario
-          ),
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),              
+              child: Row(children: <Widget>[
+                Flexible(
+                  child: Text(publication['userName'],
+                      style: TextStyle(color: Color.fromRGBO(71, 82, 94,0.58))),
+                ),
+               
+                 SizedBox(
+                  width: 5.0,
+                ),
+                 if (publication['solutionPath'] != " ")
+                Image.asset(
+                  'images/verificado.png',
+                  width: 15.0,
+                  height: 15.0,
+                ),
+                
+              ])),
         )
       ]),
       // ubicación
@@ -131,8 +144,11 @@ class _HomeState extends State<Home> {
         )
       ]),
       // imagen
-      Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
-          width: 500, scale: 0.8, fit: BoxFit.fitWidth),
+       if (publication['solutionPath'] != ' ')      
+      _swiper(publication['imagePath'],publication['solutionPath']),
+      if (publication['solutionPath'] == ' ')  
+          Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
+          width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth),
       // Gradiente
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -156,11 +172,15 @@ class _HomeState extends State<Home> {
                   },
                   icon: Icon(Icons.check_outlined),
                 ),
-                Image.asset(
-                  //'images/furor.png',
-                  emojiGradiente(gradList[index].toInt()),
+                if (publication['solutionPath'] == " ")
+                Image.asset(emojiGradiente(gradList[index].toInt()),
                   width: 30.0,
                   height: 30.0,
+                )else
+                Image.asset(emojiGradienteCuentaEspecial(gradList[index].toInt()),
+                  width: 30.0,
+                  height: 30.0,
+                  
                 ),
               ])),
 
@@ -417,6 +437,24 @@ class _HomeState extends State<Home> {
     return emoji;
   }
 
+  String emojiGradienteCuentaEspecial(int gradientAverage) {
+    String emoji = 'images/cara1.png';
+    if (gradientAverage < 25) {
+      emoji = 'images/cara4.png';
+    }
+    if ((gradientAverage >= 25) && (gradientAverage < 50)) {
+      emoji = 'images/cara3.png';
+    }
+    if ((gradientAverage >= 50) && (gradientAverage < 75)) {
+      emoji = 'images/cara2.png';
+    }
+    if (gradientAverage >= 75) {
+      emoji = 'images/cara1.png';
+    }
+    print(emoji);
+    return emoji;
+  }
+
   Widget comentarios(int index, dynamic publication) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
@@ -446,4 +484,29 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  Widget _swiper(String imagePath, String solutionPath){
+    return Container(
+      width: double.infinity,
+      height: 250.0,
+      child: Swiper(
+        scale: 0.8,
+        itemBuilder: (BuildContext context,int index){
+          if (index == 0){
+          //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
+          return new Image.network("http://158.109.74.52:55002/" + imagePath, width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth);
+          }else{
+
+          return new Image.network("http://158.109.74.52:55002/" + solutionPath, width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth);
+          }
+        },
+        itemCount: 2,
+        pagination: new SwiperPagination(),
+        //control: new SwiperControl(),
+      ),
+
+    );
+
+  } 
+
 }

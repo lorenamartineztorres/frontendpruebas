@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/requests.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_application_1/addLocation.dart';
 import 'globals.dart' as globals;
@@ -12,22 +13,48 @@ class Upload extends StatefulWidget {
 
   //stateful ja que cambiara depende un parametro de entrada, la ubicación
   @override
+  
   _UploadState createState() => _UploadState();
+  
+
+
+  
 }
 
 class _UploadState extends State<Upload> {
   double num_gradiente = 50; //poner el que ha introducido el usuario
   int num_mg = 0;
   var imageFile;
+  var imageFile1;
+  var imageFile2;
   var description = TextEditingController();
   var pathimagen;
+  var pathimagen1;
+  var pathimagen2;
+  bool type;
 
 
   @override
   void initState() {
+   getUser();
     globals.ubication = '';
     super.initState();
+   
   }
+
+  void getUser() async {
+    await getProfile().then((result) {
+      setState((){ 
+        type = result["type"];
+        print(type);
+        globals.type = type;
+        //sleep(Duration(seconds:1));
+
+      });
+    });
+  }
+  
+
 
   @override
   void dispose() {
@@ -37,21 +64,30 @@ class _UploadState extends State<Upload> {
     super.dispose();
   }
 
+  bool cantPublicateVerificada() {
+    return (imageFile1 == null) && (globals.ubication.isEmpty) || (imageFile2 == null) ;
+  }
+
   bool cantPublicate() {
-    return (imageFile == null) || (globals.ubication.isEmpty);
+    return (imageFile1 == null) || (globals.ubication.isEmpty) && (num_gradiente ==50);
   }
 
   @override
   Widget build(BuildContext context) {
+    
+    
+    if (globals.type == false){
+    //TODO DE CUENTA NORMAL AQUI
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
+        
+        child: Column(          
           children: <Widget>[
-            //Añadir nueva publicación
+            //Añadir nueva publicación            
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-              child: Row(
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),              
+              child:  Row(
                 children: <Widget>[
                   new Text(
                     "Añadir nueva publicación",
@@ -60,11 +96,13 @@ class _UploadState extends State<Upload> {
                 ],
               ),
             ),
-            Row(
+
+                 
+            Row(              
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
+              children: [          
+               Container(                    
                     //SELECCIONAR IMAGEN
                     alignment: Alignment.centerLeft,
                     height: MediaQuery.of(context).size.height * 0.05,
@@ -73,13 +111,14 @@ class _UploadState extends State<Upload> {
                     child: FlatButton(
                         onPressed: () {
                           //TODO SELECCIONAR IMAGEN
-                          _showSelectionDialog(context);
+                          _showSelectionDialog(context, 1);
                         },
                         child: Align(
                           alignment: Alignment.center,
                           child: Text("Seleccionar Imagen",
                               style: new TextStyle(fontSize: 13)),
                         ))),
+                
                 Container(
                     //AÑADIR UBICACIÓN
                     alignment: Alignment.centerRight,
@@ -98,24 +137,28 @@ class _UploadState extends State<Upload> {
                           child: Text("Añadir Ubicación",
                               style: new TextStyle(fontSize: 13)),
                         ))),
-              ],
-            ),
-            Row(
-              //PREVISUALIZACION IMAGEN
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 25),
-                  height: MediaQuery.of(context).size.height * 0.31,
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  decoration: BoxDecoration(
-                      color: Colors.lightGreen[50],
-                      borderRadius: BorderRadius.circular(10)),
-                  child: _setImageView(),
-                )
-              ],
-            ),
+                  ],
+
+                ),                   
+          
+                //PREVISUALIZACION IMAGEN
+                Row(   
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(top: 25),
+                            height: MediaQuery.of(context).size.height * 0.31,
+                            width: MediaQuery.of(context).size.width * 0.90,
+                            decoration: BoxDecoration(
+                                color: Colors.lightGreen[50],
+                                borderRadius: BorderRadius.circular(10)),
+                            child: _setImageView(),
+                          )
+                        ],
+                      ),
+                         
+               
             Row(
               //TEXTO FUROR
               children: [
@@ -126,7 +169,9 @@ class _UploadState extends State<Upload> {
                 ),
               ],
             ),
-            Padding(
+
+
+          Padding(
                 //GRADIENTE
                 padding: EdgeInsets.only(right: 30),
                 child: Row(
@@ -142,17 +187,27 @@ class _UploadState extends State<Upload> {
                         height: 30.0,
                       ),
                     ])),
-            Row(
+          
+          
+          Row(              
               //TEXTO DESCRIPCIÓN
               children: [
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.0, vertical: 00.0),
-                  child: Text("Descripción"),
+                  child: Row(children: <Widget>[
+                  SizedBox(
+                  height: 30.0,
+                ),
+                  Text("Descripción"),
+                
+                  ]
+                  )
                 )
               ],
             ),
-            Padding(
+
+          Padding(
               //DESCRIPCIÓN
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 00.0),
               child: TextFormField(
@@ -163,7 +218,7 @@ class _UploadState extends State<Upload> {
                 ),
               ),
             ),
-            Padding(
+          Padding(
               //BOTON PUBLICAR
               padding: EdgeInsets.symmetric(horizontal: 00.0, vertical: 24.0),
               child: Container(
@@ -175,10 +230,9 @@ class _UploadState extends State<Upload> {
                 child: RaisedButton(
                   disabledColor: Colors.grey,
                   color: Colors.green,
-                  onPressed: cantPublicate() ? null : () async{
-                    createPublication(globals.ubication, pathimagen,
-                        description.text, num_gradiente);
-
+                  onPressed: cantPublicate() ? null : () async{                   
+                    createPublication(globals.ubication, pathimagen1, pathimagen2,
+                        description.text, num_gradiente);                     
                      Navigator.of(context).push(
                               MaterialPageRoute<void>(
                                 builder: (context) => PagePrincipal(),
@@ -192,11 +246,179 @@ class _UploadState extends State<Upload> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
+    
     );
+    
+    
+    //TODO CUENTA ESPECIAL A PARTIR DE AQUI
+    }else{
+      return Scaffold(
+      body: SingleChildScrollView(        
+        child: Column(          
+          children: <Widget>[
+            //Añadir nueva publicación            
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),              
+              child:  Row(
+                children: <Widget>[
+                  new Text(
+                    "Añadir nueva publicación",
+                    style: new TextStyle(fontSize: 22),
+                  )
+                ],
+              ),
+            ),
+
+        Row(              
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                Container(
+                    //SELECCIONAR IMAGEN 1 (CUENTA VERIFICADA)
+                    alignment: Alignment.centerLeft,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.30,
+                    decoration: BoxDecoration(color: Colors.lightGreen[300]),
+                    child: FlatButton(
+                        onPressed: () {
+                          //TODO SELECCIONAR IMAGEN
+                          _showSelectionDialog(context, 1);
+                        },
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text("Seleccionar Imagen 1",
+                              style: new TextStyle(fontSize: 13)),
+                        ))),
+
+                           
+                Container(
+                    //SELECCIONAR IMAGEN 2 (CUENTA VERIFICADA)
+                    alignment: Alignment.centerLeft,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.30,
+                    decoration: BoxDecoration(color: Colors.lightGreen[300]),
+                    child: FlatButton(
+                        onPressed: () {
+                          //TODO SELECCIONAR IMAGEN
+                          _showSelectionDialog(context, 2);
+                        },
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text("Seleccionar Imagen 2",
+                              style: new TextStyle(fontSize: 13)),
+                        ))),
+                
+                
+                Container(
+                    //AÑADIR UBICACIÓN
+                    alignment: Alignment.centerRight,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.30,
+                    decoration: BoxDecoration(color: Colors.lightGreen[300]),
+                    //borderRadius: BorderRadius.circular(20)),
+                    child: FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute<void>(
+                            builder: (context) => AddLocation(),
+                          ));
+                        }, //TODO AÑADIR UBICACIÓN
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text("Añadir Ubicación",
+                              style: new TextStyle(fontSize: 13)),
+                        ))),
+                      ]
+                    ),
+                  
+                Row(
+                //PREVISUALIZACION IMAGEN
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 25),
+                    height: MediaQuery.of(context).size.height * 0.31,
+                    width: MediaQuery.of(context).size.width * 0.90,
+                    decoration: BoxDecoration(
+                        color: Colors.lightGreen[50],
+                        borderRadius: BorderRadius.circular(10)),
+                    child: _swiper(),
+                  )
+                ],
+              ),
+
+             
+                Row(              
+                  //TEXTO DESCRIPCIÓN
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 00.0),
+                      child: Row(children: <Widget>[
+                      SizedBox(
+                      height: 60.0,
+                    ),
+                      Text("Descripción"),
+                    
+                      ]
+                      )
+                    )
+                  ],
+                ),
+
+          Padding(
+              //DESCRIPCIÓN
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 00.0),
+              child: TextFormField(
+                maxLength: 200,
+                controller: description,
+                decoration: InputDecoration(
+                  hintText: 'Añade una descripción',
+                ),
+              ),
+            ),
+
+          Padding(
+              //BOTON PUBLICAR
+              padding: EdgeInsets.symmetric(horizontal: 00.0, vertical: 24.0),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.80,
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(20)),
+                child: RaisedButton(
+                  disabledColor: Colors.grey,
+                  color: Colors.green,
+                  onPressed: cantPublicateVerificada() ? null : () async{                   
+                    createPublication(globals.ubication, pathimagen1, pathimagen2,
+                        description.text, num_gradiente);                     
+                     Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (context) => PagePrincipal(),
+                              ),
+                 ); 
+                    
+                  },
+                  child: Text(
+                    "Publicar",
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    
+    );
+
+    }
   }
 
   Widget gradiente() {
@@ -216,7 +438,7 @@ class _UploadState extends State<Upload> {
     );
   }
 
-  Future<void> _showSelectionDialog(BuildContext context) {
+  Future<void> _showSelectionDialog(BuildContext context, int index) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -228,14 +450,14 @@ class _UploadState extends State<Upload> {
                     GestureDetector(
                       child: Text("Galeria"),
                       onTap: () {
-                        _openGallery(context);
+                        _openGallery(context, index);
                       },
                     ),
                     Padding(padding: EdgeInsets.all(8.0)),
                     GestureDetector(
                       child: Text("Camara"),
                       onTap: () {
-                        _openCamera(context);
+                        _openCamera(context, index);
                       },
                     )
                   ],
@@ -244,27 +466,70 @@ class _UploadState extends State<Upload> {
         });
   }
 
-  void _openGallery(BuildContext context) async {
-    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
-    this.setState(() {
-      imageFile = File(picture.path);
-    });
-    pathimagen = picture.path;
-    Navigator.of(context).pop();
-  }
+  void _openGallery(BuildContext context, int index) async {
+    
+    if (index == 1){
+      var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
+      
+      this.setState(() {     
+        
+        imageFile1 = File(picture.path);
+        
+      });
+      pathimagen1 = picture.path;    
+      Navigator.of(context).pop();
+    }
+    
 
-  void _openCamera(BuildContext context) async {
+    if (index == 2){
+      var picture2 = await ImagePicker.pickImage(source: ImageSource.gallery);
+      
+      this.setState(() {
+      
+        
+        imageFile2 = File(picture2.path);        
+        
+      });
+      pathimagen2 = picture2.path; 
+      Navigator.of(context).pop();
+    }
+  }
+  
+
+  void _openCamera(BuildContext context, int index) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.camera);
-    this.setState(() {
-      imageFile = File(picture.path);
-    });
-    pathimagen = picture.path;
-    Navigator.of(context).pop();
+    
+    if (index == 1){
+
+      this.setState(() {
+
+      imageFile1 = File(picture.path);
+
+      });
+
+      pathimagen1 = picture.path;
+       Navigator.of(context).pop();
+
+    }else if (index == 2){
+
+      this.setState(() {
+
+      imageFile2 = File(picture.path);
+
+      });
+
+      
+      pathimagen2 = picture.path;
+      Navigator.of(context).pop();
+    }
+    
+   
+   
   }
 
   Widget _setImageView() {
-    if (imageFile != null) {
-      return Image.file(imageFile,
+    if (imageFile1 != null) {
+      return Image.file(imageFile1,
           width: MediaQuery.of(context).size.width * 0.90,
           height: MediaQuery.of(context).size.height * 0.35);
     } else {
@@ -274,4 +539,51 @@ class _UploadState extends State<Upload> {
       );
     }
   }
+
+
+  Widget _swiper(){
+    return Container(
+      width: double.infinity,
+      height: 250.0,
+      child: Swiper(
+        scale: 0.8,
+        itemBuilder: (BuildContext context,int index){
+          if (index == 0 && imageFile1 != null){
+          //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
+          return new Image.file(imageFile1,fit: BoxFit.fill);
+          }else if (index == 1 && imageFile2 != null){
+
+          return new Image.file(imageFile2, fit: BoxFit.fill);
+          }else{
+            return Align(
+            alignment: Alignment.center,
+            child: Text("Por favor, seleccione una imagen"),
+            );
+
+          }
+        },
+        itemCount: 2,
+        pagination: new SwiperPagination(),
+        //control: new SwiperControl(),
+      ),
+
+    );
+
+  } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

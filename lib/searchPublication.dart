@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_application_1/Home.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'detailedCommentPage.dart';
 import 'globals.dart' as globals;
 
@@ -70,6 +71,48 @@ class _SearchState extends State<Search> {
       _publications = new List.from(_searchedPublications.reversed);
       constGrads(_publications);
     });
+  }
+
+  Widget _swiper(String imagePath, String solutionPath){
+    return Container(
+      width: double.infinity,
+      height: 250.0,
+      child: Swiper(
+        scale: 0.8,
+        itemBuilder: (BuildContext context,int index){
+          if (index == 0){
+          //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
+          return new Image.network("http://158.109.74.52:55002/" + imagePath, fit: BoxFit.fill);
+          }else{
+
+          return new Image.network("http://158.109.74.52:55002/" + solutionPath, fit: BoxFit.fill);
+          }
+        },
+        itemCount: 2,
+        pagination: new SwiperPagination(),
+        //control: new SwiperControl(),
+      ),
+
+    );
+
+  } 
+
+  String emojiGradienteCuentaEspecial(int gradientAverage) {
+    String emoji = 'images/cara1.png';
+    if (gradientAverage < 25) {
+      emoji = 'images/cara4.png';
+    }
+    if ((gradientAverage >= 25) && (gradientAverage < 50)) {
+      emoji = 'images/cara3.png';
+    }
+    if ((gradientAverage >= 50) && (gradientAverage < 75)) {
+      emoji = 'images/cara2.png';
+    }
+    if (gradientAverage >= 75) {
+      emoji = 'images/cara1.png';
+    }
+    print(emoji);
+    return emoji;
   }
   
   String emojiGradiente(int gradientAverage) {
@@ -182,12 +225,24 @@ class _SearchState extends State<Search> {
       Row(children: [
         Flexible(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-            child: Text(publication['userName'],
-                style: TextStyle(
-                    color: Color.fromRGBO(71, 82, 94,
-                        0.58))), //cambiar por descripción del usuario
-          ),
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),              
+              child: Row(children: <Widget>[
+                Flexible(
+                  child: Text(publication['userName'],
+                      style: TextStyle(color: Color.fromRGBO(71, 82, 94,0.58))),
+                ),
+               
+                 SizedBox(
+                  width: 5.0,
+                ),
+                 if (publication['solutionPath'] != " ")
+                Image.asset(
+                  'images/verificado.png',
+                  width: 15.0,
+                  height: 15.0,
+                ),
+                
+              ])),
         )
       ]),
       
@@ -213,8 +268,11 @@ class _SearchState extends State<Search> {
         )
       ]),
       // imagen
-      Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
-          width: 500, scale: 0.8, fit: BoxFit.fitWidth),
+      if (publication['solutionPath'] != ' ')      
+      _swiper(publication['imagePath'],publication['solutionPath']),
+      if (publication['solutionPath'] == ' ')  
+          Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
+          width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth),
       // Gradiente
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -238,11 +296,15 @@ class _SearchState extends State<Search> {
                   },
                   icon: Icon(Icons.check_outlined),
                 ),
-                Image.asset(
-                  //'images/furor.png',
-                  emojiGradiente(gradList[index].toInt()),
+               if (publication['solutionPath'] == " ")
+                Image.asset(emojiGradiente(gradList[index].toInt()),
                   width: 30.0,
                   height: 30.0,
+                )else
+                Image.asset(emojiGradienteCuentaEspecial(gradList[index].toInt()),
+                  width: 30.0,
+                  height: 30.0,
+                  
                 ),
               ])),
         

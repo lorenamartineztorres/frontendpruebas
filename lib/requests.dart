@@ -88,7 +88,7 @@ Future<List> login(String mail, String password) async {
 }
 
 Future<void> createPublication(
-    ubication, filename, description, gradient) async {
+    ubication, filename, filename2, description, gradient) async {
   //FUNCIONA CORRECTAMENTE
   var uri = Uri.parse("$baseUrl/publications");
   String gradString = gradient.toString();
@@ -101,6 +101,8 @@ Future<void> createPublication(
   request.headers['session'] = globals.token;
   request.headers['Content-Type'] = 'multipart/form-data';
   request.files.add(await http.MultipartFile.fromPath('image', filename));
+  if (filename2 != null)
+  request.files.add(await http.MultipartFile.fromPath('image', filename2));
   request.send().then((response) {
     if (response.statusCode == 200) {
       print("statusCode=$response.statusCode");
