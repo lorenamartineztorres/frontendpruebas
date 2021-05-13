@@ -18,40 +18,38 @@ class _SearchState extends State<Search> {
   StreamController _postsController;
   dynamic gradient;
   int num_mg = 0;
-  List<dynamic> gradList; 
+  List<dynamic> gradList;
   List<TextEditingController> newcomment;
   Future<double> newaverage;
   List<dynamic> _publications;
   var grads = [];
 
-@override
+  @override
   void initState() {
     _postsController = new StreamController();
   }
 
-@override
+  @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
     ubication.dispose();
     newcomment.forEach((element) => element.dispose());
     super.dispose();
-  } 
+  }
 
   void searchUbication(String ubi) async {
-      await search(ubi).then((result) {
+    await search(ubi).then((result) {
       setState(() => _searchedPublications = result);
       _publications = new List.from(_searchedPublications.reversed);
       newcomment = List.generate(
           _publications.length.toInt(), (index) => TextEditingController());
       constGrads(_publications);
       _postsController.add(result);
-
-      });
+    });
   }
-  
 
-   void constGrads(List<dynamic> _rPublications) {
+  void constGrads(List<dynamic> _rPublications) {
     if (grads != null && gradList != null) {
       grads.clear();
       gradList.clear();
@@ -73,29 +71,29 @@ class _SearchState extends State<Search> {
     });
   }
 
-  Widget _swiper(String imagePath, String solutionPath){
+  Widget _swiper(String imagePath, String solutionPath) {
     return Container(
       width: double.infinity,
       height: 250.0,
       child: Swiper(
         scale: 0.8,
-        itemBuilder: (BuildContext context,int index){
-          if (index == 0){
-          //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
-          return new Image.network("http://158.109.74.52:55002/" + imagePath, fit: BoxFit.fill);
-          }else{
-
-          return new Image.network("http://158.109.74.52:55002/" + solutionPath, fit: BoxFit.fill);
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
+            return new Image.network("http://158.109.74.52:55002/" + imagePath,
+                fit: BoxFit.fill);
+          } else {
+            return new Image.network(
+                "http://158.109.74.52:55002/" + solutionPath,
+                fit: BoxFit.fill);
           }
         },
         itemCount: 2,
         pagination: new SwiperPagination(),
         //control: new SwiperControl(),
       ),
-
     );
-
-  } 
+  }
 
   String emojiGradienteCuentaEspecial(int gradientAverage) {
     String emoji = 'images/cara1.png';
@@ -114,7 +112,7 @@ class _SearchState extends State<Search> {
     print(emoji);
     return emoji;
   }
-  
+
   String emojiGradiente(int gradientAverage) {
     String emoji = 'images/cara1.png';
     if (gradientAverage < 25) {
@@ -129,11 +127,11 @@ class _SearchState extends State<Search> {
     if (gradientAverage >= 75) {
       emoji = 'images/cara4.png';
     }
-    print(emoji);
+    //print(emoji);
     return emoji;
   }
-  
-   bool likedComment(String comment, int pos) {
+
+  bool likedComment(String comment, int pos) {
     bool liked = false;
     if (globals.likedComments[pos] == comment) {
       liked = true;
@@ -141,7 +139,7 @@ class _SearchState extends State<Search> {
     return liked;
   }
 
-   String validateComment(String value) {
+  String validateComment(String value) {
     if (value.isEmpty) {
       return "Escribe algo";
     } else if (value.length > 300) {
@@ -218,34 +216,33 @@ class _SearchState extends State<Search> {
     );
   }
 
- Widget _buildRow(Map<String, dynamic> publication, int index) {
+  Widget _buildRow(Map<String, dynamic> publication, int index) {
     return SingleChildScrollView(
         child: Column(children: <Widget>[
       // nombre de usuario
       Row(children: [
         Flexible(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),              
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
               child: Row(children: <Widget>[
                 Flexible(
                   child: Text(publication['userName'],
-                      style: TextStyle(color: Color.fromRGBO(71, 82, 94,0.58))),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
                 ),
-               
-                 SizedBox(
+                SizedBox(
                   width: 5.0,
                 ),
-                 if (publication['solutionPath'] != " ")
-                Image.asset(
-                  'images/verificado.png',
-                  width: 15.0,
-                  height: 15.0,
-                ),
-                
+                if (publication['solutionPath'] != " ")
+                  Image.asset(
+                    'images/verificado.png',
+                    width: 15.0,
+                    height: 15.0,
+                  ),
               ])),
         )
       ]),
-      
+
       // ubicación
       Row(children: [
         Flexible(
@@ -268,11 +265,11 @@ class _SearchState extends State<Search> {
         )
       ]),
       // imagen
-      if (publication['solutionPath'] != ' ')      
-      _swiper(publication['imagePath'],publication['solutionPath']),
-      if (publication['solutionPath'] == ' ')  
-          Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
-          width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth),
+      if (publication['solutionPath'] != ' ')
+        _swiper(publication['imagePath'], publication['solutionPath']),
+      if (publication['solutionPath'] == ' ')
+        Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
+            width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth),
       // Gradiente
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -296,18 +293,20 @@ class _SearchState extends State<Search> {
                   },
                   icon: Icon(Icons.check_outlined),
                 ),
-               if (publication['solutionPath'] == " ")
-                Image.asset(emojiGradiente(gradList[index].toInt()),
-                  width: 30.0,
-                  height: 30.0,
-                )else
-                Image.asset(emojiGradienteCuentaEspecial(gradList[index].toInt()),
-                  width: 30.0,
-                  height: 30.0,
-                  
-                ),
+                if (publication['solutionPath'] == " ")
+                  Image.asset(
+                    emojiGradiente(gradList[index].toInt()),
+                    width: 30.0,
+                    height: 30.0,
+                  )
+                else
+                  Image.asset(
+                    emojiGradienteCuentaEspecial(gradList[index].toInt()),
+                    width: 30.0,
+                    height: 30.0,
+                  ),
               ])),
-        
+
       // Descripción
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -327,7 +326,7 @@ class _SearchState extends State<Search> {
           ),
         )
       ]),
-      
+
       // Comentarios
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -335,7 +334,7 @@ class _SearchState extends State<Search> {
             Text("Comentarios",
                 style: TextStyle(color: Color.fromRGBO(71, 82, 94, 1))),
           ])),
-      if(publication['comments'].length > 0)
+      if (publication['comments'].length > 0)
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(
@@ -385,7 +384,7 @@ class _SearchState extends State<Search> {
                     ],
                   ),
                 ])),
-      if(publication['comments'].length > 1)
+      if (publication['comments'].length > 1)
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: Row(
@@ -435,8 +434,8 @@ class _SearchState extends State<Search> {
                     ],
                   ),
                 ])),
-      if(publication['comments'].length > 2)
-      FlatButton(
+      if (publication['comments'].length > 2)
+        FlatButton(
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -450,69 +449,64 @@ class _SearchState extends State<Search> {
           ),
         ),
       comentarios(index, publication),
-      
     ]));
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-        stream: _postsController.stream,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          print('Has error: ${snapshot.hasError}');
-          print('Has data: ${snapshot.hasData}');
-          print('Snapshot Data ${snapshot.data}');
+          stream: _postsController.stream,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            print('Has error: ${snapshot.hasError}');
+            print('Has data: ${snapshot.hasData}');
+            print('Snapshot Data ${snapshot.data}');
 
-          if (snapshot.hasError) {
-            return Text(snapshot.error);
-          }
+            if (snapshot.hasError) {
+              return Text(snapshot.error);
+            }
 
-          if (snapshot.hasData) {
-            if(_publications.length > 0)
-              return ListView.separated(
-        // it's like ListView.builder() but better because it includes a separator between items
+            if (snapshot.hasData) {
+              if (_publications.length > 0)
+                return ListView.separated(
+                  // it's like ListView.builder() but better because it includes a separator between items
                   padding: const EdgeInsets.all(16.0),
                   itemCount: _publications.length,
                   itemBuilder: (BuildContext context, int index) =>
-                    _buildRow(_publications[index], index),
-                  separatorBuilder: (BuildContext context, int index) => const Divider(),
-               
-              );
-            else
-              return Center(
-                child: Text("No se encontraron publicaciones con esa ubicación",
-                style: TextStyle(color: Colors.green, fontSize: 15))
-              );
-          
-          }
-          if (!snapshot.hasData) {
-            return SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 30.0),
-                child: TextFormField(
-                  textInputAction: TextInputAction.search,
-                  controller: ubication,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(Icons.search),
-                      labelText: 'Búsqueda de publicaciones',
-                      hintText: 'Introduce una ubicación'),
-                  onFieldSubmitted: (value) {
-                      searchUbication(value);
-                  }
-
+                      _buildRow(_publications[index], index),
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                );
+              else
+                return Center(
+                    child: Text(
+                        "No se encontraron publicaciones con esa ubicación",
+                        style: TextStyle(color: Colors.green, fontSize: 15)));
+            }
+            if (!snapshot.hasData) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 30.0),
+                      child: TextFormField(
+                          textInputAction: TextInputAction.search,
+                          controller: ubication,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.search),
+                              labelText: 'Búsqueda de publicaciones',
+                              hintText: 'Introduce una ubicación'),
+                          onFieldSubmitted: (value) {
+                            searchUbication(value);
+                          }),
+                    )
+                  ],
                 ),
-              )
-                ],
-              ),
-                  );
-            
-          }
-          }
-        ),
-      );
+              );
+            }
+          }),
+    );
   }
 }

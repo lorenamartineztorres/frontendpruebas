@@ -39,7 +39,7 @@ Future<String> register(String mail, String userName, String country,
     'country': country,
     'city': city,
     'postalCode': postalCode,
-    'password': password
+    'password': password,
   };
 
   String body = json.encode(data);
@@ -102,7 +102,7 @@ Future<void> createPublication(
   request.headers['Content-Type'] = 'multipart/form-data';
   request.files.add(await http.MultipartFile.fromPath('image', filename));
   if (filename2 != null)
-  request.files.add(await http.MultipartFile.fromPath('image', filename2));
+    request.files.add(await http.MultipartFile.fromPath('image', filename2));
   request.send().then((response) {
     if (response.statusCode == 200) {
       print("statusCode=$response.statusCode");

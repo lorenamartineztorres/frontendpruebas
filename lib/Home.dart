@@ -99,26 +99,25 @@ class _HomeState extends State<Home> {
     return SingleChildScrollView(
         child: Column(children: <Widget>[
       // nombre de usuario
-       Row(children: [
+      Row(children: [
         Flexible(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),              
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
               child: Row(children: <Widget>[
                 Flexible(
                   child: Text(publication['userName'],
-                      style: TextStyle(color: Color.fromRGBO(71, 82, 94,0.58))),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
                 ),
-               
-                 SizedBox(
+                SizedBox(
                   width: 5.0,
                 ),
-                 if (publication['solutionPath'] != " ")
-                Image.asset(
-                  'images/verificado.png',
-                  width: 15.0,
-                  height: 15.0,
-                ),
-                
+                if (publication['solutionPath'] != " ")
+                  Image.asset(
+                    'images/verificado.png',
+                    width: 15.0,
+                    height: 15.0,
+                  ),
               ])),
         )
       ]),
@@ -144,11 +143,11 @@ class _HomeState extends State<Home> {
         )
       ]),
       // imagen
-       if (publication['solutionPath'] != ' ')      
-      _swiper(publication['imagePath'],publication['solutionPath']),
-      if (publication['solutionPath'] == ' ')  
-          Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
-          width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth),
+      if (publication['solutionPath'] != ' ')
+        _swiper(publication['imagePath'], publication['solutionPath']),
+      if (publication['solutionPath'] == ' ')
+        Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
+            width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth),
       // Gradiente
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -173,15 +172,17 @@ class _HomeState extends State<Home> {
                   icon: Icon(Icons.check_outlined),
                 ),
                 if (publication['solutionPath'] == " ")
-                Image.asset(emojiGradiente(gradList[index].toInt()),
-                  width: 30.0,
-                  height: 30.0,
-                )else
-                Image.asset(emojiGradienteCuentaEspecial(gradList[index].toInt()),
-                  width: 30.0,
-                  height: 30.0,
-                  
-                ),
+                  Image.asset(
+                    emojiGradiente(gradList[index].toInt()),
+                    width: 30.0,
+                    height: 30.0,
+                  )
+                else
+                  Image.asset(
+                    emojiGradienteCuentaEspecial(gradList[index].toInt()),
+                    width: 30.0,
+                    height: 30.0,
+                  ),
               ])),
 
       // Descripción
@@ -485,28 +486,30 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _swiper(String imagePath, String solutionPath){
+  Widget _swiper(String imagePath, String solutionPath) {
     return Container(
       width: double.infinity,
       height: 250.0,
       child: Swiper(
         scale: 0.8,
-        itemBuilder: (BuildContext context,int index){
-          if (index == 0){
-          //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
-          return new Image.network("http://158.109.74.52:55002/" + imagePath, width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth);
-          }else{
-
-          return new Image.network("http://158.109.74.52:55002/" + solutionPath, width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth);
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
+            return new Image.network("http://158.109.74.52:55002/" + imagePath,
+                width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth);
+          } else {
+            return new Image.network(
+                "http://158.109.74.52:55002/" + solutionPath,
+                width: 500,
+                height: 300,
+                scale: 0.8,
+                fit: BoxFit.fitWidth);
           }
         },
         itemCount: 2,
         pagination: new SwiperPagination(),
         //control: new SwiperControl(),
       ),
-
     );
-
-  } 
-
+  }
 }

@@ -13,7 +13,7 @@ class _ProfileState extends State<Profile> {
   List<dynamic> awards;
   List<dynamic> publicationsIds;
   List<dynamic> images;
-    StreamController _postsController;
+  StreamController _postsController;
 
   @override
   void initState() {
@@ -29,7 +29,6 @@ class _ProfileState extends State<Profile> {
         awards = result["awards"];
         publicationsIds = result["publications"];
         images = result["images"];
-        
 
         _postsController.add(result);
       });
@@ -69,9 +68,9 @@ class _ProfileState extends State<Profile> {
                         child: Row(children: <Widget>[
                           Text(userName,
                               style: TextStyle(
-                                  color: Color.fromRGBO(71, 82, 94, 1),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700)),
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal)),
                         ])),
                     Padding(
                         padding: EdgeInsets.symmetric(
@@ -79,60 +78,57 @@ class _ProfileState extends State<Profile> {
                         child: Row(children: <Widget>[
                           Text("Logros",
                               style: TextStyle(
-                                  color: Color.fromRGBO(71, 82, 94, 1))),
+                                  color: Color.fromRGBO(71, 82, 94, 1),
+                                  fontSize: 18)),
                         ])),
                     Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10.0),
                         child: Row(children: <Widget>[
-                          for(int i=0; i<awards.length; i++)
-                            getAwards(i),
+                          for (int i = 0; i < awards.length; i++) getAwards(i),
                         ])),
-                  
                     Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10.0),
                         child: Row(children: <Widget>[
                           Text("Publicaciones",
                               style: TextStyle(
-                                  color: Color.fromRGBO(71, 82, 94, 1))),
+                                  color: Color.fromRGBO(71, 82, 94, 1),
+                                  fontSize: 18)),
                         ])),
-                        
                     Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10.0),
                         child: Column(children: <Widget>[
-                          if (images.length  == 0)
+                          if (images.length == 0)
                             Text("No tienes publicaciones aún"),
-
-                        if (images.length  != 0)
-                          GridView.builder(
+                          if (images.length != 0)
+                            GridView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
                               itemCount: images.length,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:2),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
                               itemBuilder: (BuildContext context, int index) {
                                 return FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  OnePublication(
-                                                      publicationsIds[index]),
-                                            ),
-                                          );
-                                          
-                                        },
-                                        padding: EdgeInsets.all(0.0),
-                                        child: Image.network(
-                                            "http://158.109.74.52:55002/" +
-                                                images[index],
-                                            width: 185.0,
-                                            height: 130.0,
-                                            fit: BoxFit.fill));
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => OnePublication(
+                                              publicationsIds[index]),
+                                        ),
+                                      );
+                                    },
+                                    padding: EdgeInsets.all(0.0),
+                                    child: Image.network(
+                                        "http://158.109.74.52:55002/" +
+                                            images[index],
+                                        width: 185.0,
+                                        height: 130.0,
+                                        fit: BoxFit.fill));
                               },
-                        )
-                          
+                            )
                         ])),
                   ],
                 ),
@@ -152,22 +148,42 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-
   Widget getAwards(int i) {
-        if(awards[i] == 'bronzePublication')
-          return Image.asset( 'images/bronzePublication.png', width: 45, height: 45.0,);
-        if(awards[i] == 'silverPublication')
-          return Image.asset( 'images/silverPublication.png', width: 45.0, height: 45.0,);
-        if(awards[i] == 'goldPublication')
-          return Image.asset( 'images/goldPublication.png', width: 45.0, height: 45.0,);
-        if(awards[i] == 'bronzeComment')
-          return Image.asset( 'images/bronzeComment.png', width: 45.0, height: 45.0,);
-        if(awards[i] == 'silverComment')
-          return Image.asset( 'images/silverComment.png', width: 45.0, height: 45.0,);
-        if(awards[i] == 'goldComment')
-          return Image.asset( 'images/goldComment.png', width: 45.0, height: 45.0,);
-      
+    if (awards[i] == 'bronzePublication')
+      return Image.asset(
+        'images/bronzePublication.png',
+        width: 45,
+        height: 45.0,
+      );
+    if (awards[i] == 'silverPublication')
+      return Image.asset(
+        'images/silverPublication.png',
+        width: 45.0,
+        height: 45.0,
+      );
+    if (awards[i] == 'goldPublication')
+      return Image.asset(
+        'images/goldPublication.png',
+        width: 45.0,
+        height: 45.0,
+      );
+    if (awards[i] == 'bronzeComment')
+      return Image.asset(
+        'images/bronzeComment.png',
+        width: 45.0,
+        height: 45.0,
+      );
+    if (awards[i] == 'silverComment')
+      return Image.asset(
+        'images/silverComment.png',
+        width: 45.0,
+        height: 45.0,
+      );
+    if (awards[i] == 'goldComment')
+      return Image.asset(
+        'images/goldComment.png',
+        width: 45.0,
+        height: 45.0,
+      );
   }
 }
-
-
