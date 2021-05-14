@@ -64,12 +64,12 @@ class _UploadState extends State<Upload> {
     super.dispose();
   }
 
-  bool cantPublicateVerificada() {
-    return (imageFile1 == null) && (globals.ubication.isEmpty) || (imageFile2 == null) ;
-  }
 
   bool cantPublicate() {
-    return (imageFile1 == null) || (globals.ubication.isEmpty) && (num_gradiente ==50);
+    if (globals.type == false)
+      return (imageFile1 == null) || (globals.ubication.isEmpty) || (num_gradiente ==50);
+    else
+      return (imageFile1 == null) || (imageFile2 == null) || (globals.ubication.isEmpty);
   }
 
   @override
@@ -395,7 +395,7 @@ class _UploadState extends State<Upload> {
                 child: RaisedButton(
                   disabledColor: Colors.grey,
                   color: Colors.green,
-                  onPressed: cantPublicateVerificada() ? null : () async{                   
+                  onPressed: cantPublicate() ? null : () async{                   
                     createPublication(globals.ubication, pathimagen1, pathimagen2,
                         description.text, num_gradiente);                     
                      Navigator.of(context).push(
