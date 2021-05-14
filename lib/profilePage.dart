@@ -13,6 +13,7 @@ class _ProfileState extends State<Profile> {
   List<dynamic> awards;
   List<dynamic> publicationsIds;
   List<dynamic> images;
+  bool type;
   StreamController _postsController;
 
   @override
@@ -29,6 +30,10 @@ class _ProfileState extends State<Profile> {
         awards = result["awards"];
         publicationsIds = result["publications"];
         images = result["images"];
+        type = result["type"];
+        print(publicationsIds.length);
+        print(images.length);
+
 
         _postsController.add(result);
       });
@@ -71,6 +76,15 @@ class _ProfileState extends State<Profile> {
                                   color: Colors.black,
                                   fontSize: 25,
                                   fontWeight: FontWeight.normal)),
+                          SizedBox(
+                              width: 5.0,
+                            ),
+                          if(type == false)
+                            Image.asset(
+                              'images/verificado.png',
+                              width: 15.0,
+                              height: 15.0,
+                            ),
                         ])),
                     Padding(
                         padding: EdgeInsets.symmetric(
@@ -102,7 +116,7 @@ class _ProfileState extends State<Profile> {
                         child: Column(children: <Widget>[
                           if (images.length == 0)
                             Text("No tienes publicaciones aún"),
-                          if (images.length != 0)
+                          if (images.length != 0 && type == false)
                             GridView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
@@ -128,7 +142,34 @@ class _ProfileState extends State<Profile> {
                                         height: 130.0,
                                         fit: BoxFit.fill));
                               },
-                            )
+                            ),
+                            if (images.length != 0 && type == true)
+                            GridView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: publicationsIds.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              itemBuilder: (BuildContext context, int index) {
+                                return FlatButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => OnePublication(
+                                              publicationsIds[index]),
+                                        ),
+                                      );
+                                    },
+                                    padding: EdgeInsets.all(0.0),
+                                    child: Image.network(
+                                        "http://158.109.74.52:55002/" +
+                                            images[index*2+1],
+                                        width: 185.0,
+                                        height: 130.0,
+                                        fit: BoxFit.fill));
+                              },
+                            ),
                         ])),
                   ],
                 ),

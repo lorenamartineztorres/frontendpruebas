@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'package:flutter_application_1/detailedCommentPage.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_application_1/profilePage.dart';
 import 'dart:async';
 import 'globals.dart' as globals;
@@ -135,7 +136,10 @@ class _ProfileState extends State<OnePublication> {
                     )
                   ]),
                   // imagen
-                  Image.network(
+                  if (_publication['solutionPath'] != ' ')
+                    _swiper(_publication['imagePath'], _publication['solutionPath']),
+                  if (_publication['solutionPath'] == ' ')
+                       Image.network(
                       "http://158.109.74.52:55002/" + _publication['imagePath'],
                       width: 500,
                       scale: 0.8,
@@ -371,5 +375,32 @@ class _ProfileState extends State<OnePublication> {
     }
     //print(emoji);
     return emoji;
+  }
+
+   Widget _swiper(String imagePath, String solutionPath) {
+    return Container(
+      width: double.infinity,
+      height: 250.0,
+      child: Swiper(
+        scale: 0.8,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
+            return new Image.network("http://158.109.74.52:55002/" + imagePath,
+                width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth);
+          } else {
+            return new Image.network(
+                "http://158.109.74.52:55002/" + solutionPath,
+                width: 500,
+                height: 300,
+                scale: 0.8,
+                fit: BoxFit.fitWidth);
+          }
+        },
+        itemCount: 2,
+        pagination: new SwiperPagination(),
+        //control: new SwiperControl(),
+      ),
+    );
   }
 }

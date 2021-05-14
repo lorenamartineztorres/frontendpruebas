@@ -97,6 +97,7 @@ flutter:
     - images/bronzeComment.png
     - images/silverComment.png
     - images/goldComment.png
+    - images/verificado.png
     
     
   #   - family: Schyler
