@@ -8,3 +8,4 @@ var ubication = '';
 final likedComments = Map<int, String>();
 bool logOut = true;
 bool type;
+bool ubi = false;

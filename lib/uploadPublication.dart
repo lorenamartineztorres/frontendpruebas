@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -28,29 +29,36 @@ class _UploadState extends State<Upload> {
   var imageFile1;
   var imageFile2;
   var description = TextEditingController();
+  StreamController _postsController;
   var pathimagen;
   var pathimagen1;
   var pathimagen2;
+  bool ubi = false;
   bool type;
 
 
   @override
   void initState() {
+    _postsController = new StreamController();
    getUser();
     globals.ubication = '';
     super.initState();
    
   }
 
+
   void getUser() async {
+    
     await getProfile().then((result) {
       setState((){ 
         type = result["type"];
         print(type);
         globals.type = type;
+         _postsController.add(result);
         //sleep(Duration(seconds:1));
-
+        
       });
+      
     });
   }
   
@@ -67,14 +75,25 @@ class _UploadState extends State<Upload> {
 
   bool cantPublicate() {
     if (globals.type == false)
-      return (imageFile1 == null) || (globals.ubication.isEmpty) || (num_gradiente ==50);
+      return (imageFile1 == null) || (ubi == false) || (num_gradiente ==50);
     else
-      return (imageFile1 == null) || (imageFile2 == null) || (globals.ubication.isEmpty);
+      return (imageFile1 == null) || (imageFile2 == null) || (ubi == false);
   }
 
   @override
   Widget build(BuildContext context) {
-    
+    return new Scaffold(
+      body: StreamBuilder(
+          stream: _postsController.stream,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            print('Has error: ${snapshot.hasError}');
+            print('Has data: ${snapshot.hasData}');
+            print('Snapshot Data ${snapshot.data}');
+
+            if (snapshot.hasError) {
+              return Text(snapshot.error);
+            }
+            if (snapshot.hasData) {
     
     if (globals.type == false){
     //TODO DE CUENTA NORMAL AQUI
@@ -126,11 +145,17 @@ class _UploadState extends State<Upload> {
                     width: MediaQuery.of(context).size.width * 0.40,
                     decoration: BoxDecoration(color: Colors.lightGreen[300]),
                     //borderRadius: BorderRadius.circular(20)),
-                    child: FlatButton(
-                        onPressed: () {
+                   child: FlatButton(
+                        onPressed: () {                    
                           Navigator.of(context).push(MaterialPageRoute<void>(
-                            builder: (context) => AddLocation(),
-                          ));
+                            builder: (context) => AddLocation(),                            
+                          )).whenComplete((){
+                            if (globals.ubication.isNotEmpty){
+                            setState(() {
+                              ubi = true;
+                            });
+                          }
+                          });                          
                         }, //TODO AÑADIR UBICACIÓN
                         child: Align(
                           alignment: Alignment.center,
@@ -256,6 +281,8 @@ class _UploadState extends State<Upload> {
     
     //TODO CUENTA ESPECIAL A PARTIR DE AQUI
     }else{
+      print("PANTALLA CARGA: hola");
+      print(ubi);
       return Scaffold(
       body: SingleChildScrollView(        
         child: Column(          
@@ -322,12 +349,19 @@ class _UploadState extends State<Upload> {
                     decoration: BoxDecoration(color: Colors.lightGreen[300]),
                     //borderRadius: BorderRadius.circular(20)),
                     child: FlatButton(
-                        onPressed: () {
+                        onPressed: () {                    
                           Navigator.of(context).push(MaterialPageRoute<void>(
-                            builder: (context) => AddLocation(),
-                          ));
+                            builder: (context) => AddLocation(),                            
+                          )).whenComplete((){
+                            if (globals.ubication.isNotEmpty){
+                            setState(() {
+                              ubi = true;
+                            });
+                          }
+
+                          });                          
                         }, //TODO AÑADIR UBICACIÓN
-                        child: Align(
+                          child: Align(
                           alignment: Alignment.center,
                           child: Text("Añadir Ubicación",
                               style: new TextStyle(fontSize: 13)),
@@ -370,7 +404,7 @@ class _UploadState extends State<Upload> {
                     )
                   ],
                 ),
-
+          
           Padding(
               //DESCRIPCIÓN
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 00.0),
@@ -382,8 +416,9 @@ class _UploadState extends State<Upload> {
                 ),
               ),
             ),
-
+         
           Padding(
+             
               //BOTON PUBLICAR
               padding: EdgeInsets.symmetric(horizontal: 00.0, vertical: 24.0),
               child: Container(
@@ -394,7 +429,7 @@ class _UploadState extends State<Upload> {
                     borderRadius: BorderRadius.circular(20)),
                 child: RaisedButton(
                   disabledColor: Colors.grey,
-                  color: Colors.green,
+                  color: Colors.green,                  
                   onPressed: cantPublicate() ? null : () async{                   
                     createPublication(globals.ubication, pathimagen1, pathimagen2,
                         description.text, num_gradiente);                     
@@ -419,6 +454,21 @@ class _UploadState extends State<Upload> {
     );
 
     }
+     
+    }
+    if (!snapshot.hasData) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Center(
+                    ///child: CircularProgressIndicator(),  
+                    
+                  ),
+                ],
+              );
+      }
+            }),
+      );
   }
 
   Widget gradiente() {
@@ -543,13 +593,12 @@ class _UploadState extends State<Upload> {
 
   Widget _swiper(){
     return Container(
-      width: double.infinity,
-      height: 250.0,
+      width: 400,
+      height: 200,
       child: Swiper(
         scale: 0.8,
         itemBuilder: (BuildContext context,int index){
-          if (index == 0 && imageFile1 != null){
-          //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
+          if (index == 0 && imageFile1 != null){         
           return new Image.file(imageFile1,fit: BoxFit.fill);
           }else if (index == 1 && imageFile2 != null){
 

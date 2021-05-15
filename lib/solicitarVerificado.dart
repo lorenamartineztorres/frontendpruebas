@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/requests.dart';
+import 'globals.dart' as globals;
 
 class solicitarVerificado extends StatefulWidget {
   solicitarVerificado();
@@ -66,6 +68,8 @@ class _solicitarVerificadoState extends State<solicitarVerificado> {
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
                   onPressed: () {
+                    verify();
+                    //globals.type = true;
                     Navigator.of(context).pop(true);
                   },
                   child: Align(

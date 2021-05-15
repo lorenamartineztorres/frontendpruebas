@@ -4,6 +4,8 @@ import 'package:flutter_application_1/cambiarNombre.dart';
 import 'package:flutter_application_1/loginRegister.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/solicitarVerificado.dart';
+import 'package:get/get.dart';
+import 'package:path/path.dart';
 import 'globals.dart' as globals;
 import 'package:flutter_application_1/requests.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,7 +18,7 @@ class ajustes extends StatefulWidget {
 
 class _ajustesState extends State<ajustes> {
 
-
+ final _formKey = GlobalKey<FormState>();
  @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,6 +100,7 @@ class _ajustesState extends State<ajustes> {
                 padding: const EdgeInsets.only(
                     left: 5.0, right: 5.0, top: 5, bottom: 5),
               ),
+              if (globals.type == false)
               Container(
                 height: 50,
                 width: 1000,
@@ -105,10 +108,25 @@ class _ajustesState extends State<ajustes> {
                     color: Colors.white70,
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute<void>(
+                  onPressed: () {                    
+                    Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => solicitarVerificado(),
-                    ));
+                    )).then((result){
+                      if (result == true){
+                        setState(() {
+                              globals.type = true;
+                            });
+                           showDialog(context: context, builder: (context) => AlertDialog(
+                                title: Text('¡Enhorabuena!'),
+                              content: Text('Su cuenta ha sido verificada satisfactoriamente.'),
+                              actions: <Widget>[
+                                FlatButton(onPressed: (){
+                                  Navigator.of(context).pop();
+                                }, child: Text('OK'))
+                              ],
+                           ));
+                          }
+                          });
                   },
                   child: Align(
                     alignment: Alignment.centerLeft,

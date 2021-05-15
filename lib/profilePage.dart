@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'dart:async';
 import 'package:flutter_application_1/deletePublication.dart';
+import 'globals.dart' as globals;
 
 class Profile extends StatefulWidget {
   @override
@@ -31,6 +32,7 @@ class _ProfileState extends State<Profile> {
         publicationsIds = result["publications"];
         images = result["images"];
         type = result["type"];
+        globals.type = type;
         print(publicationsIds.length);
         print(images.length);
 
@@ -39,6 +41,7 @@ class _ProfileState extends State<Profile> {
       });
     });
   }
+
 
   Widget _buildRow(List<dynamic> publications, int index) {
     return Row(
@@ -79,7 +82,7 @@ class _ProfileState extends State<Profile> {
                           SizedBox(
                               width: 5.0,
                             ),
-                          if(type == false)
+                          if(type == true)
                             Image.asset(
                               'images/verificado.png',
                               width: 15.0,

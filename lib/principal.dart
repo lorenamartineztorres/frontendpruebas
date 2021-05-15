@@ -41,6 +41,7 @@ class _PagePrincipalState extends State<PagePrincipal> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        automaticallyImplyLeading: false,
         title: Text(
           'ECOPROTECT',
           style: TextStyle(fontSize: 16.0, fontFamily: 'Glacial Indifference'),
@@ -65,7 +66,7 @@ class _PagePrincipalState extends State<PagePrincipal> {
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
-          BottomNavigationBarItem(
+          BottomNavigationBarItem(            
             icon: Icon(Icons.settings),
             label: 'Settings',
           ),

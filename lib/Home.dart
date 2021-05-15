@@ -147,7 +147,7 @@ class _HomeState extends State<Home> {
         _swiper(publication['imagePath'], publication['solutionPath']),
       if (publication['solutionPath'] == ' ')
         Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
-            width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth),
+            width: 400, height: 250, scale: 0.8, fit: BoxFit.fill),
       // Gradiente
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -488,22 +488,18 @@ class _HomeState extends State<Home> {
 
   Widget _swiper(String imagePath, String solutionPath) {
     return Container(
-      width: double.infinity,
-      height: 250.0,
+      width: 400,
+      height: 250,
       child: Swiper(
         scale: 0.8,
         itemBuilder: (BuildContext context, int index) {
-          if (index == 0) {
-            //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
+          if (index == 0) {            
             return new Image.network("http://158.109.74.52:55002/" + imagePath,
-                width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth);
+                width: 400, height: 250, scale: 0.8, fit: BoxFit.fill);
           } else {
             return new Image.network(
                 "http://158.109.74.52:55002/" + solutionPath,
-                width: 500,
-                height: 300,
-                scale: 0.8,
-                fit: BoxFit.fitWidth);
+                width: 400,height: 250,scale: 0.8, fit: BoxFit.fill);
           }
         },
         itemCount: 2,

@@ -431,3 +431,30 @@ Future<void> deletePublication(String id) async {
     throw Exception('Failed to delete publication');
   }
 }
+
+Future<void> verify() async {
+  print("HOLA");
+  //print(username);
+  final String uri = "$baseUrl/verify";
+
+ 
+  http.Response response = await http.post(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+   
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print(response.body);
+    final jsonProfile = jsonDecode(response.body);
+    print(jsonProfile);
+    return jsonProfile;
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to verify user');
+  }
+}

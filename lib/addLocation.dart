@@ -45,8 +45,8 @@ class AddLocation extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: FloatingActionButton(
             onPressed: () {
-              globals.ubication = ubication.text;
-              Navigator.of(context).pop(true);
+              globals.ubication = ubication.text;        
+              Navigator.of(context).pop(ubication.text);
             },
 
             child: Icon(Icons.check_outlined),

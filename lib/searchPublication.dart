@@ -81,11 +81,11 @@ class _SearchState extends State<Search> {
           if (index == 0) {
             //return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
             return new Image.network("http://158.109.74.52:55002/" + imagePath,
-                fit: BoxFit.fill);
+              width: 400, height: 250, scale: 0.8, fit: BoxFit.fill);
           } else {
             return new Image.network(
                 "http://158.109.74.52:55002/" + solutionPath,
-                fit: BoxFit.fill);
+              width: 400, height: 250, scale: 0.8, fit: BoxFit.fill);
           }
         },
         itemCount: 2,
@@ -269,7 +269,7 @@ class _SearchState extends State<Search> {
         _swiper(publication['imagePath'], publication['solutionPath']),
       if (publication['solutionPath'] == ' ')
         Image.network("http://158.109.74.52:55002/" + publication['imagePath'],
-            width: 500, height: 300, scale: 0.8, fit: BoxFit.fitWidth),
+            width: 400, height: 250, scale: 0.8, fit: BoxFit.fill),
       // Gradiente
       Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
