@@ -91,7 +91,8 @@ Future<void> createPublication(
     ubication, filename, filename2, description, gradient) async {
   //FUNCIONA CORRECTAMENTE
   var uri = Uri.parse("$baseUrl/publications");
-  var uriApi = Uri.parse('https://api.faceblurapi.com/v1/blur?apiKey=0b085c24c1e24fe680d0c1f798a32a1f');
+  var uriApi = Uri.parse(
+      'https://api.faceblurapi.com/v1/blur?apiKey=0b085c24c1e24fe680d0c1f798a32a1f');
   String gradString = gradient.toString();
 
   //String body = json.encode(data);
@@ -103,21 +104,22 @@ Future<void> createPublication(
   if (filename2 != null) {
     var request2Api = new http.MultipartRequest("POST", uriApi);
     request2Api.headers['Content-Type'] = 'multipart/form-data';
-    request2Api.files.add(await http.MultipartFile.fromPath('image', filename2));
+    request2Api.files
+        .add(await http.MultipartFile.fromPath('image', filename2));
     requestApi.send().then((responseApi) {
       request.fields['url2'] = responseApi.toString();
     });
   }
   await requestApi.send().then((responseApi) {
-  request.fields['ubication'] = ubication;
-  request.fields['description'] = description;
-  request.fields['gradient'] = gradString;
-  request.headers['session'] = globals.token;
-  request.headers['Content-Type'] = 'multipart/form-data';
-  request.fields['url1'] = responseApi.toString();
-  print(responseApi.toString());
+    request.fields['ubication'] = ubication;
+    request.fields['description'] = description;
+    request.fields['gradient'] = gradString;
+    request.headers['session'] = globals.token;
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.fields['url1'] = responseApi.toString();
+    print(responseApi.toString());
   });
-  
+
   request.send().then((response) {
     if (response.statusCode == 200) {
       print("statusCode=$response.statusCode");
@@ -279,9 +281,7 @@ Future<String> getUsername() async {
   }
 }
 
-Future<void> editUsername(String username) async {
-  print("HOLA");
-  print(username);
+Future<int> editUsername(String username) async {
   final String uri = "$baseUrl/user";
 
   Map data = {'userName': username};
@@ -299,7 +299,9 @@ Future<void> editUsername(String username) async {
 
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
-    print(response.body);
+    final jsonData = jsonDecode(response.body);
+    int respuesta = jsonData['response'];
+    return respuesta;
   } else {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to get children');
@@ -437,14 +439,12 @@ Future<void> verify() async {
   //print(username);
   final String uri = "$baseUrl/verify";
 
- 
   http.Response response = await http.post(
     uri,
     headers: {
       "Content-Type": "application/json",
       "session": globals.token,
     },
-   
   );
 
   if (response.statusCode == 200) {

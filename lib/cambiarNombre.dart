@@ -10,6 +10,7 @@ class cambiarNombre extends StatefulWidget {
 
 class _cambiarNombreState extends State<cambiarNombre> {
   String username;
+  int respuesta;
   final newUsername = TextEditingController();
   final _formKeyUsername = GlobalKey<FormState>();
   StreamController _postController;
@@ -122,13 +123,19 @@ class _cambiarNombreState extends State<cambiarNombre> {
                           // Validate returns true if the form is valid, otherwise false.
                           if (_formKeyUsername.currentState.validate()) {
                             _formKeyUsername.currentState.save();
-                            Scaffold.of(_formKeyUsername.currentContext)
-                                .showSnackBar(SnackBar(
-                                    content: Text('Procesando cambios')));
-                            print(newUsername.text);
-                            editUsername(newUsername.text);
-
-                            Navigator.of(context).pop(true);
+                            respuesta = await editUsername(newUsername.text);
+                            if (respuesta == 1) {
+                              //Cambio correcto
+                              Scaffold.of(_formKeyUsername.currentContext)
+                                  .showSnackBar(SnackBar(
+                                      content: Text('Processando Datos')));
+                              Navigator.of(context).pop(true);
+                            } else {
+                              Scaffold.of(_formKeyUsername.currentContext)
+                                  .showSnackBar(SnackBar(
+                                      content: Text(
+                                          'Error, este nombre ya existe')));
+                            }
                           }
                         },
                         child: Text(

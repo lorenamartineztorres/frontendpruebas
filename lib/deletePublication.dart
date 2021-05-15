@@ -137,11 +137,16 @@ class _ProfileState extends State<OnePublication> {
                   ]),
                   // imagen
                   if (_publication['solutionPath'] != ' ')
-                    _swiper(_publication['imagePath'], _publication['solutionPath']),
+                    _swiper(_publication['imagePath'],
+                        _publication['solutionPath']),
                   if (_publication['solutionPath'] == ' ')
-                       Image.network(
-                      "http://158.109.74.52:55002/" + _publication['imagePath'],
-                      width: 400, height: 250, scale: 0.8, fit: BoxFit.fill),
+                    Image.network(
+                        "http://158.109.74.52:55002/" +
+                            _publication['imagePath'],
+                        width: 400,
+                        height: 250,
+                        scale: 0.8,
+                        fit: BoxFit.fill),
                   // Gradiente
                   Padding(
                       padding: EdgeInsets.symmetric(
@@ -359,36 +364,91 @@ class _ProfileState extends State<OnePublication> {
 
   String emojiGradiente(int gradientAverage) {
     String emoji = 'images/cara1.png';
-    if (gradientAverage < 25) {
-      emoji = 'images/cara1.png';
+    if (gradientAverage < 10) {
+      emoji = 'images/cara11.png';
     }
-    if ((gradientAverage >= 25) && (gradientAverage < 50)) {
-      emoji = 'images/cara2.png';
+    if ((gradientAverage >= 10) && (gradientAverage < 20)) {
+      emoji = 'images/cara12.png';
     }
-    if ((gradientAverage >= 50) && (gradientAverage < 75)) {
-      emoji = 'images/cara3.png';
+    if ((gradientAverage >= 20) && (gradientAverage < 30)) {
+      emoji = 'images/cara13.png';
     }
-    if (gradientAverage >= 75) {
-      emoji = 'images/cara4.png';
+    if ((gradientAverage >= 30) && (gradientAverage < 40)) {
+      emoji = 'images/cara14.png';
     }
-    //print(emoji);
+    if ((gradientAverage >= 40) && (gradientAverage < 50)) {
+      emoji = 'images/cara5.png';
+    }
+    if ((gradientAverage >= 50) && (gradientAverage < 60)) {
+      emoji = 'images/cara6.png';
+    }
+    if ((gradientAverage >= 60) && (gradientAverage < 70)) {
+      emoji = 'images/cara7.png';
+    }
+    if ((gradientAverage >= 70) && (gradientAverage < 80)) {
+      emoji = 'images/cara8.png';
+    }
+    if ((gradientAverage >= 80) && (gradientAverage < 90)) {
+      emoji = 'images/cara9.png';
+    }
+    if ((gradientAverage >= 90) && (gradientAverage <= 100)) {
+      emoji = 'images/cara10.png';
+    }
     return emoji;
   }
 
-   Widget _swiper(String imagePath, String solutionPath) {
+  String emojiGradienteCuentaEspecial(int gradientAverage) {
+    String emoji = 'images/cara10.png';
+    if (gradientAverage < 10) {
+      emoji = 'images/cara10.png';
+    }
+    if ((gradientAverage >= 10) && (gradientAverage < 20)) {
+      emoji = 'images/cara9.png';
+    }
+    if ((gradientAverage >= 20) && (gradientAverage < 30)) {
+      emoji = 'images/cara8.png';
+    }
+    if ((gradientAverage >= 30) && (gradientAverage < 40)) {
+      emoji = 'images/cara7.png';
+    }
+    if ((gradientAverage >= 40) && (gradientAverage < 50)) {
+      emoji = 'images/cara6.png';
+    }
+    if ((gradientAverage >= 50) && (gradientAverage < 60)) {
+      emoji = 'images/cara5.png';
+    }
+    if ((gradientAverage >= 60) && (gradientAverage < 70)) {
+      emoji = 'images/cara14.png';
+    }
+    if ((gradientAverage >= 70) && (gradientAverage < 80)) {
+      emoji = 'images/cara13.png';
+    }
+    if ((gradientAverage >= 80) && (gradientAverage < 90)) {
+      emoji = 'images/cara12.png';
+    }
+    if ((gradientAverage >= 90) && (gradientAverage <= 100)) {
+      emoji = 'images/cara11.png';
+    }
+    return emoji;
+  }
+
+  Widget _swiper(String imagePath, String solutionPath) {
     return Container(
       width: double.infinity,
       height: 250.0,
       child: Swiper(
         scale: 0.8,
         itemBuilder: (BuildContext context, int index) {
-          if (index == 0) {            
+          if (index == 0) {
             return new Image.network("http://158.109.74.52:55002/" + imagePath,
                 width: 400, height: 250, scale: 0.8, fit: BoxFit.fill);
           } else {
             return new Image.network(
                 "http://158.109.74.52:55002/" + solutionPath,
-                width: 400, height: 250, scale: 0.8, fit: BoxFit.fill);
+                width: 400,
+                height: 250,
+                scale: 0.8,
+                fit: BoxFit.fill);
           }
         },
         itemCount: 2,
