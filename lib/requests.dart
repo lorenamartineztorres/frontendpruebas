@@ -91,34 +91,32 @@ Future<void> createPublication(
     ubication, filename, filename2, description, gradient) async {
   //FUNCIONA CORRECTAMENTE
   var uri = Uri.parse("$baseUrl/publications");
-  var uriApi = Uri.parse(
-      'https://api.faceblurapi.com/v1/blur?apiKey=0b085c24c1e24fe680d0c1f798a32a1f');
+  //var uriApi = Uri.parse('https://api.faceblurapi.com/v1/blur?apiKey=0b085c24c1e24fe680d0c1f798a32a1f%27);
   String gradString = gradient.toString();
 
   //String body = json.encode(data);
   var request = new http.MultipartRequest("POST", uri);
-  var requestApi = new http.MultipartRequest("POST", uriApi);
+  /*var requestApi = new http.MultipartRequest("POST", uriApi);
   requestApi.headers['Content-Type'] = 'multipart/form-data';
-  requestApi.files.add(await http.MultipartFile.fromPath('image', filename));
+  requestApi.files.add(await http.MultipartFile.fromPath('image', filename));*/
+
+  request.headers['Content-Type'] = 'multipart/form-data';
+  request.files.add(await http.MultipartFile.fromPath('image', filename));
+  request.fields['ubication'] = ubication;
+  request.fields['description'] = description;
+  request.fields['gradient'] = gradString;
+  request.headers['session'] = globals.token;
+ 
 
   if (filename2 != null) {
-    var request2Api = new http.MultipartRequest("POST", uriApi);
-    request2Api.headers['Content-Type'] = 'multipart/form-data';
-    request2Api.files
-        .add(await http.MultipartFile.fromPath('image', filename2));
-    requestApi.send().then((responseApi) {
-      request.fields['url2'] = responseApi.toString();
-    });
-  }
-  await requestApi.send().then((responseApi) {
-    request.fields['ubication'] = ubication;
-    request.fields['description'] = description;
-    request.fields['gradient'] = gradString;
-    request.headers['session'] = globals.token;
+    //var request2Api = new http.MultipartRequest("POST", uriApi);
     request.headers['Content-Type'] = 'multipart/form-data';
-    request.fields['url1'] = responseApi.toString();
-    print(responseApi.toString());
-  });
+    request.files.add(await http.MultipartFile.fromPath('image', filename2));
+    /*requestApi.send().then((responseApi) {
+      request.fields['url2'] = responseApi.toString();
+    });*/
+  }
+
 
   request.send().then((response) {
     if (response.statusCode == 200) {

@@ -13,7 +13,9 @@ class _ProfileState extends State<Profile> {
   String userName = '';
   List<dynamic> awards;
   List<dynamic> publicationsIds;
+  List<dynamic> _rPublicationsIds;
   List<dynamic> images;
+  List<dynamic> _rImages;
   bool type;
   StreamController _postsController;
 
@@ -36,22 +38,15 @@ class _ProfileState extends State<Profile> {
         print(publicationsIds.length);
         print(images.length);
 
+        _rImages = new List.from(images.reversed);
+        _rPublicationsIds = new List.from(publicationsIds.reversed);
+
 
         _postsController.add(result);
       });
     });
   }
 
-
-  Widget _buildRow(List<dynamic> publications, int index) {
-    return Row(
-      children: <Widget>[
-        Image.asset(
-          'images/vp_basura.jpeg',
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +97,18 @@ class _ProfileState extends State<Profile> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10.0),
                         child: Row(children: <Widget>[
-                          for (int i = 0; i < awards.length; i++) getAwards(i),
-                        ])),
+                        
+                          for (int i = 0; i < awards.length; i++)
+                          FlatButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) => _buildPopupDialog(context,i),
+                                      );
+                                    },
+                                    padding: EdgeInsets.all(0.0),
+                                    child: getAwards(i),
+                    )])),
                     Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10.0),
@@ -117,13 +122,13 @@ class _ProfileState extends State<Profile> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10.0),
                         child: Column(children: <Widget>[
-                          if (images.length == 0)
+                          if (_rImages.length == 0)
                             Text("No tienes publicaciones aún"),
-                          if (images.length != 0 && type == false)
+                          if (_rImages.length != 0 && type == false)
                             GridView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              itemCount: images.length,
+                              itemCount: _rImages.length,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2),
@@ -133,24 +138,24 @@ class _ProfileState extends State<Profile> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) => OnePublication(
-                                              publicationsIds[index]),
+                                              _rPublicationsIds[index]),
                                         ),
                                       );
                                     },
                                     padding: EdgeInsets.all(0.0),
                                     child: Image.network(
                                         "http://158.109.74.52:55002/" +
-                                            images[index],
+                                            _rImages[index],
                                         width: 185.0,
                                         height: 130.0,
                                         fit: BoxFit.fill));
                               },
                             ),
-                            if (images.length != 0 && type == true)
+                            if (_rImages.length != 0 && type == true)
                             GridView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              itemCount: publicationsIds.length,
+                              itemCount: _rPublicationsIds.length,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2),
@@ -160,14 +165,14 @@ class _ProfileState extends State<Profile> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) => OnePublication(
-                                              publicationsIds[index]),
+                                              _rPublicationsIds[index]),
                                         ),
                                       );
                                     },
                                     padding: EdgeInsets.all(0.0),
                                     child: Image.network(
                                         "http://158.109.74.52:55002/" +
-                                            images[index*2+1],
+                                            _rImages[index*2+1],
                                         width: 185.0,
                                         height: 130.0,
                                         fit: BoxFit.fill));
@@ -230,4 +235,46 @@ class _ProfileState extends State<Profile> {
         height: 45.0,
       );
   }
+
+Widget _buildPopupDialog(BuildContext context, int i) {
+  return new AlertDialog(
+    title: const Text('Enhorabuena!'),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        getTextPopUp(i),
+      ],
+    ),
+    actions: <Widget>[
+      new FlatButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        textColor: Theme.of(context).primaryColor,
+        child: const Text('Cerrar'),
+      ),
+    ],
+  );
 }
+
+Widget getTextPopUp(int i) {
+    if (awards[i] == 'bronzePublication')
+      return Text("Has realizado tu primera publicación!");
+    if (awards[i] == 'silverPublication')
+      return Text("Has realizado 10 publicaciones!");
+    if (awards[i] == 'goldPublication')
+      return Text("Has realizado 20 publicaciones!");
+    if (awards[i] == 'bronzeComment')
+      return Text("Has realizado tu primer comentario!");
+    if (awards[i] == 'silverComment')
+      return Text("Has realizado 30 comentarios!");
+    if (awards[i] == 'goldComment')
+      return Text("Has realizado 50 comentarios!");
+  }
+
+}
+
+
+
+
