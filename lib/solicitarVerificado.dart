@@ -68,7 +68,7 @@ class _solicitarVerificadoState extends State<solicitarVerificado> {
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
                   onPressed: () {
-                    verify();
+                    //verify();
                     //globals.type = true;
                     Navigator.of(context).pop(true);
                   },
