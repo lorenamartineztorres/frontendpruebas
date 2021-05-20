@@ -50,7 +50,7 @@ class _solicitarVerificadoState extends State<solicitarVerificado> {
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Una insignia verificada es un icono que aparece junto al nombre de usuario en tus publicaciones que representa la presencia de una organización. Tener la verificación te permitirá subir publicaciones de el antes y después de una ubicación concreta. Además, el gradiente de tus publicaciones se convierte en un gradiente de satisfacción',
+                    'Una insignia verificada es un icono que aparece junto al nombre de usuario en tus publicaciones que representa la presencia de una organización. Tener la verificación te permitirá subir publicaciones de el antes y después de una ubicación concreta. Además, el gradiente de tus publicaciones se convierte en un gradiente de satisfacción. Ten en cuenta que al cambiar el tipo de cuenta se borraran todas las publicaciones que hayas publicado.',
                     textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 17),
                   ),
@@ -68,8 +68,8 @@ class _solicitarVerificadoState extends State<solicitarVerificado> {
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
                   onPressed: () {
-                    //verify();
-                    //globals.type = true;
+                    verify();
+                    globals.type = true;
                     Navigator.of(context).pop(true);
                   },
                   child: Align(

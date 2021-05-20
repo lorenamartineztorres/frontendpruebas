@@ -567,7 +567,7 @@ class _SearchState extends State<Search> {
                   ),
         
                   SizedBox(
-                    height: 600.0,
+                    height: 500.0,
                     child: GoogleMap(
                       onMapCreated: (GoogleMapController googleMapController) {
                         setState(() {

@@ -123,7 +123,7 @@ class _cambiarNombreState extends State<cambiarNombre> {
                           // Validate returns true if the form is valid, otherwise false.
                           if (_formKeyUsername.currentState.validate()) {
                             _formKeyUsername.currentState.save();
-                            //respuesta = await editUsername(newUsername.text);
+                            respuesta = await editUsername(newUsername.text);
                             if (respuesta == 1) {
                               //Cambio correcto
                               Scaffold.of(_formKeyUsername.currentContext)

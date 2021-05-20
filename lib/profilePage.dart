@@ -96,8 +96,8 @@ class _ProfileState extends State<Profile> {
                     Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10.0),
-                        child: Row(children: <Widget>[
-                        
+                        child: Row(
+                          children: <Widget>[
                           for (int i = 0; i < awards.length; i++)
                           FlatButton(
                                     onPressed: () {
@@ -106,7 +106,7 @@ class _ProfileState extends State<Profile> {
                                         builder: (BuildContext context) => _buildPopupDialog(context,i),
                                       );
                                     },
-                                    padding: EdgeInsets.all(0.0),
+                                    height: 5.0,
                                     child: getAwards(i),
                     )])),
                     Padding(

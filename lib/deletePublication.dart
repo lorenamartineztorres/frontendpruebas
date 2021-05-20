@@ -88,15 +88,23 @@ class _ProfileState extends State<OnePublication> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
-                            child: Container(
+                            child:  Row(children: <Widget>[
+                              Container(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 15.0, vertical: 10.0),
                               child: Text(_publication['userName'],
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(71, 82, 94,
-                                          0.58))), //cambiar por descripción del usuario
+                                  style:
+                                      TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),//cambiar por descripción del usuario
                             ),
-                          ),
+                            if (_publication['solutionPath'] != " ")
+                              Image.asset(
+                                'images/verificado.png',
+                                width: 15.0,
+                                height: 15.0,
+                              ),
+                            ]
+                          )),
+                          
                           IconButton(
                             icon: Icon(Icons.delete, color: Colors.red),
                             onPressed: () {

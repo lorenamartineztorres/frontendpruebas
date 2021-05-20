@@ -129,7 +129,7 @@ class _UploadState extends State<Upload> {
 
   bool cantPublicate() {
     if (globals.type == false)
-      return (imageFile1 == null) || (ubi == false) || (num_gradiente == 50);
+      return (imageFile1 == null) || (ubi == false);
     else
       return (imageFile1 == null) || (imageFile2 == null) || (ubi == false);
   }
