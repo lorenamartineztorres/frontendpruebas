@@ -1,9 +1,12 @@
 import 'dart:async';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_1/Home.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:search_map_place/search_map_place.dart';
 import 'detailedCommentPage.dart';
 import 'globals.dart' as globals;
 
@@ -23,6 +26,8 @@ class _SearchState extends State<Search> {
   Future<double> newaverage;
   List<dynamic> _publications;
   var grads = [];
+  GoogleMapController _mapController;
+   static LatLng _initialPosition;
 
   @override
   void initState() {
@@ -36,6 +41,13 @@ class _SearchState extends State<Search> {
     ubication.dispose();
     newcomment.forEach((element) => element.dispose());
     super.dispose();
+  }
+
+  void _getUserLocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      _initialPosition = LatLng(position.latitude, position.longitude);
+    });
   }
 
   void searchUbication(String ubi) async {
@@ -492,6 +504,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: StreamBuilder(
           stream: _postsController.stream,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -523,11 +536,8 @@ class _SearchState extends State<Search> {
             if (!snapshot.hasData) {
               return SingleChildScrollView(
                 child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 30.0),
-                      child: TextFormField(
+                  children: [
+                  /*TextFormField(
                           textInputAction: TextInputAction.search,
                           controller: ubication,
                           decoration: InputDecoration(
@@ -537,8 +547,40 @@ class _SearchState extends State<Search> {
                               hintText: 'Introduce una ubicación'),
                           onFieldSubmitted: (value) {
                             searchUbication(value);
-                          }),
-                    )
+                          }),*/
+                  SearchMapPlaceWidget(
+                    language: 'es',
+                    iconColor: Colors.green,
+                    placeholder: "Introduce una ubicación",
+                    apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
+                    onSelected: (Place place) async {
+                      Geolocation geolocation = await place.geolocation;
+                      _mapController.animateCamera(
+                        CameraUpdate.newLatLng(
+                          geolocation.coordinates
+                        )
+                      );
+                      _mapController.animateCamera(
+                        CameraUpdate.newLatLngBounds(geolocation.bounds, 0)
+                      );
+                    },
+                  ),
+        
+                  SizedBox(
+                    height: 600.0,
+                    child: GoogleMap(
+                      onMapCreated: (GoogleMapController googleMapController) {
+                        setState(() {
+                          _mapController = googleMapController;
+                        });
+                      },
+                      initialCameraPosition: CameraPosition(
+                        zoom: 15.0,
+                        target: LatLng(41.497292, 2.108340) 
+                      ),
+                      mapType: MapType.normal,
+                    ),
+                  ),
                   ],
                 ),
               );

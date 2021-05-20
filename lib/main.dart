@@ -4,7 +4,6 @@ import 'package:flutter_application_1/Home.dart';
 import 'package:flutter_application_1/ajustes.dart';
 import 'package:flutter_application_1/loginForm.dart';
 import 'package:flutter_application_1/loginRegister.dart';
-import 'package:flutter_application_1/mapScreen.dart';
 import 'package:flutter_application_1/principal.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,7 +65,7 @@ class MyApp2 extends StatelessWidget {
         splash: Image.asset(
           'images/circulo.gif',
         ),
-        nextScreen: MapScreen(),
+        nextScreen: PagePrincipal(),
         backgroundColor: Colors.white,        
         splashIconSize: 300,        
       ),
