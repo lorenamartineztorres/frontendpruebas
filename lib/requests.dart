@@ -456,3 +456,25 @@ Future<void> verify() async {
     throw Exception('Failed to verify user');
   }
 }
+
+Future<void> deleteComment(String id, int pos) async {
+  
+  final String uri = "$baseUrl/publications/comment/$id/$pos";
+
+  http.Response response = await http.delete(
+    uri,
+    headers: {
+      "Content-Type": "application/json",
+      "session": globals.token,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+    print("dlete comment ok");
+  } else {
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to delete comment');
+  }
+}
+

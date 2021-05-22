@@ -9,3 +9,4 @@ final likedComments = Map<int, String>();
 bool logOut = true;
 bool type;
 bool ubi = false;
+String username;

@@ -51,6 +51,11 @@ class _HomeState extends State<Home> {
       constGrads(_rPublications); //CREAR UNA LIST<INT> CON LOS GRADIENTAVERAGES
       _postsController.add(result);
     });
+
+    getProfile().then((result2) {
+      setState(() => 
+      globals.username = result2["username"]);
+    });
   }
 
   @override
@@ -226,6 +231,16 @@ class _HomeState extends State<Home> {
                   ),
                   Row(
                     children: <Widget>[
+                      if(getUsername(publication['comments'][0]) == globals.username)
+                      IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                deleteComment(publication['_id'],0);
+                                reload();
+                              });
+                            },
+                          ),
                       IconButton(
                         icon: Icon(
                           Icons.favorite,
@@ -276,6 +291,16 @@ class _HomeState extends State<Home> {
                   ),
                   Row(
                     children: <Widget>[
+                      if(getUsername(publication['comments'][1]) == globals.username)
+                      IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                deleteComment(publication['_id'],1);
+                                reload();
+                              });
+                            },
+                          ),
                       IconButton(
                         icon: Icon(
                           Icons.favorite,
@@ -544,5 +569,13 @@ class _HomeState extends State<Home> {
         //control: new SwiperControl(),
       ),
     );
+  }
+
+  String getUsername(String comment) {
+     
+    var arr = comment.split(' '); //divide nombre usuario y comentario
+    var username = arr[0].replaceAll(":", ""); 
+  
+    return username;
   }
 }

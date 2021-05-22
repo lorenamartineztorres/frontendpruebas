@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/principal.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'globals.dart' as globals;
 
@@ -35,8 +36,23 @@ class _CommentsPageState extends State<CommentsPage> {
                         color: Color.fromRGBO(71, 82, 94,
                             0.58))), //cambiar por comentario del usuario
               ),
+
               Row(
                 children: <Widget>[
+                  if(getUsername(publication['comments'][index]) == globals.username)
+                      IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                deleteComment(publication['_id'],index);
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PagePrincipal(),
+                                    ),
+                                  );
+                              });
+                            },
+                          ),
                   IconButton(
                     icon: Icon(
                       Icons.favorite,
@@ -117,3 +133,11 @@ class _CommentsPageState extends State<CommentsPage> {
     );
   }
 }
+
+ String getUsername(String comment) {
+     
+    var arr = comment.split(' '); //divide nombre usuario y comentario
+    var username = arr[0].replaceAll(":", ""); 
+  
+    return username;
+  }
