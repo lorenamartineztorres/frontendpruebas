@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/geocoding.dart';
 import 'package:search_map_place/search_map_place.dart';
 import 'detailedCommentPage.dart';
 import 'globals.dart' as globals;
@@ -554,6 +555,7 @@ class _SearchState extends State<Search> {
                     placeholder: "Introduce una ubicación",
                     apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
                     onSelected: (Place place) async {
+
                       Geolocation geolocation = await place.geolocation;
                       _mapController.animateCamera(
                         CameraUpdate.newLatLng(
@@ -563,6 +565,13 @@ class _SearchState extends State<Search> {
                       _mapController.animateCamera(
                         CameraUpdate.newLatLngBounds(geolocation.bounds, 0)
                       );
+                      final geocoding = GoogleMapsGeocoding(apiKey: 'AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg');
+                      final address = await geocoding.searchByPlaceId(place.placeId);
+                      final ubiName =  address.results[0].formattedAddress;
+                      Timer(Duration(seconds: 2), () {
+                        searchUbication(ubiName);
+                      });
+  
                     },
                   ),
         

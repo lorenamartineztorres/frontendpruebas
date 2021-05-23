@@ -73,6 +73,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+
   bool likedComment(String comment, int pos) {
     bool liked = false;
     if (globals.likedComments[pos] == comment) {
