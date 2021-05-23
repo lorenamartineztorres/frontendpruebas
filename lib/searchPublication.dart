@@ -538,58 +538,46 @@ class _SearchState extends State<Search> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                  /*TextFormField(
-                          textInputAction: TextInputAction.search,
-                          controller: ubication,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.search),
-                              labelText: 'Búsqueda de publicaciones',
-                              hintText: 'Introduce una ubicación'),
-                          onFieldSubmitted: (value) {
-                            searchUbication(value);
-                          }),*/
-                  SearchMapPlaceWidget(
-                    language: 'es',
-                    iconColor: Colors.green,
-                    placeholder: "Introduce una ubicación",
-                    apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
-                    onSelected: (Place place) async {
-
-                      Geolocation geolocation = await place.geolocation;
-                      _mapController.animateCamera(
-                        CameraUpdate.newLatLng(
-                          geolocation.coordinates
-                        )
-                      );
-                      _mapController.animateCamera(
-                        CameraUpdate.newLatLngBounds(geolocation.bounds, 0)
-                      );
-                      final geocoding = GoogleMapsGeocoding(apiKey: 'AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg');
-                      final address = await geocoding.searchByPlaceId(place.placeId);
-                      final ubiName =  address.results[0].formattedAddress;
-                      Timer(Duration(seconds: 2), () {
-                        searchUbication(ubiName);
-                      });
-  
-                    },
-                  ),
-        
-                  SizedBox(
-                    height: 500.0,
-                    child: GoogleMap(
-                      onMapCreated: (GoogleMapController googleMapController) {
-                        setState(() {
-                          _mapController = googleMapController;
-                        });
-                      },
-                      initialCameraPosition: CameraPosition(
-                        zoom: 15.0,
-                        target: LatLng(41.497292, 2.108340) 
+                    SizedBox(
+                      height: 73.0,
+                      child: SearchMapPlaceWidget(
+                        language: 'es',
+                        iconColor: Colors.green,
+                        placeholder: "Introduce una ubicación",
+                        apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
+                        onSelected: (Place place) async {
+                          Geolocation geolocation = await place.geolocation;
+                          _mapController.animateCamera(
+                              CameraUpdate.newLatLng(geolocation.coordinates));
+                          _mapController.animateCamera(
+                              CameraUpdate.newLatLngBounds(
+                                  geolocation.bounds, 0));
+                          final geocoding = GoogleMapsGeocoding(
+                              apiKey:
+                                  'AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg');
+                          final address =
+                              await geocoding.searchByPlaceId(place.placeId);
+                          final ubiName = address.results[0].formattedAddress;
+                          Timer(Duration(seconds: 2), () {
+                            searchUbication(ubiName);
+                          });
+                        },
                       ),
-                      mapType: MapType.normal,
                     ),
-                  ),
+                    SizedBox(
+                      height: 500.0,
+                      child: GoogleMap(
+                        onMapCreated:
+                            (GoogleMapController googleMapController) {
+                          setState(() {
+                            _mapController = googleMapController;
+                          });
+                        },
+                        initialCameraPosition: CameraPosition(
+                            zoom: 15.0, target: LatLng(41.497292, 2.108340)),
+                        mapType: MapType.normal,
+                      ),
+                    ),
                   ],
                 ),
               );
