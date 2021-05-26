@@ -535,52 +535,52 @@ class _SearchState extends State<Search> {
                         style: TextStyle(color: Colors.green, fontSize: 15)));
             }
             if (!snapshot.hasData) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 73.0,
-                      child: SearchMapPlaceWidget(
-                        language: 'es',
-                        iconColor: Colors.green,
-                        placeholder: "Introduce una ubicación",
-                        apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
-                        onSelected: (Place place) async {
-                          Geolocation geolocation = await place.geolocation;
-                          _mapController.animateCamera(
-                              CameraUpdate.newLatLng(geolocation.coordinates));
-                          _mapController.animateCamera(
-                              CameraUpdate.newLatLngBounds(
-                                  geolocation.bounds, 0));
-                          final geocoding = GoogleMapsGeocoding(
-                              apiKey:
-                                  'AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg');
-                          final address =
-                              await geocoding.searchByPlaceId(place.placeId);
-                          final ubiName = address.results[0].formattedAddress;
-                          Timer(Duration(seconds: 2), () {
-                            searchUbication(ubiName);
-                          });
-                        },
+              return Scaffold(
+                  body: ListView(
+                children: <Widget>[
+                  Stack(
+                    children: [
+                      Container(
+                        height: 607.0,
+                        child: GoogleMap(
+                          onMapCreated:
+                              (GoogleMapController googleMapController) {
+                            setState(() {
+                              _mapController = googleMapController;
+                            });
+                          },
+                          initialCameraPosition: CameraPosition(
+                              zoom: 15.0, target: LatLng(41.497292, 2.108340)),
+                          mapType: MapType.normal,
+                        ),
                       ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 383.0,
+                    child: SearchMapPlaceWidget(
+                      language: 'es',
+                      iconColor: Colors.green,
+                      placeholder: "Introduce una ubicación",
+                      apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
+                      onSelected: (Place place) async {
+                        Geolocation geolocation = await place.geolocation;
+                        _mapController.animateCamera(
+                            CameraUpdate.newLatLng(geolocation.coordinates));
+                        _mapController.animateCamera(
+                            CameraUpdate.newLatLngBounds(
+                                geolocation.bounds, 0));
+                        final address =
+                            await geocoding.searchByPlaceId(place.placeId);
+                        final ubiName = address.results[0].formattedAddress;
+                        Timer(Duration(seconds: 2), () {
+                          searchUbication(ubiName);
+                        });
+                      },
                     ),
-                    SizedBox(
-                      height: 500.0,
-                      child: GoogleMap(
-                        onMapCreated:
-                            (GoogleMapController googleMapController) {
-                          setState(() {
-                            _mapController = googleMapController;
-                          });
-                        },
-                        initialCameraPosition: CameraPosition(
-                            zoom: 15.0, target: LatLng(41.497292, 2.108340)),
-                        mapType: MapType.normal,
-                      ),
-                    ),
-                  ],
-                ),
-              );
+                  ),
+                ],
+              ));
             }
           }),
     );
