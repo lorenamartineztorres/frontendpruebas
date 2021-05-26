@@ -88,7 +88,10 @@ Future<List> login(String mail, String password) async {
 }
 
 Future<void> createPublication(
-    ubication, filename, filename2, description, gradient) async {
+    ubication, filename, filename2, description, gradient, latitude, longitude) async {
+      print('Coordenadas');
+      print(latitude);
+      print(longitude);
   //FUNCIONA CORRECTAMENTE
   var uri = Uri.parse("$baseUrl/publications");
   //var uriApi = Uri.parse('https://api.faceblurapi.com/v1/blur?apiKey=0b085c24c1e24fe680d0c1f798a32a1f%27);
@@ -105,6 +108,8 @@ Future<void> createPublication(
   request.fields['ubication'] = ubication;
   request.fields['description'] = description;
   request.fields['gradient'] = gradString;
+  request.fields['latitude'] = latitude.toString();
+  request.fields['longitude'] = longitude.toString();
   request.headers['session'] = globals.token;
  
 
@@ -121,7 +126,7 @@ Future<void> createPublication(
   request.send().then((response) {
     if (response.statusCode == 200) {
       print("statusCode=$response.statusCode");
-      print(response);
+      //print(response);
     } else {
       print("statusCode=$response.statusCode");
       throw Exception('Failed to create publication');
@@ -164,7 +169,7 @@ Future<void> LogOut() async {
   request.send().then((response) {
     if (response.statusCode == 200) {
       print("statusCode=$response.statusCode");
-      print(response);
+      //print(response);
       print("correctamente cerrar sessiÃ³n");
     } else {
       print("statusCode=$response.statusCode");
@@ -187,7 +192,7 @@ Future<void> doLike(String id, int pos) async {
 
   if (response.statusCode == 200) {
     print("statusCode=$response.statusCode");
-    print("likeeeeee");
+    //print("likeeeeee");
   } else {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to do like');

@@ -34,6 +34,8 @@ class _UploadState extends State<Upload> {
     _postsController = new StreamController();
     getUser();
     globals.ubication = '';
+    globals.longitude = 0.0;
+    globals.latitude = 0.0;
     super.initState();
   }
 
@@ -315,7 +317,9 @@ class _UploadState extends State<Upload> {
                                           pathimagen1,
                                           pathimagen2,
                                           description.text,
-                                          num_gradiente);
+                                          num_gradiente,
+                                          globals.latitude,
+                                          globals.longitude);
                                       Navigator.of(context).push(
                                         MaterialPageRoute<void>(
                                           builder: (context) => PagePrincipal(),
@@ -496,7 +500,9 @@ class _UploadState extends State<Upload> {
                                           pathimagen1,
                                           pathimagen2,
                                           description.text,
-                                          num_gradiente);
+                                          num_gradiente,
+                                          globals.latitude,
+                                          globals.longitude);
                                       Navigator.of(context).push(
                                         MaterialPageRoute<void>(
                                           builder: (context) => PagePrincipal(),

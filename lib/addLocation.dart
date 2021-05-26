@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:search_map_place/search_map_place.dart';
 import 'globals.dart' as globals;
@@ -7,6 +8,7 @@ import 'globals.dart' as globals;
 class AddLocation extends StatelessWidget {
   String location = "Madrid";
   // This widget is the root of your application.
+  Marker _publicationUbi;
   
   var ubication = TextEditingController();
  @override
@@ -15,6 +17,8 @@ class AddLocation extends StatelessWidget {
     // widget tree.
     ubication.dispose();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +45,13 @@ class AddLocation extends StatelessWidget {
                     placeholder: "Introduce una ubicación",
                     apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
                     onSelected: (Place place) async {
+                      Geolocation geolocation = await place.geolocation;
                       final geocoding = GoogleMapsGeocoding(apiKey: 'AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg');
                       final address = await geocoding.searchByPlaceId(place.placeId);
                       final ubiName =  address.results[0].formattedAddress;
                       globals.ubication = ubiName;
+                      globals.latitude = address.results[0].geometry.location.lat;
+                      globals.longitude = address.results[0].geometry.location.lng;
                       Navigator.of(context).pop(ubication.text);
                     },
                     

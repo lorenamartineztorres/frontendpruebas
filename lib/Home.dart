@@ -4,6 +4,8 @@ import 'package:flutter_application_1/PublicacionModel.dart';
 import 'package:flutter_application_1/detailedCommentPage.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/geocoding.dart';
 import 'dart:io';
 import 'globals.dart' as globals;
 import 'dart:async';
@@ -50,12 +52,35 @@ class _HomeState extends State<Home> {
           _publications.length.toInt(), (index) => TextEditingController());
       constGrads(_rPublications); //CREAR UNA LIST<INT> CON LOS GRADIENTAVERAGES
       _postsController.add(result);
+      addMarkers();
     });
 
     getProfile().then((result2) {
       setState(() => 
       globals.username = result2["username"]);
     });
+  }
+
+  void addMarkers() {
+    for(int i=0; i< 2; i++) {
+      var pos = LatLng(_rPublications[i]['latitude'], _rPublications[i]['longitude']);
+      print('marcador:');
+      print(pos);
+      setState(() {
+        globals.markers.add(Marker(
+          markerId:  MarkerId('publication'),
+          icon: globals.type == false? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          draggable: true,
+          onTap: () {
+            print('Marker Tapped');
+          },
+          position: pos,
+      ));
+      });
+      
+      print(pos);
+    }
+    
   }
 
   @override
