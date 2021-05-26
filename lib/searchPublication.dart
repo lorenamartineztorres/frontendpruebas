@@ -521,7 +521,6 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-<<<<<<< HEAD
       body:  SingleChildScrollView(
                 child: Column(
                   children: [
@@ -556,81 +555,8 @@ class _SearchState extends State<Search> {
                             zoom: 15.0, target: LatLng(41.497292, 2.108340)),
                         mapType: MapType.normal,
                         markers: globals.markers,
-=======
-      body: StreamBuilder(
-          stream: _postsController.stream,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            print('Has error: ${snapshot.hasError}');
-            print('Has data: ${snapshot.hasData}');
-            print('Snapshot Data ${snapshot.data}');
-
-            if (snapshot.hasError) {
-              return Text(snapshot.error);
-            }
-
-            if (snapshot.hasData) {
-              if (_publications.length > 0)
-                return ListView.separated(
-                  // it's like ListView.builder() but better because it includes a separator between items
-                  padding: const EdgeInsets.all(16.0),
-                  itemCount: _publications.length,
-                  itemBuilder: (BuildContext context, int index) =>
-                      _buildRow(_publications[index], index),
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(),
-                );
-              else
-                return Center(
-                    child: Text(
-                        "No se encontraron publicaciones con esa ubicación",
-                        style: TextStyle(color: Colors.green, fontSize: 15)));
-            }
-            if (!snapshot.hasData) {
-              return Scaffold(
-                  body: ListView(
-                children: <Widget>[
-                  Stack(
-                    children: [
-                      Container(
-                        height: 607.0,
-                        child: GoogleMap(
-                          onMapCreated:
-                              (GoogleMapController googleMapController) {
-                            setState(() {
-                              _mapController = googleMapController;
-                            });
-                          },
-                          initialCameraPosition: CameraPosition(
-                              zoom: 15.0, target: LatLng(41.497292, 2.108340)),
-                          mapType: MapType.normal,
-                        ),
->>>>>>> 2c10e7981513b4d79518553b176237576726373c
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 383.0,
-                    child: SearchMapPlaceWidget(
-                      language: 'es',
-                      iconColor: Colors.green,
-                      placeholder: "Introduce una ubicación",
-                      apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
-                      onSelected: (Place place) async {
-                        Geolocation geolocation = await place.geolocation;
-                        _mapController.animateCamera(
-                            CameraUpdate.newLatLng(geolocation.coordinates));
-                        _mapController.animateCamera(
-                            CameraUpdate.newLatLngBounds(
-                                geolocation.bounds, 0));
-                        final address =
-                            await geocoding.searchByPlaceId(place.placeId);
-                        final ubiName = address.results[0].formattedAddress;
-                        Timer(Duration(seconds: 2), () {
-                          searchUbication(ubiName);
-                        });
-                      },
                     ),
-<<<<<<< HEAD
                   ],
                 ),
               ));
@@ -645,13 +571,4 @@ class _SearchState extends State<Search> {
                       const Divider(),
                 );*/          
  }
-=======
-                  ),
-                ],
-              ));
-            }
-          }),
-    );
-  }
->>>>>>> 2c10e7981513b4d79518553b176237576726373c
 }
