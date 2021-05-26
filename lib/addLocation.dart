@@ -37,7 +37,7 @@ class AddLocation extends StatelessWidget {
             ),
             Center(
               child: SizedBox(
-                height: 83.0,
+                height: 383.0,
                 child: SearchMapPlaceWidget(
                   language: 'es',
                   iconColor: Colors.green,
