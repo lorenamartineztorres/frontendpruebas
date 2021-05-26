@@ -23,6 +23,7 @@ class AddLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           title: Text(
@@ -31,6 +32,7 @@ class AddLocation extends StatelessWidget {
                 TextStyle(fontSize: 16.0, fontFamily: 'Glacial Indifference'),
           ),
         ),
+<<<<<<< HEAD
         body: Column(children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(15.0),
@@ -79,5 +81,36 @@ class AddLocation extends StatelessWidget {
             backgroundColor: Color.fromRGBO(100, 211, 83, 1),
           ),
         )*/);
+=======
+        body: Container(
+            child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text("Añade la ubicación:"),
+            ),
+            Center(
+              child: SizedBox(
+                height: 383.0,
+                child: SearchMapPlaceWidget(
+                  language: 'es',
+                  iconColor: Colors.green,
+                  placeholder: "Introduce una ubicación",
+                  apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
+                  onSelected: (Place place) async {
+                    final geocoding = GoogleMapsGeocoding(
+                        apiKey: 'AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg');
+                    final address =
+                        await geocoding.searchByPlaceId(place.placeId);
+                    final ubiName = address.results[0].formattedAddress;
+                    globals.ubication = ubiName;
+                    Navigator.of(context).pop(ubication.text);
+                  },
+                ),
+              ),
+            ),
+          ],
+        )));
+>>>>>>> 2c10e7981513b4d79518553b176237576726373c
   }
 }
