@@ -97,20 +97,10 @@ class _HomeState extends State<Home> {
             );
             }),*/       
           onTap: () {
-<<<<<<< HEAD
             print('Marker Tapped');
           Navigator.push(
         globals.contextGoogle,
-        MaterialPageRoute(builder: (context) => Profile()));
-=======
-            print('Marker Tapped 1');
-            print("${_rPublications[i]['_id']}");
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => OnePublication(_rPublications[i]['_id']),
-                   ),
-                  );
->>>>>>> 0fadba71e908e8d3f1d1a5b6a8775c69ee1ac720
+        MaterialPageRoute(builder: (context) => OnePublication(_rPublications[i]['_id'])));
           },
           position: pos,
       ));
