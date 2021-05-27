@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/PublicacionModel.dart';
 import 'package:flutter_application_1/detailedCommentPage.dart';
 import 'package:flutter_application_1/requests.dart';
+import 'package:flutter_application_1/prueba2.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_application_1/deletePublication.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'dart:io';
 import 'globals.dart' as globals;
@@ -70,9 +72,26 @@ class _HomeState extends State<Home> {
         globals.markers.add(Marker(
           markerId:  MarkerId('publication'),
           icon: globals.type == false? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          draggable: true,
+          draggable: true, 
+          /*infoWindow: InfoWindow(
+            title: "Hola",
+            snippet: "Hola2",
+            onTap: (){
+              print("hola3");
+              Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Prueba(),
+              ),
+            );
+            }),*/       
           onTap: () {
-            print('Marker Tapped');
+            print('Marker Tapped 1');
+            print("${_rPublications[i]['_id']}");
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => OnePublication(_rPublications[i]['_id']),
+                   ),
+                  );
           },
           position: pos,
       ));
