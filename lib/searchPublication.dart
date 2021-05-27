@@ -519,6 +519,7 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    globals.contextGoogle = context;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body:  SingleChildScrollView(

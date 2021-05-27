@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/PublicacionModel.dart';
 import 'package:flutter_application_1/detailedCommentPage.dart';
+import 'package:flutter_application_1/loginForm.dart';
+import 'package:flutter_application_1/profilePage.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,6 +21,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  BuildContext _myContext;
   double num_gradiente = 0; //poner el que ha introducido el usuario
   int num_mg = 0;
   List<String> _comments;
@@ -32,6 +35,7 @@ class _HomeState extends State<Home> {
   final _commentKey = GlobalKey<FormState>();
   Future<double> newaverage;
   StreamController _postsController;
+  BitmapDescriptor pinLocationIcon;
 
   @override
   void initState() {
@@ -39,8 +43,16 @@ class _HomeState extends State<Home> {
     _postsController = new StreamController();
     publication();
     super.initState();
+    setCustomMapPin();
     //num_gradiente = _publicacion['gradient'][0];
   }
+
+  void setCustomMapPin() async {
+      pinLocationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(devicePixelRatio: 2.5),
+      'images/eco.ico');
+  }
+  
 
   void publication() async {
     //await Future.delayed(Duration(seconds: 1));
@@ -73,6 +85,9 @@ class _HomeState extends State<Home> {
           draggable: true,
           onTap: () {
             print('Marker Tapped');
+          Navigator.push(
+        globals.contextGoogle,
+        MaterialPageRoute(builder: (context) => Profile()));
           },
           position: pos,
       ));

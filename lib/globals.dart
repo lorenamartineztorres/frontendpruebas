@@ -14,3 +14,4 @@ bool type;
 bool ubi = false;
 String username;
 Set<Marker> markers = {};
+BuildContext contextGoogle;
