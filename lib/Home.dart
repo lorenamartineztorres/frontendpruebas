@@ -5,8 +5,10 @@ import 'package:flutter_application_1/detailedCommentPage.dart';
 import 'package:flutter_application_1/loginForm.dart';
 import 'package:flutter_application_1/profilePage.dart';
 import 'package:flutter_application_1/requests.dart';
+import 'package:flutter_application_1/prueba2.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_application_1/deletePublication.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'dart:io';
 import 'globals.dart' as globals;
@@ -82,12 +84,33 @@ class _HomeState extends State<Home> {
         globals.markers.add(Marker(
           markerId:  MarkerId('publication'),
           icon: globals.type == false? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          draggable: true,
+          draggable: true, 
+          /*infoWindow: InfoWindow(
+            title: "Hola",
+            snippet: "Hola2",
+            onTap: (){
+              print("hola3");
+              Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Prueba(),
+              ),
+            );
+            }),*/       
           onTap: () {
+<<<<<<< HEAD
             print('Marker Tapped');
           Navigator.push(
         globals.contextGoogle,
         MaterialPageRoute(builder: (context) => Profile()));
+=======
+            print('Marker Tapped 1');
+            print("${_rPublications[i]['_id']}");
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => OnePublication(_rPublications[i]['_id']),
+                   ),
+                  );
+>>>>>>> 0fadba71e908e8d3f1d1a5b6a8775c69ee1ac720
           },
           position: pos,
       ));

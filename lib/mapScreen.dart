@@ -26,6 +26,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: GoogleMap(
+        mapToolbarEnabled: true,
         mapType: MapType.hybrid,
         initialCameraPosition: _kGooglePlex,
         onMapCreated: (GoogleMapController controller) {
