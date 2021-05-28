@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'ECOPROTECT',
       theme: ThemeData(
         primaryColor: Color.fromRGBO(100, 211, 83, 1),
@@ -54,6 +55,7 @@ class MyApp2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'ECOPROTECT',
       theme: ThemeData(
         primaryColor: Color.fromRGBO(100, 211, 83, 1),
