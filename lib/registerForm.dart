@@ -235,6 +235,11 @@ class _RegisterFormState extends State<RegisterForm> {
                         Scaffold.of(_formKey.currentContext).showSnackBar(SnackBar(
                             content: Text(
                                 'Este correo electrónico ya está registrado.')));
+                      } else if (respuesta == "Username already exist") {
+                        Scaffold.of(_formKey.currentContext).showSnackBar(
+                            SnackBar(
+                                content:
+                                    Text('Este nombre de usuario ya existe.')));
                       } else {
                         Navigator.of(context).push(
                           MaterialPageRoute<void>(
