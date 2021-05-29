@@ -92,6 +92,8 @@ class _ProfileState extends State<Profile> {
                               style: TextStyle(
                                   color: Color.fromRGBO(71, 82, 94, 1),
                                   fontSize: 18)),
+                          if (awards.length == 0)
+                            Text("No tienes logros aún"),
                         ])),
                     Padding(
                         padding: EdgeInsets.symmetric(
