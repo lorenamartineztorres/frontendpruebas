@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_1/Home.dart';
 import 'package:flutter_application_1/requests.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/searchText.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -516,60 +517,41 @@ class _SearchState extends State<Search> {
       comentarios(index, publication),
     ]));
   }
-
   @override
   Widget build(BuildContext context) {
     globals.contextGoogle = context;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body:  SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      child: SearchMapPlaceWidget(
-                        language: 'es',
-                        iconColor: Colors.green,
-                        placeholder: "Introduce una ubicación",
-                        apiKey: "AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg",
-                        onSelected: (Place place) async {
-                          Geolocation geolocation = await place.geolocation;
-                          _mapController.animateCamera(
-                              CameraUpdate.newLatLng(geolocation.coordinates));
-                          _mapController.animateCamera(
-                              CameraUpdate.newLatLngBounds(
-                                  geolocation.bounds, 0));
-                          final geocoding = GoogleMapsGeocoding(
-                              apiKey:
-                                  'AIzaSyCkG1TBTljazmME6wVvjTTw_yBuYp5b6Qg');
-                          final address =
-                              await geocoding.searchByPlaceId(place.placeId);
-                          final ubiName = address.results[0].formattedAddress;
-                        
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 500.0,
-                      child: GoogleMap(
-                        onMapCreated: _onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                            zoom: 15.0, target: LatLng(41.497292, 2.108340)),
-                        mapType: MapType.normal,
-                        markers: globals.markers,
-                      ),
-                    ),
-                  ],
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SingleChildScrollView(
+                child: SizedBox(
+                  height: 631.0,
+                  child: GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                        zoom: 15.0, target: LatLng(41.497292, 2.108340)),
+                    mapType: MapType.normal,
+                    markers: globals.markers,
+                  ),
                 ),
-              ));
-
-                /*return ListView.separated(
-                  // it's like ListView.builder() but better because it includes a separator between items
-                  padding: const EdgeInsets.all(16.0),
-                  itemCount: _publications.length,
-                  itemBuilder: (BuildContext context, int index) =>
-                      _buildRow(_publications[index], index),
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(),
-                );*/          
- }
+              ),
+              FlatButton(
+                onPressed: () async {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) => SearchText(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'Buscar publicaciones por texto',
+                  style: TextStyle(color: Colors.green, fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
 }
