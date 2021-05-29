@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
   }
 
   void addMarkers() {
-    for(int i=0; i< 2; i++) {
+    for(int i=0; i< _rPublications.length; i++) {
       var pos = LatLng(_rPublications[i]['latitude'], _rPublications[i]['longitude']);
       print('marcador:');
       print(pos);
